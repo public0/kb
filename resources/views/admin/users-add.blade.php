@@ -258,39 +258,46 @@
                             <h3 class="card-title">Valid Inputs</h3>
                         </div>
                         <div class="card-body pb-2">
-                            <form class="needs-validation was-validated">
+                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/users/add">
+                                @csrf
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input class="form-control  mb-4 is-valid state-valid" placeholder="First Name" required="" type="text" value="">
+                                            <input name="name" class="form-control  mb-4" placeholder="First Name" required="required"  type="text" value="">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control mb-4 is-invalid state-invalid" placeholder="Last Name" required="" type="text">
+                                            <input name="surname" class="form-control mb-4" placeholder="Last Name" required="required"  type="text">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control  mb-4" placeholder="E-Mail" required="" type="text" value="">
+                                            <input name="email" class="form-control  mb-4" placeholder="E-Mail"  required="required" type="text" value="">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="br" data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
-                                                <option value="cz" data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
+                                                <option value="0" data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
+                                                <option value="1" data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
                                             </select>
                                         </div>
+                                        @if(!empty($groups))
                                         <div class="form-group">
                                             <label class="form-label">Group</label>
-                                            <select name="status" id="select-countries" class="form-control custom-select select2" multiple="multiple">
-                                                <option value="br" data-data='{"image": "./../../assets/images/flags/br.svg"}'>Gr1</option>
-                                                <option value="br" data-data='{"image": "./../../assets/images/flags/br.svg"}'>Gr2</option>
-                                                <option value="cz" data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Gr3</option>
+                                            <select name="groups[]" id="select-countries" class="form-control custom-select select2" multiple="multiple">
+                                                @foreach($groups as $gr)
+                                                <option value="{{$gr->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->name}}</option>
+                                                    @endforeach
+
                                             </select>
                                         </div>
-                                        <a href="" class="btn btn-info"><i class="fe mr-1"></i> Submit </a>
+                                        @endif
+                                        <input type="submit" class="btn btn-info" value="Submit" />
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    @if(Session::has('message'))
+                        <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
+                    @endif
                     <!--/div-->
                 </div>
             </div>

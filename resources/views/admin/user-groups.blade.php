@@ -263,37 +263,30 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                @if(!empty($groups))
                                 <table class="table table-bordered text-nowrap" id="example2">
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">Name</th>
-                                        <th class="wd-15p border-bottom-0">Users Count</th>
-                                        <th class="wd-15p border-bottom-0">Start date</th>
+                                        <th class="wd-15p border-bottom-0">Created At</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
                                         <th class="wd-10p border-bottom-0">Actions</th>
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <td>Gr1</td>
-                                    <td>3</td>
-                                    <td>2018/03/12</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="<?php echo URL::to('/'); ?>/admin/groups/add" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
-                                    </td>
-                                    </tr>
+                                    @foreach($groups as $gr)
                                     <tr>
-                                        <td>Gr2</td>
-                                        <td>1</td>
-                                        <td>2012/02/21</td>
-                                        <td>Inactive</td>
+                                        <td>{{$gr->name}}</td>
+                                        <td>{{$gr->created_at}}</td>
+                                        <td>@if($gr->status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
                                         <td>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/groups/add" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
+                                            <a href="<?php echo URL::to('/'); ?>/admin/groups/edit/{{$gr->id}}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
                                         </td>
                                     </tr>
-                                    </tbody>
+                                    @endforeach
                                 </table>
+                                    @endif
                             </div>
                         </div>
                     </div>

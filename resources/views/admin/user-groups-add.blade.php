@@ -257,21 +257,22 @@
                         <div class="card-header">
                             <h3 class="card-title">Users Add</h3>
                         </div>
-                        <div class="card-body pb-2">
-                            <form class="needs-validation was-validated">
+                        <div class="card-body pb-2 ">
+                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/groups/add">
+                                @csrf
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input class="form-control  mb-4 is-valid state-valid" placeholder="Name" required="" type="text" value="">
+                                            <input class="form-control" placeholder="Name" name="name" required="required" type="text" value="">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="br" data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
-                                                <option value="cz" data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
                                             </select>
                                         </div>
-                                        <a href="" class="btn btn-info"><i class="fe mr-1"></i> Submit </a>
+                                        <input type="submit" class="btn btn-info" value="Submit" />
                                     </div>
                                 </div>
                             </form>
@@ -281,9 +282,15 @@
                 </div>
             </div>
             <!-- End Row-1 -->
-
-
-
+            @if(Session::has('message'))
+                <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+            @endif
         </div>
     </div>
 @endsection
