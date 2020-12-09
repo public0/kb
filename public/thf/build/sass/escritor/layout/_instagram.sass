@@ -1,0 +1,123 @@
+//Instagram label
+.instagramGal__label
+    position: absolute
+    display: inline-block
+    height: 50px
+    padding: 0 25px
+    +rgba-background($brand-color,.75)
+    z-index: 999
+    font-size: 21px
+    border-radius: 4px
+    color: #fff
+    line-height: 42px
+    left: 50%
+    top: 50%
+    transform: translateX(-50%) translateY(-50%)
+    +xsd
+        display: none
+
+.instagramGal__block
+    //style one
+    &.styleOne
+        a
+            position: relative
+            display: block
+            overflow: hidden
+            &:before,&:after
+                position: absolute
+                color: #fff
+                top: 0
+                left: 0
+                bottom: 0
+                right: 0
+                margin: auto
+                opacity: 0
+                transition: .4s
+                display: inline-block
+            &::before
+                content: "\f13a"
+                font-family: "Ionicons"
+                z-index: 99
+                font-size: 30px
+                height: 40px
+                width: 40px
+                text-align: center
+                line-height: 40px
+            &:after
+                content: ""
+                height: 100%
+                width: 100%
+                +rgba-background($brand-color,.75)
+                z-index: 9
+                transform: rotate(10deg)
+            &:hover
+                &:after
+                    opacity: 1
+                    transform: rotate(0deg)
+                &::before
+                    opacity: 1
+            img
+                width: 100%
+        &.multiply
+            a
+                &::before
+                    content: "\f350"
+                &:after
+                    mix-blend-mode: multiply
+                    background-color: $brand-color
+    //style two
+    &.styleTwo
+        a
+            position: relative
+            display: block
+            overflow: hidden
+            &:before,&:after
+                position: absolute
+                color: #fff
+                top: 0
+                left: 0
+                bottom: 0
+                right: 0
+                margin: auto
+                opacity: 0
+                transition: .4s
+                display: inline-block
+            &::before
+                content: "\f13a"
+                font-family: "Ionicons"
+                z-index: 99
+                font-size: 30px
+                height: 40px
+                width: 40px
+                text-align: center
+                line-height: 40px
+            &:after
+                content: ""
+                height: 100%
+                width: 100%
+                +rgba-background($brand-color,.75)
+                z-index: 9
+                transform: rotate(10deg)
+            &:hover
+                &:after
+                    opacity: 1
+                    transform: rotate(0deg)
+                &::before
+                    opacity: 1
+            img
+                width: 100%
+        &.multiply
+            a
+                &::before
+                    content: "\f350"
+                &:after
+                    mix-blend-mode: multiply
+                    background-color: $brand-color
+
+.instagramGal
+    .container
+        .row
+            margin: 0
+            +xsd
+                margin-left: -15px
+                margin-right: -15px

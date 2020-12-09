@@ -1,0 +1,143 @@
+//sidebar style
+.sideBar
+    +smd
+        margin-top: 40px
+    +xsd
+        margin-top: 40px
+
+    //Style One
+    &.styleOne
+        &.rightSideBar
+            padding-left: 20px
+            +smd
+                padding-left: 0
+            +xsd
+                padding-left: 0
+            +mdd
+                padding-left: 0
+        &.leftSideBar
+            padding-right: 20px
+            +smd
+                padding-right: 0
+            +xsd
+                padding-right: 0
+            +mdd
+                padding-right: 0
+        .widget
+            padding: 0 35px 35px
+            margin-bottom: 40px
+            +lstd
+                padding: 0 20px 30px
+            +mdd
+                padding: 0 20px 30px
+            &:last-child
+                margin-bottom: 0
+            .widgetTitle
+                border-bottom: 2px dashed #eeeeee
+                padding-top: 30px
+                padding-bottom: 25px
+                margin: 0
+
+    //Style Two
+    &.styleTwo
+        &.rightSideBar
+            padding-left: 25px
+            +xsd
+                padding-left: 0
+            +smd
+                padding-left: 0
+        &.leftSideBar
+            padding-right: 25px
+            +xsd
+                padding-right: 0
+            +smd
+                padding-right: 0
+        .widget
+            margin-bottom: 40px
+            &:last-child
+                margin-bottom: 0
+            .widgetTitle
+                background: $brand-color2-dark
+                padding-top: 15px
+                padding-bottom: 15px
+                margin: 0
+                color: #fff
+
+    //Style Three
+    &.styleThree
+        &.rightSideBar
+            padding-left: 25px
+            +smd
+                padding-left: 0
+            +xsd
+                padding-left: 0
+            +mdd
+                padding-left: 0
+        &.leftSideBar
+            padding-right: 25px
+        .widget
+            padding: 25px
+            margin-bottom: 30px
+            +mdd
+                padding: 15px
+            &:last-child
+                margin-bottom: 0
+            .widgetTitle
+                margin: 0
+                color: #222
+                position: relative
+                margin-bottom: 50px
+                &:before
+                    content: ""
+                    width: 65px
+                    height: 2px
+                    background: $brand-color
+                    position: absolute
+                    bottom: -20px
+                    left: 50%
+                    margin-left: -25px
+                &:after
+                    content: ""
+                    width: 6px
+                    height: 2px
+                    background: #f6f6f6
+                    position: absolute
+                    bottom: -20px
+                    left: 50%
+                    margin-left: -12px
+
+    //Style Four
+    &.styleFour
+        &.rightSideBar
+            padding-left: 20px
+            +smd
+                padding-left: 0
+            +xsd
+                padding-left: 0
+            +mdd
+                padding-left: 0
+        &.leftSideBar
+            padding-right: 20px
+            +smd
+                padding-right: 0
+            +xsd
+                padding-right: 0
+            +mdd
+                padding-right: 0
+        .widget
+            margin-bottom: 45px
+            &:last-child
+                margin-bottom: 0
+            .widgetTitle
+                text-align: left
+                margin-top: 0
+                margin-bottom: 50px
+                &.c-headingUnderLine
+                    &::before
+                        left: 0
+                        margin-left: 0
+                        width: 65px
+                &.c-headingUnderLine--styleTwo
+                    &::after
+                        left: 12px
+                        margin-left: 0

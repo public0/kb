@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::any('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::any('/article/{id}', [App\Http\Controllers\ArticleContriller::class, 'index']);
 
 Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
 Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);

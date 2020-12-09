@@ -1,0 +1,196 @@
+//Trending post
+.trendingPost
+    //Style One
+    .styleOne
+        &::before
+            position: absolute
+            z-index: 99
+            width: 84px
+            height: 52px
+            content: ""
+            transform: rotate(140deg)
+            opacity: .5
+            background: #262626
+            left: -29px
+            top: -23px
+            transition: .3s
+        &:after
+            position: absolute
+            top: 1px
+            left: 12px
+            content: "\f3e6"
+            color: #ccc
+            font-family: "Ionicons"
+            font-size: 22px
+            z-index: 9999999
+        &:hover
+            &::before
+                background: $brand-color
+                opacity: 1
+            &::after
+                color: #fff
+            .trendingPost__content
+                bottom: 0
+                ul.trendingPost__author_date,.featuredPost__author-rating
+                    opacity: 1
+                    transition: .4s ease .2s
+        .trendingPost__header
+            .trendingPost__thumb
+                a
+                    img
+        .trendingPost__content
+            bottom: -25px
+            left: 0
+            width: 100%
+            transition: .3s
+            h3
+                a
+                    color: #f6f6f6
+            ul.trendingPost__author_date
+                opacity: 0
+                li.trendingPost_author
+            li.trendingPost_date
+                &::before
+                    position: absolute
+                    content: ""
+                    height: 10px
+                    width: 2px
+                    background: #fff
+                    top: 6px
+                    left: 9px
+            .featuredPost__author-rating
+                margin-top: 10px
+                opacity: 0
+                +clear
+                .featuredPost__author
+                    float: left
+                    .author-pic
+                        width: 20px
+                        border-radius: 50%
+                        margin-right: 5px
+                        float: left
+                    .author-name
+                        font-size: 15px
+                        color: #fff
+                        &:hover
+                            color: $brand-color
+                .featuredPost__rating
+                    float: right
+                    color: #ffa500
+                    span
+    //style two
+    .styleTwo
+        &::before
+            position: absolute
+            z-index: 99
+            width: 84px
+            height: 52px
+            content: ""
+            transform: rotate(140deg)
+            opacity: 1
+            background: #262626
+            left: -29px
+            top: -23px
+            transition: .3s
+        &:after
+            position: absolute
+            top: 1px
+            left: 12px
+            content: "\f3e6"
+            color: #ccc
+            font-family: "Ionicons"
+            font-size: 22px
+            z-index: 99
+            transition: .3s
+        &:hover
+            &::before
+                background: $brand-color
+            &::after
+                color: #fff
+        .trendingPost__header
+            .trendingPost__thumb
+                a
+                    img
+                        width: 100%
+        .trendingPost__content
+            padding-top: 15px
+            h5
+                a
+                    color: #262626
+                    &:hover
+                        color: $brand-color
+            .trendingPost__meta
+                margin-top: 15px
+                .trendingPost__author
+                    .author-pic
+                        width: 25px
+                        border-radius: 50%
+                        margin-right: 10px
+                        float: left
+                    .author-name
+                        font-size: 15px
+                        color: $brand-color2
+                        &:hover
+                            color: $brand-color
+
+    //trendingPost carousel
+    .owl-nav
+        text-align: center
+        div
+            position: absolute
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            border: 1px solid
+            color: #ccc
+            font-size: 30px
+            line-height: 40px
+            text-align: center
+            top: 50%
+            left: -50px
+            margin-top: -20px
+            transition: .4s
+            +smd
+                left: -40px
+            +mdd
+                left: -40px
+            &.owl-next
+                right: -50px
+                left: auto
+                +smd
+                    right: -40px
+                +mdd
+                    right: -40px
+
+            &:hover
+                color: #fff
+                background: $brand-color
+                border: 1px solid $brand-color
+            +xsd
+                position: static
+                display: inline-block
+                margin: 20px 10px 0
+    &.full-width
+        .owl-nav
+            div
+                +cd__991-1539
+                    background: #fff
+                +smd
+                    background: #fff
+                &:hover
+                    +cd__991-1539
+                        background: $brand-color
+                        border-color: $brand-color
+                    +smd
+                        background: $brand-color
+                        border-color: $brand-color
+            .owl-next
+                +cd__991-1539
+                    right: 40px
+                +smd
+                    right: 40px
+            .owl-prev
+                +cd__991-1539
+                    left: 40px
+                +smd
+                    left: 40px

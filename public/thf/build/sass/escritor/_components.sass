@@ -1,0 +1,917 @@
+//buttons
+.btnBorder
+    height: 50px
+    padding: 0 25px
+    line-height: 50px
+    border: 1px solid
+    color: #ccc
+    display: inline-block
+    &:hover
+        background: $brand-color
+        color: #fff
+    &.load-more
+        font-size: 17px
+        font-weight: 600
+        text-transform: uppercase
+        border-radius: 4px
+        padding: 0 28px
+        span
+            font-size: 19px
+            transform: translateY(1px)
+            display: inline-block
+            margin-left: 5px
+    &--fill
+        background: $brand-color
+        border-color: $brand-color
+        &:hover
+            color: #fff
+
+.btnWhite
+    height: 50px
+    line-height: 50px
+    padding: 0 34px
+    color: #ababab
+    font-size: 15px
+    display: inline-block
+    box-shadow: 0 0 5px rgba(0,0,0,.1)
+    position: relative
+    border-radius: 0!important
+    background: #fff
+    &:hover
+        color: #fff
+        background: $brand-color
+        text-decoration: none !important
+
+.btnDef
+    height: 50px
+    line-height: 50px
+    padding: 0 25px
+    background: $brand-color
+    font-size: 17px
+    display: inline-block
+    color: #fff
+    border-radius: 4px
+    font-weight: 600
+    border: 0
+    transition: .4s
+    &:hover
+        background: $brand-color-dark
+        color: #fff
+        text-decoration: none
+
+
+
+
+
+// overLayer
+.overLayer
+    position: absolute
+    height: 100%
+    width: 100%
+    background: #000
+    opacity: .5
+    top: 0
+    left: 0
+
+
+
+
+
+
+//heading style
+.c-headingUnderLine
+    position: relative
+    &::before
+        content: ""
+        width: 50px
+        height: 2px
+        background: $brand-color
+        position: absolute
+        bottom: -17px
+        left: 50%
+        margin-left: -25px
+    &.white
+        &::before
+            background: #fff
+        &::after
+            background: $brand-color2
+    &--left
+        &:before
+            left: 0
+            margin-left: 0
+    &--styleTwo
+        &::before
+            width: 65px
+        &::after
+            content: ""
+            width: 6px
+            height: 2px
+            background: #f6f6f6
+            position: absolute
+            bottom: -20px
+            left: 50%
+            margin-left: -12px
+
+
+
+
+
+
+
+//post share
+.postAction
+    //post share style one
+    &.styleOne
+        .postAction__share
+            z-index: 99
+            padding-left: 10px
+            position: relative
+            transition: .3s
+            .postAction__share-list
+                position: absolute
+                top: 0px
+                right: 80px
+                overflow: hidden
+                width: 0
+                cursor: default
+                transition: .2s
+                width: 450px
+                opacity: 0
+                visibility: hidden
+                background: #fff
+                +xsd
+                    visibility: visible
+                    opacity: 1
+                    right: -15px!important
+                    width: 130px
+                li
+                    display: inline-block
+                    white-space: nowrap
+                    a
+                        color: #ccc
+                        padding: 2px 6px
+                        display: inline-block
+            &:hover
+                cursor: pointer
+                color: $brand-color
+                .postAction__share-list
+                    opacity: 1
+                    visibility: visible
+                    right: 15px
+                    padding-right: 15px
+                    +xsd
+                        padding-right: 0px
+        .postAction__view
+            a
+                color: #cccccc
+                &:hover
+                    color: $brand-color
+
+
+
+
+// section header
+.sectionHeader
+    +xsd
+        padding: 0 40px
+    +lstd
+        padding: 0 20px
+    h2,h3
+        margin-top: -5px
+        line-height: 1
+        margin-bottom: 15px
+    p
+        margin-bottom: -5px
+    .action
+        a
+            color: $light
+            &:hover
+                color: #fff
+
+
+// social icon brand
+.c-socialMediaParent
+    .c-t-socialMedia
+        .c-facebook
+            &:hover
+	            color: #3b5998!important
+        .c-twitter
+            &:hover
+	            color: #1da1f2!important
+        .c-linkedIn
+            &:hover
+	            color: #0077b5!important
+        .c-googlePlus
+            &:hover
+	            color: #dd4b39!important
+        .c-youtube
+            &:hover
+	            color: #cd201f!important
+        .c-pinterest
+            &:hover
+	            color: #bd081c!important
+        .c-instagram
+            &:hover
+	            color: #405de6!important
+        .c-tumblr
+            &:hover
+	            color: #35465c!important
+        .c-flickr
+            &:hover
+        	    color: #0063dc!important
+        .c-reddit
+            &:hover
+	            color: #ff4500!important
+        .c-snapchat
+            &:hover
+	            color: #fffc00!important
+        .c-whatsapp
+            &:hover
+	            color: #075e54!important
+        .c-quora
+            &:hover
+	            color: #a82400!important
+        .c-vine
+            &:hover
+	            color: #00b488
+        .c-stumbleupon
+            &:hover
+	            color: #eb4924!important
+        .c-delicious
+            &:hover
+	            color: #3399ff!important
+        .c-digg
+            &:hover
+	            color: #005be2!important
+        .c-behance
+            &:hover
+        	    color: #1769ff!important
+        .c-skype
+            &:hover
+	            color: #00aff0!important
+
+
+
+
+
+//paginations
+.postPagination
+    //pagination style one
+    &.styleOne
+        height: 42px
+        width: 100%
+        text-align: center
+        +lstd
+            display: none
+        .paginationWrapper
+            .btnArrow
+                a
+                    height: 40px
+                    width: 40px
+                    text-align: center
+                    line-height: 40px
+                    border: 1px solid #ccc
+                    display: inline-block
+                    border-radius: 50%
+                    overflow: hidden
+                    color: #cccccc
+                    margin-bottom: -5px
+                    &:hover
+                        background: $brand-color
+                        color: #fff
+                &.prev
+                    margin-right: 10px
+                &.next
+                    margin-left: 10px
+            .page-numbers
+                height: 40px
+                width: 40px
+                text-align: center
+                line-height: 40px
+                border: 1px solid #ccc
+                display: inline-block
+                border-radius: 50%
+                overflow: hidden
+                color: #ccc
+                margin: 0 1px
+                font-weight: 600
+                transition: .3s
+                margin-bottom: -5px
+                &:hover
+                    background: $brand-color
+                    color: #fff
+                    border: 1px solid $brand-color
+                &.current
+                    background: $brand-color
+                    border: 1px solid $brand-color
+                    color: #fff
+                a
+                    display: inline-block
+                    height: 100%
+                    width: 100%
+                    color: #ccc
+
+    //pagination style two
+    &.styleTwo
+        width: 100%
+        text-align: left
+        +lstd
+            display: none
+        .paginationWrapper
+            .btnArrow
+                a
+                    height: 48px
+                    width: 48px
+                    text-align: center
+                    line-height: 48px
+                    display: inline-block
+                    overflow: hidden
+                    color: #ababab
+                    background: #fff
+                    box-shadow: 0 0 5px rgba(0,0,0,.1)
+                    border-radius: 3px
+                    margin: 0 3px
+                    &:hover
+                        background: $brand-color
+                        color: #fff
+            .page-numbers
+                height: 48px
+                width: 48px
+                text-align: center
+                line-height: 48px
+                display: inline-block
+                overflow: hidden
+                color: #ababab
+                margin: 0 3px
+                transition: .3s
+                box-shadow: 0 0 5px rgba(0,0,0,.1)
+                background: #fff
+                border-radius: 3px
+                &:hover
+                    background: $brand-color
+                    color: #fff
+                    a
+                        color: #fff
+                        text-decoration: none
+                &.current
+                    background: $brand-color
+                    border: 1px solid $brand-color
+                    color: #fff
+                a
+                    display: inline-block
+                    height: 100%
+                    width: 100%
+                    color: #ccc
+
+//pagination(small screen)
+.postPagination-alt
+    display: none
+    +lstd
+        display: block
+    .paginationWrapper
+        overflow: hidden
+        background: #fff
+        height: 60px
+        line-height: 60px
+        padding: 0 20px
+        a
+            display: inline-block
+            color: #747474
+            &.prev
+                float: left
+            &.next
+                float: right
+            &:hover
+                color: $brand-color
+
+
+
+
+
+
+
+
+
+
+//tooltip
+.c-hasToolTip
+    position: relative
+    &:before
+        content: attr(data-tooltip)
+        position: absolute
+        height: 26px
+        line-height: 26px
+        font-size: 14px
+        color: #fff
+        display: inline-block
+        padding: 0 15px
+        border-radius: 5px
+        left: 50%
+        top: -41px
+        transform: translateX(-50%) rotateY(110deg)
+        transition: .4s
+        background: $brand-color
+        opacity: 0
+        visibility: hidden
+        pointer-events: none
+    &:hover
+        &::before
+            transform: translateX(-50%) rotateY(0deg)
+            top: -25px
+            visibility: visible
+            opacity: 1
+
+
+
+
+
+
+
+
+
+
+// gallery nav style(Post Format)
+.galleryThumb
+    .owl-nav
+        text-align: center
+        div
+            position: absolute
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            border: 1px solid
+            color: #ccc
+            font-size: 30px
+            line-height: 40px
+            text-align: center
+            top: 50%
+            left: 20px
+            margin-top: -20px
+            transition: .4s
+            &.owl-next
+                right: 20px
+                left: auto
+            &:hover
+                color: #fff
+                background: $brand-color
+                border: 1px solid $brand-color
+
+
+
+
+
+
+//blog post hover shadow
+article
+    transition: .3s
+.featuredPost
+    &.styleOne
+        &.noPostThumb
+            &:hover
+                box-shadow: 0px 0px 10px rgba(0,0,0,.15)
+.defPost
+    &.styleOne
+        &:hover
+            box-shadow: 0px 0px 10px rgba(0,0,0,.15)
+    &.styleTwo
+        margin-bottom: 40px
+        .postText
+            padding-bottom: 10px
+    &.styleThree
+        a
+            transition: .2s
+            &:hover
+                text-decoration: underline
+.categoryPost
+    &.styleOne
+        &:hover
+            box-shadow: 0px 0px 10px rgba(0,0,0,.15)
+
+
+
+
+
+
+
+
+//default post
+.defPost
+    //style one
+    &.styleOne
+        &.mdHeightControl
+            .postText
+                p
+                    +mdd
+                        height: 55px
+                        overflow: hidden
+                    +smd
+                        overflow: hidden
+                        height: 110px
+        .defPost__date
+            height: 45px
+            line-height: 45px
+            background: rgba(0,0,0,.4)
+            border-radius: 3px
+            padding: 0 20px
+            position: absolute
+            left: 20px
+            top: 20px
+            z-index: 1
+            +lstd
+                left: 10px
+                top: 10px
+                padding: 0 10px
+                line-height: 38px
+                height: 38px
+            .timeIcon
+                font-size: 18px
+        .defPost__postHeader
+            img
+                width: 100%
+        .defPost__content
+            &.u-padding0x40
+                +lstd
+                    padding: 0 20px
+            &.u-padding0x30
+                +lstd
+                    padding: 0 20px
+            &.u-xs-paddingLeft30
+                +lstd
+                    padding-left: 20px
+            &.u-paddingRight30
+                +lstd
+                    padding-right: 20px
+            .defPost__author_category
+                li
+                    a
+                        color: $brand-color2
+                        &:hover
+                            color: $brand-color
+                    &.defPost__category
+                        &::before
+                            position: absolute
+                            top: 6px
+                            left: 0
+                            content: ""
+                            height: 14px
+                            width: 2px
+                            background: $brand-color2
+                        ul
+                            li
+                                a
+                                    &:hover
+                                        color: $brand-color
+        .defPost__footer
+            +lstd
+                padding: 0 20px
+            &--alt
+                +lstd
+                    padding-bottom: 30px
+            .read-more
+                a
+                    color: #565656
+                    &:before
+                        position: absolute
+                        content: ""
+                        background: #565656
+                        height: 2px
+                        width: calc( 100% )
+                        bottom: -2px
+                        left: 0
+                        transition: .3s
+                    &:hover
+                        color: $brand-color
+                        &::before
+                            background: $brand-color
+            // post action
+            .postAction
+                color: #ccc
+    &.listStyle
+        figure
+            padding-right: 30px
+            a
+                img
+                    width: 100%
+        .defPost__content
+            margin-left: -10px
+            .defPost__category
+                li
+                    display: inline-block
+                    a
+                        padding: 6px 10px
+                        background: $brand-color
+                        color: #fff
+                        display: inline-block
+                        font-size: 15px
+                        text-transform: uppercase
+                        margin-right: 2px
+                        border-radius: 3px
+            h4
+                a
+                    color: #262626
+                    &:hover
+                        color: $brand-color
+            .defPost__meta
+                li
+                    display: inline-block
+                    font-size: 15px
+                    color: #ababab
+                    a
+                        color: #ababab
+                        &:hover
+                            color: $brand-color
+                    &.author
+                        position: relative
+                        padding-right: 20px
+                        &::before
+                            content: ""
+                            position: absolute
+                            height: 12px
+                            width: 1px
+                            background: #ababab
+                            top: 6px
+                            right: 6px
+            .postBottom
+                margin-top: 20px
+                a
+                    height: 40px
+                    line-height: 40px
+                    border-color: $brand-color2
+                    color: $brand-color2
+                    &:hover
+                        color: $brand-color
+                        border-color: $brand-color
+    &--oneHalf
+        &.styleOne
+            .defPost__date
+                height: 40px
+                line-height: 40px
+                top: 10px
+                left: 10px
+                .timeIcon
+                    font-size: 16px
+            .defPost__content
+                .defPost__author_category
+                    li
+                        &.defPost__category
+                            &::before
+                                position: absolute
+                                top: 7px
+                                left: 0
+                                content: ""
+                                height: 10px
+                                width: 2px
+                                background: $brand-color2
+    // style two
+    &.styleTwo
+        .defPost__postHeader
+            .defPost__category
+                li
+                    position: relative
+                    display: inline-block
+                    padding-left: 28px
+                    &:first-child
+                        padding-left: 0
+                        &::before
+                            display: none
+                    &::before
+                        position: absolute
+                        top: 4px
+                        left: 13px
+                        content: ""
+                        height: 14px
+                        width: 2px
+                        background: $brand-color2
+                    a
+                        color: $brand-color2
+                        font-weight: 600
+                        &:hover
+                            color: $brand-color
+        .defPost__footer
+            height: 46px
+            display: flex
+            align-items: center
+            +lstd
+                height: auto
+                margin-top: 5px
+            .hidden-lst
+                display: flex
+                +lstd
+                    display: none
+                +smd
+                    display: none
+            .authorPic
+                flex: 0 0 40px
+                border-radius: 50%
+                align-self: center
+                overflow: hidden
+                margin-right: 15px
+            .authorName-postDate
+                h6
+                    font-weight: 600
+                    font-family: open sans
+                    a
+                        color: #565656
+                        &:hover
+                            color: $brand-color
+                span
+                    color: #747474
+                    font-weight: 600
+            .read-more
+                margin-left: auto
+                +lstd
+                    width: 100%
+                a
+                    height: 35px
+                    line-height: 35px
+                    padding: 0 20px
+                    background: $brand-color2-dark
+                    color: #fff
+                    display: inline-block
+                    font-weight: 600
+                    border-radius: 3px
+                    font-size: 15px
+                    &.lg
+                        height: 40px
+                        line-height: 40px
+                    &:hover
+                        background: $brand-color
+    &.styleThree
+        padding: 10px
+        .defPost__content
+            padding-left: 15px
+            padding-right: 15px
+            .postText
+                p
+                    margin: 0
+            .defPost__category
+                li
+                    display: inline-block
+                    margin-right: 15px
+                    a
+                        color: $brand-color
+                        font-weight: bold
+                        &::before
+                            content: "."
+                            font-size: 18px
+
+                        &:hover
+                            color: #222
+                            text-decoration: none
+            .read-more
+                line-height: 1
+                a
+                    color: $brand-color
+                    font-weight: 600
+                    span
+                        font-size: 16px
+                        margin-left: 15px
+                        position: relative
+                        top: 2px
+                    &:hover
+                        color : #222
+        .defPost__footer
+            height: 55px
+            line-height: 55px
+            padding: 0 15px
+            font-weight: 600
+            font-size: 15px
+            color: #ababab
+            border-top: 1px solid #e9e9e9
+            margin-top: 30px
+            .defPost__author
+                a
+                    color: #ababab
+                    &:hover
+                        color: $brand-color
+            .defPost__date
+                +lstd
+                    display: none
+    &.styleFour
+        figure
+            overflow: hidden
+            a
+                display: block
+                width: 100%
+                img
+                    width: 100%
+        .defPost__content
+            +smd
+                padding-left: 10px
+            +xsd
+                margin-top: 30px
+            .defPost__category
+                li
+                    display: inline-block
+                    margin-right: 3px
+                    a
+                        display: inline-block
+                        border-radius: 3px
+                        height: 32px
+                        padding: 0 12px
+                        line-height: 32px
+                        background: $brand-color
+                        color: #fff
+                        font-size: 15px
+                        &:hover
+                            background: $brand-color-dark
+
+            h4
+                margin-top: 10px
+        .defPost__meta
+            li
+                color: #ababab
+                display: inline-block
+                &.author
+                    position: relative
+                    padding-right: 20px
+                    &::before
+                        content: ""
+                        height: 12px
+                        width: 1px
+                        background: #ababab
+                        position: absolute
+                        top: 7px
+                        right: 6px
+
+                    a
+                        color: #ababab
+                        &:hover
+                            color: $brand-color
+                &.post-date
+                    time
+        .postText
+            +mdd
+                height: 60px
+                overflow: hidden
+                margin-top: 8px
+            +smd
+                height: 80px
+                overflow: hidden
+            p
+        .postBottom
+            margin-top: 24px
+            +mdd
+                margin-top: 8px
+            +smd
+                margin-top: 22px
+            a.btnBorder
+                line-height: 38px
+                height: 40px
+                border-color: $brand-color2
+                color: $brand-color2
+                padding: 0 15px
+                &:hover
+                    color: #fff
+                    border-color: $brand-color
+
+
+
+
+
+
+
+//map info window
+.window-container
+    .window-inner
+        padding: 15px 10px 5px
+        box-sizing: border-box
+        .window-title
+            margin: 0
+            line-height: 1
+            font-weight: bold
+    .info-wrap
+        margin-top: 20px
+        li
+            color: #747474
+            font-size: 17px
+            overflow: hidden
+            margin-bottom: 18px
+            line-height: 1.45
+            .icon
+                display: block
+                float: left
+                width: 40px
+                font-size: 26px
+            .text
+                display: block
+                width: calc(100% - 40px)
+                float: left
+
+
+
+
+
+
+
+
+// image zoom effect
+.imageZoom__parent
+    overflow: hidden
+    .imageZoom__el
+        transition: .4s
+        transform-origin: left bottom
+        width: 100%
+    &:hover
+        .imageZoom__el
+            transform: scale(1.1)

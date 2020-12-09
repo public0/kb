@@ -1,0 +1,603 @@
+//Default  header style
+.topHeader
+    .topHeader__menu
+        background: $header-top-bg
+        position: relative
+        height: 60px
+        .topHeader__container
+            .topHeader__nav
+                display: table
+                &--lg
+                    >ul
+                        >li
+                            >a
+                                padding: 24px 0!important
+                                &:before
+                                    bottom: 23px!important
+                >ul
+                    display: table-cell
+                    vertical-align: middle
+                    >li
+                        display: inline-block
+                        margin-right: 30px
+                        &.menu-item-has-children
+                            margin-right: 40px
+                            position: relative
+                            >a
+                                &:after
+                                    content: "\f3d0" !important
+                                    font-family: "Ionicons" !important
+                                    font-size: 13px
+                                    display: inline-block
+                                    margin-left: 5px
+                            li
+                                a
+                                    &:hover
+                                        &::before
+                                            width: 60%
+                        &.menu-item-has-mega-menu
+                            margin-right: 40px
+                            >a
+                                &:after
+                                    content: "\f3d0" !important
+                                    font-family: "Ionicons" !important
+                                    font-size: 13px
+                                    display: inline-block
+                                    margin-left: 5px
+                            li
+                                a
+                                    &:hover
+                                        &::before
+                                            width: 60%
+
+                        a
+                            font-family: $header-nav-font
+                            font-size: 17px
+                            color: $header-nav-text-color
+                            display: inline-block
+                            position: relative
+                            line-height: 30px
+                            padding: 14px 0
+                            letter-spacing: 0
+                            text-transform: capitalize
+                            font-weight: bold
+                            &::before
+                                position: absolute
+                                height: 2px
+                                width: 0
+                                background: $header-nav-hover-text-color
+                                content: ""
+                                bottom: 14px
+                                transition: .3s
+                        &:hover,&.active
+                            >a
+                                color: $header-nav-hover-text-color
+                                &:before
+                                    width: 70%
+                        ul.dropdown
+                            position: absolute
+                            left: 0
+                            top: 100px
+                            padding: 20px
+                            background: #fff
+                            width: 250px
+                            z-index: 9999999999999999
+                            box-shadow: 0px 4px 10px 3px rgba(0,0,0,.1)
+                            opacity: 0
+                            visibility: hidden
+                            transition: .2s
+                            li
+                                display: block
+                                white-space: nowrap
+                                height: 38px
+                                line-height: 38px
+                                transition: all .4s ease 0s
+                                padding: 0 15px
+                                a
+                                    font-family: $header-nav-font
+                                    color: $brand-color2
+                                    font-size: 17px
+                                    font-weight: bold
+                                    padding: 0
+                                    &:hover
+                                        color: $brand-color
+                                    &:before
+                                        bottom: -3px
+                        &:hover
+                            ul
+                                opacity: 1
+                                visibility: visible
+                                top: 100%
+                                transition: .2s
+            .smallDeviceTop
+                height: 80px
+                .buttonArea
+                    height: 80px
+                    line-height: 88px
+                    .sideMenuTrigger
+                        width: 40px
+                        height: 40px
+                        border: 0
+                        background: 0 0
+                        line-height: 40px
+                        font-size: 26px
+                .siteLogo
+                    position: fixed
+                    width: 50%
+                    text-align: center
+                    left: 50%
+                    top: 0
+                    height: 80px
+                    transform: translateX(-50%)
+                    display: flex
+                    justify-content: center
+                    align-items: center
+            //header menu action (right)
+            .topHeader__action
+                margin: 0
+                height: 60px
+                display: flex
+                align-items: center
+                +xsd
+                    height: 80px
+                    line-height: 80px
+                +smd
+                    height: 80px
+                    line-height: 80px
+                &--lg
+                    height: 80px
+                >ul
+                    margin-right: -13px
+                    margin-left: auto
+                    line-height: 1
+                    >li
+                        display: inline-block
+                        color: $header-nav-text-color
+                        font-size: 23px
+                        cursor: pointer
+                        padding: 0 13px
+                        line-height: 1
+                        +lstd
+                            padding: 0 5px
+                        &:hover
+                            color: $brand-color
+                        a
+                            color: $header-nav-text-color
+                            text-decoration: none!important
+                            &:hover
+                                color: $brand-color
+                        &.topHeader__sideMenuTrigger
+                            font-size: 26px
+
+    //header style Three
+    &.topHeader--styleThree
+        .topHeader__menu
+            box-shadow: 0 0 5px rgba(0,0,0,.1)
+        .topHeader__logo
+            height: 80px
+            +smd
+                position: fixed
+                top: 0
+                left: 50%
+                width: 50%
+                transform: translateX(-50%)
+                text-align: center
+                line-height: 80px
+            +xsd
+                position: fixed
+                top: 0
+                left: 50%
+                width: 50%
+                transform: translateX(-50%)
+                text-align: center
+                line-height: 80px
+        .buttonArea
+            height: 80px
+            line-height: 88px
+            .sideMenuTrigger
+                width: 40px
+                height: 40px
+                border: 0
+                background: 0 0
+                line-height: 40px
+                font-size: 26px
+
+
+//Header search area for all pages
+.topHeader__searchArea
+    +rgba-background(#ffffff,.95)
+    position: fixed
+    height: 100%
+    width: 100%
+    top: 0
+    left: 0
+    display: table
+    z-index: 9999999999
+    opacity: 0
+    visibility: hidden
+    transition: .3s
+    .topHeader__searchForm
+        display: table-cell
+        vertical-align: middle
+        text-align: center
+        .formCloseBtn
+            position: fixed
+            top: 54px
+            left: 50%
+            transform: translateX(-50%)
+            font-size: 22px
+            color: $brand-color2
+            border: 0
+            background: none
+            &:hover
+                color: $brand-color
+        .topHeader__searchFormWrapper
+            position: relative
+            width: 35%
+            margin: auto
+            +xsd
+                width: 70%
+            .formInput
+                border: 0
+                border-bottom: 1px solid $brand-color2
+                width: 100%
+                padding: 0 30px 0 15px
+                height: 40px
+                background: none
+                &:active,,&:focus
+                    border-bottom: 1px solid $brand-color
+            .searchAction
+                position: absolute
+                border: 0
+                background: none
+                top: 5px
+                right: -3px
+                color: $brand-color2
+                font-size: 20px
+                transition: .3s
+                &:hover
+                    color: $brand-color
+
+
+//Header Search Active
+.JS-searchActive
+    .topHeader__searchArea
+        opacity: 1
+        visibility: visible
+
+
+
+//Header mega menu
+.megaMenu
+    width: 1070px
+    background: #fff
+    position: absolute
+    top: 100px
+    z-index: 9999
+    display: flex
+    box-shadow: 0px 4px 10px 3px rgba(0,0,0,.1)
+    opacity: 0
+    visibility: hidden
+    transition: .2s
+    +smd
+        width: 800px
+    +mdd
+        width: 800px
+    .megaMenuNav
+        padding: 20px
+        background: #fff
+        width: 235px
+        z-index: 9999
+        box-shadow: 0px 4px 10px 3px rgba(0,0,0,.1)
+        float: left
+        li
+            display: block
+            white-space: nowrap
+            height: 40px
+            line-height: 40px
+            padding: 0 20px
+            transition: all .4s ease 0s
+            &.active
+                a
+                    color: $brand-color !important
+                    &::before
+                        width: 70%!important
+            a
+                font-family: $header-nav-font
+                color: $brand-color2
+                font-size: 17px
+                font-weight: bold
+                position: relative
+                &::before
+                    position: absolute
+                    height: 2px
+                    width: 0
+                    background: $header-nav-hover-text-color
+                    content: ""
+                    bottom: -3px
+                    transition: .3s
+                    left: 0
+            &:hover
+                a
+                    color: $brand-color!important
+                    &::before
+                        width: 70%!important
+    .tab-content
+        width: calc(100% - 235px)
+        float: left
+        padding: 30px 76px
+        .megaMenu__content
+            .owl-carousel
+                .owl-stage
+                    display: flex
+            .col-sm-12
+                max-width: 240px
+                display: inline-block
+            .carousel__item
+                figure
+                    a
+                        padding: 0!important
+                    figcaption
+                        h6
+                            margin: 0
+                            font-size: 15px
+                            margin-top: 8px
+                            a
+                                color: #262626!important
+                                line-height: 1.4!important
+                                font-size: 15px
+                                padding: 0
+                                &:hover
+                                    color: $brand-color!important
+                ul.category
+                    li
+                        display: inline-block
+                        position: relative
+                        &:first-child
+                            &::before
+                                display: none
+                        &::before
+                            position: absolute
+                            top: 8px
+                            left: -8px
+                            width: 1px
+                            height: 10px
+                            content: ""
+                            background: $brand-color2
+                        a
+                            font-size: 13px
+                            font-family: open sans
+                            font-weight: 600
+                            margin-right: 10px
+                            line-height: 1
+                            padding: 0
+                            &::before,&::before
+                                display: none
+                            &:hover
+                              color: $brand-color
+.topHeader__nav
+    .parent__megaMenu
+        &.pos-left
+            .megaMenu
+                left: 0
+        &.pos-right
+            .megaMenu
+                right: 0
+        //open megaMenu on hover
+        &:hover
+            .megaMenu
+                opacity: 1
+                visibility: visible
+                top: 60px
+    &--lg
+        .parent__megaMenu
+            &:hover
+                .megaMenu
+                    top: 80px
+
+    //Mega Menu owlCarousel style
+    .owl-nav
+        text-align: center
+        div
+            position: absolute
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            border: 1px solid
+            color: #ccc
+            font-size: 30px
+            line-height: 40px
+            text-align: center
+            top: 50%
+            left: -42px
+            margin-top: -20px
+            transition: .4s
+            &.owl-next
+                right: -42px
+                left: auto
+            &:hover
+                color: #fff
+                background: $brand-color
+
+
+//Menu style (Mobile screen)
+.mobileMenuWrap
+    position: fixed
+    width: 300px
+    height: 100%
+    background: #fff
+    transform: translate3d(0,0,0)
+    transition: transform 0.4s
+    transition-timing-function: cubic-bezier(0.7,0,0.3,1)
+    top: 0
+    right: -322px
+    box-shadow: -5px 0px 10px rgba(0,0,0,.1)
+    z-index: 9999999999999
+    padding: 15px 0
+    button
+        background: none
+        border: 0
+        font-size: 20px
+        color: $brand-color2
+        margin-bottom: 15px
+        margin-left: 10px
+        &:hover
+            color: $brand-color
+    .MobileMenu
+        ul
+            li
+                &.active,&:hover
+                    >a
+                        color: $brand-color !important
+                        background: #f6f6f6 !important
+                ul
+                    background: #f6f6f6
+                    padding-bottom: 10px
+                    li
+                        a
+                            padding-left: 40px
+                a
+                    font-family: Playfair Display
+                    font-size: 17px
+                    color: $brand-color2
+                    font-weight: bold
+                    display: block
+                    height: 40px
+                    line-height: 40px
+                    padding: 0 20px
+                    &:hover
+                        text-decoration: none!important
+                    &.hasChildUl
+                        background: #f6f6f6
+                        &:after
+                            content: "\f3d0"
+                            font-family: Ionicons
+                            margin-left: 10px
+                            position: relative
+                            top: 3px
+                            transform: rotate(180deg)
+                            transition: .4s
+                            display: inline-block
+                            font-size: 16px
+
+                    &.collapsed
+                        background: transparent
+                        &:after
+                            transform: rotate(0deg)
+                            display: inline-block
+
+
+    //mini screen social link
+    .socialMediaLink
+        ul
+            padding: 20px
+            li
+                display: inline-block
+                a
+                    color: #ccc
+                    font-size: 18px
+                    margin-right: 3px
+                    padding: 5px
+                    display: inline-block
+                    &:hover
+                        color: $brand-color
+
+
+//visible mobile menu
+.JS-showMenu
+    overflow: hidden
+    .mobileMenuWrap
+        transform: translate3d(-322px,0,0)
+        transition: transform 0.8s
+        transition-timing-function: cubic-bezier(0.7,0,0.3,1)
+        &::before
+            position: fixed
+            content: ""
+            height: 100%
+            width: 120vw
+            right: 100%
+            top: 0
+            background: #000
+            opacity: 0.6
+            transition: 0s
+
+//user dropdown style
+.dropdown__login
+    .logInCtrl
+        img
+            height: 25px
+            width: 25px
+            border-radius: 50%
+            vertical-align: middle
+    .userMenu
+        ul
+            li
+                display: block !important
+                cursor: default!important
+                a
+                    font-weight: bold
+                    font-family: Playfair Display
+                    font-size: 17px
+                    position: relative
+                    &:hover
+                        &::before
+                            width: 70%
+                    &::before
+                        position: absolute
+                        height: 2px
+                        width: 0
+                        background: $header-nav-hover-text-color
+                        content: ""
+                        bottom: -5px
+                        transition: .3s
+                        left: 0
+    .dropdown-menu
+        top: 58px
+        right: 0
+        padding: 15px 35px 20px
+        border: 0
+        border-radius: 0px
+        box-shadow: 0 4px 10px 3px rgba(0,0,0,.1)
+        left: auto
+        cursor: default
+        +xsd
+            top: 78px
+        +smd
+            top: 78px
+        &.hasUserMenu
+            width: 220px
+    .logInFormWrapper
+        h4
+            margin: 0
+            margin-bottom: 20px
+        .logInForm
+            .formRow
+                button
+            .inputField
+                position: relative
+                margin-bottom: 20px
+                label
+                    position: absolute
+                    height: 50px
+                    width: 50px
+                    top: 0
+                    left: 0
+                    line-height: 50px
+                    background: $brand-color2
+                    text-align: center
+                    border-radius: 4px 0 0 4px
+                    color: #ccc
+                    font-size: 19px
+                input
+                    height: 50px
+                    padding-left: 60px
+                    padding-right: 10px
+                    border-radius: 4px
+                    border: 1px solid $brand-color2
+                    width: 100%
+    .logIn-alt
+        margin-top: 15px
+        a
+            display: block
+            text-decoration: underline
+            line-height: 1.8
