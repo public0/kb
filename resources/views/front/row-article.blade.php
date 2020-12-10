@@ -7,7 +7,7 @@
 
         @foreach($article as $art)
         <!-- post item -->
-            <div class="col-sm-12 col-md-6 u-flex categoryPostBlock">
+            <div class="col-sm-12 col-md-6 u-flex categoryPostBlock" style="margin-bottom: 40px;">
                 <article class="categoryPost u-noOverFolow noPostThumb mdHeightControl styleOne u-whiteBg u-shadow-0x0x5--05 u-flex u-flex--contentSpace u-flex--dir_col">
                     <div class="__flex-top">
                         <header class="categoryPost__postHeader">
