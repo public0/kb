@@ -7,13 +7,7 @@
                         <!-- Start menu Navigation -->
                         <div class="topHeader__nav hidden-sm hidden-xs">
                             <ul>
-                                <li class="active menu-item-has-children"><a href="#">Home</a>
-                                    <ul class="dropdown">
-                                        <li><a href="main-home.html">Home Main</a></li>
-                                        <li><a href="travel-home.html">Home Travel</a></li>
-                                        <li><a href="review-home.html">Home Review</a></li>
-                                        <li><a href="food-home.html">Home Food</a></li>
-                                    </ul>
+                                <li class="active"><a href="<?php echo URL::to('/'); ?>">Home</a>
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">Category</a>
                                     <ul class="dropdown">
@@ -295,22 +289,6 @@
 
                                     </div> <!--//Mega Menu end -->
                                 </li>
-                                <li class="menu-item-has-children"><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="archive.html">Archive</a></li>
-                                        <li><a href="author-profile.html">Author Profile</a></li>
-                                        <li><a href="authors-list-01.html">Authors List</a></li>
-                                        <li><a href="authors-list-02.html">Authors List Two</a></li>
-                                        <li><a href="404.html">Page 404</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact-us.html">Contact us</a></li>
-                                <li class="menu-item-has-children"><a href="#">Blog</a>
-                                    <ul class="dropdown">
-                                        <li><a href="single-blog.html">Single Blog</a></li>
-                                        <li><a href="single-blog-full.html">Single Blog Full</a></li>
-                                    </ul>
-                                </li>
                             </ul>
                         </div>
                         <!-- End menu Navigation -->
@@ -352,17 +330,6 @@
                     </div> <!--// col end-->
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="topHeader__logo text-center u-shadow-0x0x5--05 hidden-sm hidden-xs u-relative u-zIndex-p10">
-        <div class="container">
-
-            <!-- site logo -->
-            <div class="siteLogo u-padding30x0">
-                <a href="#">
-                    <img src="<?php echo URL::to('/'); ?>/thf/img/logo.png" alt="">
-                </a>
-            </div><!--// site logo end-->
         </div>
     </div>
 </nav>

@@ -7,9 +7,6 @@
                     <!-- widget (about) -->
                     <div class="widget aboutWidget styleOne text-center">
                         <div class="aboutWidget__body">
-                            <figure class="aboutWidget__photo u-marginBottom25">
-                                <img src="<?php echo URL::to('/'); ?>/thf/img/logo-white.png" alt="" >
-                            </figure>
                             <div class="aboutWidget__info c-socialMediaParent textWhite">
                                 <p>Dependent certainty off discovere him his times tolerably <br class="hidden-xs"> offending. Hame fm attention remainde.</p>
                             </div>
@@ -40,19 +37,9 @@
     <div class="footerBottom dark">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="copyightText">
-                        <p>© 2018 <a href="#">Escritor</a> Inc.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="footerMediaLink c-socialMediaParent">
-                        <ul class="c-t-socialMedia u-font18">
-                            <li ><a class="c-facebook" href="#"><span class="ion-social-facebook"></span></a></li>
-                            <li ><a class="c-twitter" href="#"><span class="ion-social-twitter"></span></a></li>
-                            <li ><a class="c-googlePlus" href="#"><span class="ion-social-googleplus"></span></a></li>
-                            <li ><a class="c-tumblr" href="#"><span class="ion-social-tumblr"></span></a></li>
-                        </ul>
+                <div class="col-sm-12">
+                    <div class="copyightText" style="text-align:center;">
+                        <p>© <?php echo date("Y");?> <a href="#">Ringhel</a></p>
                     </div>
                 </div>
             </div>

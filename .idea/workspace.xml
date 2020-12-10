@@ -21,9 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="94a8ca21-762f-43a1-ad2d-ceb72c193163" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vendor/livewire/livewire.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/vendor/livewire/livewire.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/article.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/footer.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/front/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +190,8 @@
       <updated>1606476230680</updated>
       <workItem from="1606476234600" duration="19597000" />
       <workItem from="1607055276515" duration="37809000" />
-      <workItem from="1607354815971" duration="9390000" />
+      <workItem from="1607354815971" duration="9991000" />
+      <workItem from="1607587717356" duration="7020000" />
     </task>
     <servers />
   </component>
