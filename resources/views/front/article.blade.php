@@ -1,4 +1,63 @@
 @extends('front/index')
+@section('side')
+    <div class="col-md-4 hidden-xs u-sm-paddingTop20">
+        <aside class="sideBar styleOne rightSideBar">
+            <!-- widget(newsLetter) -->
+            <section class="widget newsLetterWidget styleOne u-whiteBg u-shadow-0x0x5--05">
+                <h4 class="widgetTitle textDark text-center">Newsletter</h4>
+                <div class="newsLetterWidget__body u-marginTop30 ff-openSans">
+                    <p>Your email address will not be this published. Required fields are marked</p>
+                    <form action="#" class="newsLetterWidget__form">
+                        <input type="email" class="emailHunter u-borderRadius4" placeholder="Your Mail Here">
+                        <input type="submit" class="btnWidget u-borderRadius4" value="Subcribe">
+                    </form>
+                </div>
+            </section>
+            <!--// widget end -->
+            @if(!empty($new))
+                <section class="widget recentEventWidget styleOne u-whiteBg u-shadow-0x0x5--05">
+                    <h4 class="widgetTitle textDark  text-center">Last Articles</h4>
+                    <ul class="recentEventWidget__body u-marginTop30">
+
+                        @foreach($new as $nw)
+                            <li>
+                                <div class="recentEventWidget__content">
+                                    <h3 class="  u-font17"><a class="textDark" href="article/{{$nw->article_id}}">{{$nw->title}}</a></h3>
+                                    <ul class="recentEventWidget__date_vanue">
+                                        <li class="recentEventWidget__date"><a href="article/{{$nw->article_id}}">{{$nw->created_at}}</a></li>
+                                        <li class="recentEventWidget__vanue u-relative"><a href="#">NYC, USA</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        @endforeach
+
+                    </ul>
+                </section>
+            @endif
+            @if(!empty($last))
+                <section class="widget recentEventWidget styleOne u-whiteBg u-shadow-0x0x5--05">
+                    <h4 class="widgetTitle textDark  text-center">Last Read Articles</h4>
+                    <ul class="recentEventWidget__body u-marginTop30">
+
+                        @foreach($last as $nw)
+                            <li>
+                                <div class="recentEventWidget__content">
+                                    <h3 class="  u-font17"><a class="textDark" href="<?php echo URL::to('/'); ?>/article/{{$last->article_id}}">{{$last->title}}</a></h3>
+                                    <ul class="recentEventWidget__date_vanue">
+                                        <li class="recentEventWidget__date"><a href="<?php echo URL::to('/'); ?>/article/{{$last->article_id}}">{{$last->created_at}}</a></li>
+                                        <li class="recentEventWidget__vanue u-relative"><a href="#">NYC, USA</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        @endforeach
+
+                    </ul>
+                </section>
+            @endif
+        </aside>
+    </div> <!--// col-4 end(sideBar) -->
+
+@endsection
 @section('row-article')
 <div class="singlePostContainer">
     <article class="singlePost styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom40 galleryPostFormat">
@@ -10,7 +69,7 @@
             </figure>
             <div class="singlePost__date ff-Playfair u-absolute u-top20 u-left20 u-zIndex-p10 textWhite u-padding0x20">
                 <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                <time class="u-font17" datetime="2017-03-25">March 6, 2019</time>
+                <time class="u-font17" datetime="2017-03-25">{{$article->created_at}}</time>
             </div>
         </header>
 
@@ -32,12 +91,13 @@
     </article>
 </div> <!--//PostContainer end-->
 <!-- releted post -->
+@if(!empty($assoc))
 <div class="reletedPostArea u-paddingBottom60">
     <div class="related__top text-center">
         <h4 class="u-marginTop55 u-marginBottom30">You Might Also Like</h4>
     </div>
     <div class="row u-flex">
-
+        @foreach($assoc as $asc)
         <div class="col-sm-6 u-flex u-xs-marginBottom30">
             <article class="defPost u-noOverFolow defPost defPost--oneHalf u-flex u-flex--contentSpace u-flex--dir_col u-heightBlock styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom30">
                 <header class="defPost__postHeader">
@@ -46,12 +106,12 @@
                     </figure>
                     <div class="defPost__date ff-Playfair textWhite">
                         <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                        <time class="u-font15" datetime="2017-03-25">March 6, 2019</time>
+                        <time class="u-font15" datetime="2017-03-25">{{$asc->created_at}}</time>
                     </div>
                 </header>
                 <div class="defPost__content u-padding0x30">
                     <h5 class="  u-fontWeight600 u-marginTop25 u-marginBottom10">
-                        <a class="textDark" href="#">Today I choose life. Every the morning when…</a>
+                        <a class="textDark" href="#">{{$asc->title}}</a>
                     </h5>
                     <ul class="defPost__author_category u-font15">
                         <li class="defPost__author u-inlineBlock"><a href="#">Mike Doe</a></li>
@@ -62,82 +122,21 @@
                         </li>
                     </ul>
                     <div class="postText u-paddingTop15 u-paddingBottom10">
-                        <p>Dependent certainty off discovere him his times tolerably offending. Hame fm attention remainde sometim additions recommend.</p>
+                        <p>{{$asc->description}}</p>
                     </div>
                 </div>
                 <footer class="defPost__footer clear u-padding0x30">
                     <div class="read-more pull-left">
-                        <a class="u-font15 u-relative u-fontWeight600" href="#">Read More</a>
-                    </div>
-                    <div class="postAction styleOne pull-right u-relative">
-                        <div class="postAction__share c-socialMediaParent u-inlineBlock u-font20 u-cursorPointer u-marginRight10">
-                            <span class="u-xs-font0"><span class="ion-android-share-alt"></span></span>
-                            <ul class="postAction__share-list c-t-socialMedia text-right u-font18">
-                                <li ><a class="c-facebook" href="#"><span class="ion-social-facebook"></span></a></li>
-                                <li ><a class="c-twitter" href="#"><span class="ion-social-twitter"></span></a></li>
-                                <li ><a class="c-googlePlus" href="#"><span class="ion-social-googleplus"></span></a></li>
-                                <li ><a class="c-tumblr" href="#"><span class="ion-social-tumblr"></span></a></li>
-                            </ul>
-                        </div>
-                        <div data-tooltip="405" class="postAction__view u-inlineBlock u-font20 u-cursorPointer c-hasToolTip hidden-xs">
-                            <a href="#"><span class="ion-eye"></span></a>
-                        </div>
+                        <a class="u-font15 u-relative u-fontWeight600" href="<?php echo URL::to('/'); ?>/article/{{$asc->article_id}}">Read More</a>
                     </div>
                 </footer>
             </article>
         </div>
-        <div class="col-sm-6 u-flex">
-            <article class="defPost u-noOverFolow defPost defPost--oneHalf u-flex u-flex--contentSpace u-flex--dir_col u-heightBlock styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom30">
-                <header class="defPost__postHeader">
-                    <figure class="defPost__postThumb imageZoom__parent">
-                        <a href="#"><img class="imageZoom__el" src="img/p35-370x220.jpg" alt=""></a>
-                    </figure>
-                    <div class="defPost__date ff-Playfair textWhite">
-                        <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                        <time class="u-font15" datetime="2017-03-25">March 6, 2019</time>
-                    </div>
-                </header>
-                <div class="defPost__content u-padding0x30">
-                    <h5 class="  u-fontWeight600 u-marginTop25 u-marginBottom10">
-                        <a class="textDark" href="#">Enjoy A Great Time Before The Sunset Near The Sea</a>
-                    </h5>
-                    <ul class="defPost__author_category u-font15">
-                        <li class="defPost__author u-inlineBlock"><a href="#">Mike Doe</a></li>
-                        <li class="defPost__category u-relative u-paddingLeft10 u-marginLeft5 u-inlineBlock">
-                            <ul class="ff-openSans  u-inlineBlock">
-                                <li class="u-inlineBlock"><a href="#">Life Style</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="postText u-paddingTop15 u-paddingBottom10">
-                        <p>Dependent certainty off discovere him his times tolerably offending. Hame fm attention remainde sometim additions recommend.</p>
-                    </div>
-                </div>
-                <footer class="defPost__footer clear u-padding0x30">
-                    <div class="read-more pull-left">
-                        <a class="u-font15 u-relative u-fontWeight600" href="#">Read More</a>
-                    </div>
-                    <div class="postAction styleOne pull-right u-relative">
-                        <div class="postAction__share c-socialMediaParent u-inlineBlock u-font20 u-cursorPointer u-marginRight10">
-                            <span class="u-xs-font0"><span class="ion-android-share-alt"></span></span>
-                            <ul class="postAction__share-list c-t-socialMedia text-right u-font18">
-                                <li ><a class="c-facebook" href="#"><span class="ion-social-facebook"></span></a></li>
-                                <li ><a class="c-twitter" href="#"><span class="ion-social-twitter"></span></a></li>
-                                <li ><a class="c-googlePlus" href="#"><span class="ion-social-googleplus"></span></a></li>
-                                <li ><a class="c-tumblr" href="#"><span class="ion-social-tumblr"></span></a></li>
-                            </ul>
-                        </div>
-                        <div data-tooltip="405" class="postAction__view u-inlineBlock u-font20 u-cursorPointer c-hasToolTip hidden-xs">
-                            <a href="#"><span class="ion-eye"></span></a>
-                        </div>
-                    </div>
-                </footer>
-            </article>
-        </div>
+        @endforeach
 
     </div>
 </div><!--//releted post end-->
-
+@endif
 <!--post response-->
 <div class="postResponse u-whiteBg u-shadow-0x0x5--05">
     <h4 class="u-margin0 text-center">Leave a Response</h4>

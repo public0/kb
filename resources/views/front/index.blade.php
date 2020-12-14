@@ -44,8 +44,9 @@
                     @section('row-article')
                     @show
                     </div> <!--// col-8 end -->
-
-                    @yield('side', View::make('front/side'))
+                    @section('side')
+                    @show
+                    <!--yield('side', View::make('front/side'))-->
                 </div>
             </div><!--//section body end -->
         </div>

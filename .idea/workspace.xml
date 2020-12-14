@@ -21,6 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="94a8ca21-762f-43a1-ad2d-ceb72c193163" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ArticleContriller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ArticleContriller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/article.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -187,7 +192,7 @@
       <workItem from="1606476234600" duration="19597000" />
       <workItem from="1607055276515" duration="37809000" />
       <workItem from="1607354815971" duration="9991000" />
-      <workItem from="1607587717356" duration="7370000" />
+      <workItem from="1607587717356" duration="24185000" />
     </task>
     <servers />
   </component>
