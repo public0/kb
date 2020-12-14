@@ -29,3 +29,4 @@ Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController
 Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
 Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
 Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);

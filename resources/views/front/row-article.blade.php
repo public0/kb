@@ -6,9 +6,13 @@
             <section class="widget newsLetterWidget styleOne u-whiteBg u-shadow-0x0x5--05">
                 <h4 class="widgetTitle textDark text-center">Newsletter</h4>
                 <div class="newsLetterWidget__body u-marginTop30 ff-openSans">
+                    @if(Session::has('msg'))
+                        <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('msg') }}</div>
+                    @endif
                     <p>Your email address will not be this published. Required fields are marked</p>
-                    <form action="#" class="newsLetterWidget__form">
-                        <input type="email" class="emailHunter u-borderRadius4" placeholder="Your Mail Here">
+                    <form action="<?php echo URL::to('/'); ?>/newsletter" method="post" class="newsLetterWidget__form">
+                        @csrf
+                        <input type="email" @error('Email') style="border-color: red;" @enderror name="Email" class="emailHunter u-borderRadius4" placeholder="Your Mail Here" value="{{ old('Email') }}">
                         <input type="submit" class="btnWidget u-borderRadius4" value="Subcribe">
                     </form>
                 </div>
