@@ -9,14 +9,15 @@
                             <ul>
                                 <li class="active"><a href="<?php echo URL::to('/'); ?>">Home</a>
                                 </li>
+                                @if(!empty($categ))
                                 <li class="menu-item-has-children"><a href="#">Category</a>
                                     <ul class="dropdown">
-                                        <li><a href="category-main.html">Category Main</a></li>
-                                        <li><a href="category-travel.html">Category Travel</a></li>
-                                        <li><a href="category-review.html">Category Review</a></li>
-                                        <li><a href="category-food.html">Category Food</a></li>
+                                        @foreach($categ as $categories)
+                                        <li><a href="<?php echo URL::to('/') ?>/caregory/{{$categories->Categ_id}}">{{$categories->Name}}</a></li>
+                                            @endforeach
                                     </ul>
                                 </li>
+                                    @endif
                             </ul>
                         </div>
                         <!-- End menu Navigation -->
@@ -71,3 +72,4 @@
         </form>
     </div>
 </div>
+

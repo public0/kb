@@ -29,7 +29,7 @@
 <!--header start-->
 <header class="topHeader topHeader--styleOne">
     <!-- site main navigation -->
-    @yield('menu', View::make('front/menu'))
+    <x-headmen/>
     <!--header search area -->
     <!--// header search area end-->
 

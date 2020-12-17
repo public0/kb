@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,12 @@ Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 
 Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
 Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
 Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
+
+Route::post('/search', [App\Http\Controllers\SearchContriller::class, 'index']);
+Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'index']);
+
+
+/*Route::get('/search', function () {
+    $a = Article::search('description:(sdfas)')->first();
+    print_r($a);
+});*/
