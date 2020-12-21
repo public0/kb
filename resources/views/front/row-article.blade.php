@@ -28,8 +28,8 @@
                             <div class="recentEventWidget__content">
                                 <h3 class="  u-font17"><a class="textDark" href="article/{{$nw->article_id}}">{{$nw->title}}</a></h3>
                                 <ul class="recentEventWidget__date_vanue">
-                                    <li class="recentEventWidget__date"><a href="article/{{$nw->article_id}}">{{$nw->created_at}}</a></li>
-                                    <li class="recentEventWidget__vanue u-relative"><a href="#">NYC, USA</a></li>
+                                    <li class="recentEventWidget__date"><a href="article/{{$nw->article_id}}">{{date('M d, Y',strtotime($nw->created_at))}}</a></li>
+                                    <li class="recentEventWidget__vanue u-relative"><a href="#">NYC</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -67,44 +67,42 @@
 
     <!-- post row -->
     <div class="row">
+        @if(!empty($article))
+            @foreach($article as $art)
+            <!-- post item -->
+                <div class="col-sm-12 col-md-6 u-flex categoryPostBlock" style="margin-bottom: 40px;">
+                    <article class="categoryPost u-noOverFolow noPostThumb mdHeightControl styleOne u-whiteBg u-shadow-0x0x5--05 u-flex u-flex--contentSpace u-flex--dir_col">
+                        <div class="__flex-top">
+                            <header class="categoryPost__postHeader">
+                                <div class="categoryPost__date ff-Playfair textWhite">
+                                    <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
+                                    <time datetime="2018-03-25" class="u-font17">{{date('M d, Y',strtotime($art->created_at))}}</time>
+                                </div>
+                            </header>
+                            <div class="categoryPost__content">
+                                <h3 class="categoryPost__title u-marginTop25 u-fontWeightBold u-marginBottom5">
+                                    <a class="textDark" href="article/{{$art->article_id}}">{{$art->title}}</a>
+                                </h3>
+                                <ul class="categoryPost__author_category u-font15">
+                                    <li class="categoryPost__author"><a href="author-profile.html">Puffinthemes</a></li>
+                                </ul>
+                                <div class="postText ff-openSans u-font17 u-lineHeight16 u-marginTop20">
+                                    <p>{!! $art->description !!}</p>
+                                </div>
 
-        @foreach($article as $art)
-        <!-- post item -->
-            <div class="col-sm-12 col-md-6 u-flex categoryPostBlock" style="margin-bottom: 40px;">
-                <article class="categoryPost u-noOverFolow noPostThumb mdHeightControl styleOne u-whiteBg u-shadow-0x0x5--05 u-flex u-flex--contentSpace u-flex--dir_col">
-                    <div class="__flex-top">
-                        <header class="categoryPost__postHeader">
-                            <div class="categoryPost__date ff-Playfair textWhite">
-                                <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                                <time datetime="2018-03-25" class="u-font17">March 6, 2019</time>
                             </div>
-                        </header>
-                        <div class="categoryPost__content">
-                            <h3 class="categoryPost__title u-marginTop25 u-fontWeightBold u-marginBottom5">
-                                <a class="textDark" href="single-blog.html">{{$art->title}}</a>
-                            </h3>
-                            <ul class="categoryPost__author_category u-font15">
-                                <li class="categoryPost__author"><a href="author-profile.html">Puffinthemes</a></li>
-                                <li class="categoryPost__category u-relative u-paddingLeft10 u-marginLeft5">
-                                    <ul class="ff-openSans">
-                                        <li><a href="category-main.html">Life Style</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <div class="postText ff-openSans u-font17 u-lineHeight16 u-marginTop20">
-                                <p>{!! $art->description !!}</p>
+                        </div>
+                        <footer class="categoryPost__footer clear u-paddingTop15 n-magrinBottom6">
+                            <div class="read-more pull-left">
+                                <a class="u-font17 u-relative u-fontWeight600" href="article/{{$art->article_id}}">Read More</a>
                             </div>
-
-                        </div>
-                    </div>
-                    <footer class="categoryPost__footer clear u-paddingTop15 n-magrinBottom6">
-                        <div class="read-more pull-left">
-                            <a class="u-font17 u-relative u-fontWeight600" href="article/{{$art->article_id}}">Read More</a>
-                        </div>
-                    </footer>
-                </article>
-            </div><!--// post item end-->
-        @endforeach
+                        </footer>
+                    </article>
+                </div><!--// post item end-->
+            @endforeach
+            @else
+            {{$msg}}
+            @endif
     </div><!--// post row end -->
 
 </div> <!--// recentPostContainer end-->

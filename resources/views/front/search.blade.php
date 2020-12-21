@@ -77,17 +77,14 @@
                                 <div class="col-sm-8 n-lg-marginLeft20">
                                     <div class="defPost__content">
                                         <ul class="defPost__category">
-                                            <li><a href="category-food.html">Food</a></li>
+                                            <li>{{date('M d, Y',strtotime($art->created_at))}}</li>
                                         </ul>
                                         <h4 class="  u-marginBottom5 u-marginTop20 u-fontWeightBold">
-                                            <a href="single-blog.html">{{$art->title}}</a>
+                                            <a href="article/{{$art->article_id}}">{{$art->title}}</a>
                                         </h4>
                                         <ul class="defPost__meta">
                                             <li class="author">
-                                                By: <a href="#"> Puffintheme</a>
-                                            </li>
-                                            <li class="post-date">
-                                                <time datetime="2014-10-10">Augost 25, 2018</time>
+                                                <a href="#"> Puffintheme</a>
                                             </li>
                                         </ul>
                                         <div class="postText u-marginTop15">

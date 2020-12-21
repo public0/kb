@@ -64,28 +64,11 @@
 @endsection
 @section('row-article')
 <div class="singlePostContainer">
-    <article class="singlePost styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom40 galleryPostFormat">
-
-        <header class="singlePost__postHeader">
-            <figure class="singlePost__postThumb galleryThumb owl-carousel">
-                <img data-transition='.3' data-hover-opacity="9" src="<?php echo URL::to('/'); ?>/thf/img/p5-770x390.jpg" alt="">
-                <img data-transition='.3' data-hover-opacity="9" src="<?php echo URL::to('/'); ?>/thf/img/p174-770x390.jpg" alt="">
-            </figure>
-            <div class="singlePost__date ff-Playfair u-absolute u-top20 u-left20 u-zIndex-p10 textWhite u-padding0x20">
-                <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                <time class="u-font17" datetime="2017-03-25">{{$article->created_at}}</time>
-            </div>
-        </header>
-
+    <article class="singlePost styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom40 u-paddingTop40 galleryPostFormat">
         <div class="singlePost__content">
-            <h3 class="  u-fontWeight600 u-marginBottom10 postTitle"><a class="textDark" href="#">{{$article->title}}</a></h3>
+            <h3 class="  u-fontWeight600 postTitle">{{$article->title}}</h3>
             <ul class="singlePost__author_category u-font17 u-xs-font14 u-fontWeight600">
-                <li class="singlePost__author u-inlineBlock"><a href="#">Mike Doe</a></li>
-                <li class="singlePost__category u-relative u-paddingLeft15 u-marginLeft10 u-inlineBlock">
-                    <ul class="ff-openSans  u-inlineBlock">
-                        <li class="u-inlineBlock"><a href="#">Life Style</a></li>
-                    </ul>
-                </li>
+                <li class="singlePost__author u-inlineBlock"><a href="#">Mike Doe</a> | {{date('M d, Y',strtotime($article->created_at))}}</li>
             </ul>
             <div class="postText u-paddingTop20">
                 {!! $article->body !!}
@@ -110,20 +93,15 @@
                     </figure>
                     <div class="defPost__date ff-Playfair textWhite">
                         <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                        <time class="u-font15" datetime="2017-03-25">{{$asc->created_at}}</time>
+                        <time class="u-font15" datetime="2017-03-25">{{date('M d, Y',strtotime($asc->created_at))}}</time>
                     </div>
                 </header>
                 <div class="defPost__content u-padding0x30">
                     <h5 class="  u-fontWeight600 u-marginTop25 u-marginBottom10">
-                        <a class="textDark" href="#">{{$asc->title}}</a>
+                        <a class="textDark" href="<?php echo URL::to('/'); ?>/article/{{$asc->article_id}}">{{$asc->title}}</a>
                     </h5>
                     <ul class="defPost__author_category u-font15">
                         <li class="defPost__author u-inlineBlock"><a href="#">Mike Doe</a></li>
-                        <li class="defPost__category u-relative u-paddingLeft10 u-marginLeft5 u-inlineBlock">
-                            <ul class="ff-openSans  u-inlineBlock">
-                                <li class="u-inlineBlock"><a href="#">Life Style</a></li>
-                            </ul>
-                        </li>
                     </ul>
                     <div class="postText u-paddingTop15 u-paddingBottom10">
                         <p>{{$asc->description}}</p>
