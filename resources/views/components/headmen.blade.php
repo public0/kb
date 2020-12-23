@@ -1,3 +1,24 @@
+@if(!empty($categ))
+
+        <!--ul class="dropdown">
+            @foreach($categ as $keyCatas => $categories)
+                @if(!empty($categories['name']))
+                    <li>
+                        <a href="<?php echo URL::to('/') ?>/caregory/{{$keyCatas}}">{{$categories['name']}}</a>
+                        @if(!empty($categories['child']))
+                            <ul class="submenu">
+                                @foreach($categories['child'] as $childrens)
+                                    <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+                @endif
+            @endforeach
+        </ul--!>
+
+@endif
+
 <nav class="mainNav">
     <div id="JS-headerFixed" class="topHeader__menu u-table u-table--FW gray-border-b">
         <div class="topHeader__container u-tableCell">
@@ -10,25 +31,28 @@
                                 <li class="logo"><a href="<?php echo URL::to('/'); ?>"><img src="<?php echo URL::to('/'); ?>/logofront.png" alt="Ringher" /></a></li>
                                 </li>
                                 @if(!empty($categ))
-                                <li class="menu-item-has-children"><a href="#">Category</a>
-                                    <ul class="dropdown">
-                                        @foreach($categ as $categories)
-                                            @if(!empty($categories['name']))
-                                        <li>
-                                            <a href="<?php echo URL::to('/') ?>/caregory/{{key($categories)}}">{{$categories['name']}}</a>
-                                            @if(!empty($categories['child']))
-                                                <ul class="dropdown">
-                                                    @foreach($categories['child'] as $childrens)
-                                                        <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
-                                                        @endforeach
-                                                </ul>
+                                    <li class="menu-item-has-children"><a href="#">Category</a>
+
+                                        <ul class="dropdown">
+                                            @foreach($categ as $keyCatas => $categories)
+                                                @if(!empty($categories['name']))
+                                                    <li>
+                                                        <a href="<?php echo URL::to('/') ?>/caregory/{{$keyCatas}}">{{$categories['name']}}</a>
+                                                        @if(!empty($categories['child']))
+                                                            <ul class="submenu">
+                                                                @foreach($categories['child'] as $childrens)
+                                                                    <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
                                                 @endif
-                                        </li>
-                                            @endif
                                             @endforeach
-                                    </ul>
-                                </li>
-                                    @endif
+                                        </ul>
+
+
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         <!-- End menu Navigation -->

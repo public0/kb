@@ -16,18 +16,23 @@ class Headmen extends Component
     public function __construct()
     {
         $arrayCategory = [];
+        $arrayPrimarykeys = [];
         $catego = Categories::where('Status', 1)->orderBy('Name')->get();
         if(!empty($catego)){
             foreach($catego as $ctg){
-                if($ctg['Parent_id'] == 0){
-                    $arrayCategory[$ctg['Id']] = Array('name'=>$ctg['Name']);
-                } else {
+                if($ctg['Parent_id'] == 0) {
+                    $arrayCategory[$ctg['Id']]['name'] = $ctg['Name'];
+                    $arrayPrimarykeys[] = $ctg['Id'];
+                }
+            }
+            foreach($catego as $ctg){
+                if($ctg['Parent_id'] != 0 && in_array($ctg['Parent_id'], $arrayPrimarykeys)){
                     $arrayCategory[$ctg['Parent_id']]['child'][] = ['id'=>$ctg['Id'],'name'=>$ctg['Name']];
                 }
             }
         }
         $this->categ = $arrayCategory;
-        //dd($arrayCategory);
+        //echo '<pre>' ;print_r($arrayCategory); die();
     }
 
     /**
