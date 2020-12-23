@@ -11,12 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class ArticleContriller extends Controller
+class ArticleController extends Controller
 {
     public function index(Request $request){
         $id = $request->id;
         $newArt = ArticleFactoryClass::getArticleList('new');
         $article = Article::where('article_id', $id)->get();
+        //dd($article);
         if(empty($article[0]->id)){
             return abort(404);
         }

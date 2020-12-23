@@ -7,7 +7,7 @@
                         <!-- Start menu Navigation -->
                         <div class="topHeader__nav hidden-sm hidden-xs">
                             <ul>
-                                <li class="active"><a href="<?php echo URL::to('/'); ?>">Home</a>
+                                <li class="active"><a href="<?php echo URL::to('/'); ?>">Homeee</a>
                                 </li>
                                 <li class="menu-item-has-children"><a href="#">Category</a>
                                     <ul class="dropdown">

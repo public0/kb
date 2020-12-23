@@ -7,13 +7,24 @@
                         <!-- Start menu Navigation -->
                         <div class="topHeader__nav hidden-sm hidden-xs">
                             <ul>
-                                <li class="active"><a href="<?php echo URL::to('/'); ?>">Home</a>
+                                <li class="logo"><a href="<?php echo URL::to('/'); ?>"><img src="<?php echo URL::to('/'); ?>/logofront.png" alt="Ringher" /></a></li>
                                 </li>
                                 @if(!empty($categ))
                                 <li class="menu-item-has-children"><a href="#">Category</a>
                                     <ul class="dropdown">
                                         @foreach($categ as $categories)
-                                        <li><a href="<?php echo URL::to('/') ?>/caregory/{{$categories->Categ_id}}">{{$categories->Name}}</a></li>
+                                            @if(!empty($categories['name']))
+                                        <li>
+                                            <a href="<?php echo URL::to('/') ?>/caregory/{{key($categories)}}">{{$categories['name']}}</a>
+                                            @if(!empty($categories['child']))
+                                                <ul class="dropdown">
+                                                    @foreach($categories['child'] as $childrens)
+                                                        <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
+                                                        @endforeach
+                                                </ul>
+                                                @endif
+                                        </li>
+                                            @endif
                                             @endforeach
                                     </ul>
                                 </li>

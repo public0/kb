@@ -15,7 +15,19 @@ class Headmen extends Component
     public $categ;
     public function __construct()
     {
-        $this->categ = Categories::where('Status', 1)->orderBy('Name')->get();
+        $arrayCategory = [];
+        $catego = Categories::where('Status', 1)->orderBy('Name')->get();
+        if(!empty($catego)){
+            foreach($catego as $ctg){
+                if($ctg['Parent_id'] == 0){
+                    $arrayCategory[$ctg['Id']] = Array('name'=>$ctg['Name']);
+                } else {
+                    $arrayCategory[$ctg['Parent_id']]['child'][] = ['id'=>$ctg['Id'],'name'=>$ctg['Name']];
+                }
+            }
+        }
+        $this->categ = $arrayCategory;
+        //dd($arrayCategory);
     }
 
     /**

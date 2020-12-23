@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="<?php echo URL::to('/'); ?>/thf/vendor/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="<?php echo URL::to('/'); ?>/thf/vendor/ionicons/css/ionicons.css">
     <link rel="stylesheet" href="<?php echo URL::to('/'); ?>/thf/css/escritor.min.css">
+    <link rel="stylesheet" href="<?php echo URL::to('/'); ?>/main.css">
     <!-- endinject -->
 
 

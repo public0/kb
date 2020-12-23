@@ -1,0 +1,2 @@
+.logo img {height:40px;}
+.topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li.logo a::before {background-color: #fff;}
