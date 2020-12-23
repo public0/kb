@@ -14,8 +14,9 @@ class CategoryController extends Controller
     public function index(Request $request){
         $id = $request->id;
         if(!empty($id)){
-            $categ = Categories::where('Categ_id', $id)->first();
-            $catId = $categ->Id;
+            /*$categ = Categories::where('Categ_id', $id)->first();
+            $catId = $categ->Id;*/
+            $catId = $id;
 
             $newArt = ArticleFactoryClass::getArticleList('new');
             $article = Article::where(['categoty'=> $catId, 'status'=> 1])->get();
