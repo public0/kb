@@ -4,7 +4,7 @@
 
     <!-- post row -->
     <div class="row">
-        @if(!empty($article))
+        @if(!empty($article) && count($article)>0)
             @foreach($article as $art)
             <!-- post item -->
                 <div class="col-sm-12 col-md-6 u-flex categoryPostBlock" style="margin-bottom: 40px;">

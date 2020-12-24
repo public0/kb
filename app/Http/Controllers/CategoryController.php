@@ -24,7 +24,7 @@ class CategoryController extends Controller
                 $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!'];
                 return view('front/row-article', $data);
             }
-            $data = ['article'=>$article, 'new'=>$newArt];
+            $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!'];
             return view('front/row-article', $data);
         } else {
 
