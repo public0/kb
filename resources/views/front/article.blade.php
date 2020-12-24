@@ -5,7 +5,7 @@
         <div class="singlePost__content">
             <h3 class="  u-fontWeight600 postTitle">{{$article->title}}</h3>
             <ul class="singlePost__author_category u-font17 u-xs-font14 u-fontWeight600">
-                <li class="singlePost__author u-inlineBlock"><a href="#">Mike Doe</a> | {{date('M d, Y',strtotime($article->created_at))}}</li>
+                <li class="singlePost__author u-inlineBlock">{{date('M d, Y',strtotime($article->created_at))}}</li>
             </ul>
             <div class="postText u-paddingTop20">
                 {!! $article->body !!}
@@ -24,21 +24,12 @@
         @foreach($assoc as $asc)
         <div class="col-sm-6 u-flex u-xs-marginBottom30">
             <article class="defPost u-noOverFolow defPost defPost--oneHalf u-flex u-flex--contentSpace u-flex--dir_col u-heightBlock styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom30">
-                <header class="defPost__postHeader">
-                    <figure class="defPost__postThumb imageZoom__parent">
-                        <a href="#"><img class="imageZoom__el" src="img/p26-370x220.jpg" alt=""></a>
-                    </figure>
-                    <div class="defPost__date ff-Playfair textWhite">
-                        <span class="timeIcon u-marginRight5"><i class="ion-android-time"></i></span>
-                        <time class="u-font15" datetime="2017-03-25">{{date('M d, Y',strtotime($asc->created_at))}}</time>
-                    </div>
-                </header>
                 <div class="defPost__content u-padding0x30">
                     <h5 class="  u-fontWeight600 u-marginTop25 u-marginBottom10">
                         <a class="textDark" href="<?php echo URL::to('/'); ?>/article/{{$asc->article_id}}">{{$asc->title}}</a>
                     </h5>
                     <ul class="defPost__author_category u-font15">
-                        <li class="defPost__author u-inlineBlock"><a href="#">Mike Doe</a></li>
+                        <li class="defPost__author u-inlineBlock">{{date('M d, Y',strtotime($asc->created_at))}}</li>
                     </ul>
                     <div class="postText u-paddingTop15 u-paddingBottom10">
                         <p>{{$asc->description}}</p>
@@ -109,7 +100,7 @@
                         </div>
                         <div class="comment-metadata">
                             <h4 class="author-name"><a href="#">{{$com->Name}}</a></h4>
-                            <time datetime="2018-02-14 20:00">{{$com->created_at}}</time>
+                            <time datetime="2018-02-14 20:00">{{date('M d, Y',strtotime($com->created_at))}}</time>
                         </div>
                     </div>
                     <div class="comment-content">

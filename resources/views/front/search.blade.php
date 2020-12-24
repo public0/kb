@@ -76,15 +76,12 @@
                             <div class="row">
                                 <div class="col-sm-8 n-lg-marginLeft20">
                                     <div class="defPost__content">
-                                        <ul class="defPost__category">
-                                            <li>{{date('M d, Y',strtotime($art->created_at))}}</li>
-                                        </ul>
                                         <h4 class="  u-marginBottom5 u-marginTop20 u-fontWeightBold">
                                             <a href="article/{{$art->article_id}}">{{$art->title}}</a>
                                         </h4>
                                         <ul class="defPost__meta">
                                             <li class="author">
-                                                <a href="#"> Puffintheme</a>
+                                                {{date('M d, Y',strtotime($art->created_at))}}
                                             </li>
                                         </ul>
                                         <div class="postText u-marginTop15">

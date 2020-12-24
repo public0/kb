@@ -15,7 +15,7 @@
                                     <a class="textDark" href="article/{{$art->article_id}}">{{substr($art->title,0,35)}}...</a>
                                 </h3>
                                 <ul class="categoryPost__author_category u-font15">
-                                    <li class="categoryPost__author"><a href="author-profile.html">Puffinthemes</a>| {{date('M d, Y',strtotime($art->created_at))}}</li>
+                                    <li class="categoryPost__author">{{date('M d, Y',strtotime($art->created_at))}}</li>
                                 </ul>
                                 <div class="postText ff-openSans u-font17 u-lineHeight16 u-marginTop20">
                                     <p>{{substr($art->description,0,100)}}...</p>

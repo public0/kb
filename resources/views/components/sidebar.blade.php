@@ -27,7 +27,6 @@
                                 <h3 class="  u-font17"><a class="textDark" href="<?php echo URL::to('/'); ?>/article/{{$nw->article_id}}">{{$nw->title}}</a></h3>
                                 <ul class="recentEventWidget__date_vanue">
                                     <li class="recentEventWidget__date"><a href="<?php echo URL::to('/'); ?>/article/{{$nw->article_id}}">{{date('M d, Y',strtotime($nw->created_at))}}</a></li>
-                                    <li class="recentEventWidget__vanue u-relative"><a href="#">NYC</a></li>
                                 </ul>
                             </div>
                         </li>

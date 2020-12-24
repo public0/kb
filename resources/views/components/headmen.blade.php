@@ -70,13 +70,13 @@
                         <div class="topHeader__action">
                             <ul class="pull-right">
 
-                                <!-- header search btn-->
+
                                 <li class="JS-searchTrigger topHeader__searchTrigger">
                                     <span class="ion-ios-search-strong"></span>
                                 </li> <!--// header search btn end-->
 
-                                <!-- user dropdown -->
-                                <li class="dropdown__login isLogIn">
+
+                                {{--<li class="dropdown__login isLogIn">
                                     <span class="logInCtrl dropdown-toggle" data-toggle="dropdown"><img src="<?php echo URL::to('/'); ?>/thf/img/user.png" alt=""></span>
                                     <div class="dropdown-menu hasUserMenu">
                                         <div class="userMenu">
@@ -87,11 +87,11 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </li><!--// user dropdown end -->
+                                </li>--}}
 
                             </ul>
                         </div>
-                    </div> <!--// col end-->
+                    </div>
                 </div>
             </div>
         </div>
