@@ -12,9 +12,14 @@ class Article extends Model
     use Searchable;
     protected $table = 'article';
 
-    public function category()
+    /*public function category()
     {
         return $this->hasOne(Categories::class);
+    }*/
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class, 'categoty');
     }
 
     public function toSearchableArray()

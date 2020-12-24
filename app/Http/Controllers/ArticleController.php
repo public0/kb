@@ -15,9 +15,9 @@ class ArticleController extends Controller
 {
     public function index(Request $request){
         $id = $request->id;
-        $newArt = ArticleFactoryClass::getArticleList('new');
+        //$newArt = ArticleFactoryClass::getArticleList('new');
         $article = Article::where('article_id', $id)->get();
-        //dd($article);
+        //dd($article->categories->name);
         if(empty($article[0]->id)){
             return abort(404);
         }
@@ -61,7 +61,7 @@ class ArticleController extends Controller
 
 
         $assocArt = ArticleFactoryClass::getArticleList('asoc',['id'=>$article[0]->id]);
-        $data = ['article'=>$article[0], 'new'=>$newArt, 'assoc'=>$assocArt, 'comments'=>$comments];
+        $data = ['article'=>$article[0], 'assoc'=>$assocArt, 'comments'=>$comments];
         return view('front/article', $data);
     }
 }

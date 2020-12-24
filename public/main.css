@@ -3,3 +3,8 @@
 .submenu { margin-left: 50px; }
 .topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li ul.dropdown li { height: auto; }
 .topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li ul.dropdown { width: auto; }
+.categoryPost.noPostThumb .categoryPost__content .categoryPost__title {font-size: 22px;}
+.featuredPostArea .gridWrapper .gridSmall article h5, .h6, h6, p {font-size: 14px;}
+.h3, h3 {font-size: 24px;}
+.h4, h4 {font-size: 22px;}
+ul.dropdown ul.submenu {display: none;}

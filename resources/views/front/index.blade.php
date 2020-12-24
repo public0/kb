@@ -45,8 +45,7 @@
                     @section('row-article')
                     @show
                     </div> <!--// col-8 end -->
-                    @section('side')
-                    @show
+                    <x-sidebar/>
                     <!--yield('side', View::make('front/side'))-->
                 </div>
             </div><!--//section body end -->
@@ -69,6 +68,7 @@
 <script src="<?php echo URL::to('/'); ?>/thf/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 <script src="<?php echo URL::to('/'); ?>/thf/vendor/nicescroll-master/jquery.nicescroll.min.js"></script>
 <script src="<?php echo URL::to('/'); ?>/thf/js/escritor.js"></script>
+<script src="<?php echo URL::to('/'); ?>/script.js"></script>
 <!-- endinject -->
 </body>
 </html>

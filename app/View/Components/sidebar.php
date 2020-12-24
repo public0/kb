@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\MyClasses\ArticleFactoryClass;
 use Illuminate\View\Component;
 
 class sidebar extends Component
@@ -11,9 +12,11 @@ class sidebar extends Component
      *
      * @return void
      */
+    public $new, $last;
     public function __construct()
     {
-        //
+        $this->last = null;
+        $this->new = ArticleFactoryClass::getArticleList('new');
     }
 
     /**
