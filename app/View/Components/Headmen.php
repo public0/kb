@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Models\Categories;
+use Illuminate\Support\Facades\DB;
 
 class Headmen extends Component
 {
@@ -13,6 +14,7 @@ class Headmen extends Component
      * @return void
      */
     public $categ;
+    public $lang;
     public function __construct()
     {
         $arrayCategory = [];
@@ -32,6 +34,7 @@ class Headmen extends Component
             }
         }
         $this->categ = $arrayCategory;
+        $this->lang = DB::table('language')->get();
         //echo '<pre>' ;print_r($arrayCategory); die();
     }
 

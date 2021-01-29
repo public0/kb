@@ -75,8 +75,17 @@
                                     <span class="ion-ios-search-strong"></span>
                                 </li> <!--// header search btn end-->
 
+                                @if(!empty($lang))
+                                <li>
+                                    <select onclick="changeLang(this)">
+                                        <option>RO</option>
+                                        <option>ENG</option>
+                                    </select>
+                                </li>
+                                @endif
 
-                                {{--<li class="dropdown__login isLogIn">
+
+                                <li class="dropdown__login isLogIn">
                                     <span class="logInCtrl dropdown-toggle" data-toggle="dropdown"><img src="<?php echo URL::to('/'); ?>/thf/img/user.png" alt=""></span>
                                     <div class="dropdown-menu hasUserMenu">
                                         <div class="userMenu">
@@ -87,7 +96,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </li>--}}
+                                </li>
 
                             </ul>
                         </div>

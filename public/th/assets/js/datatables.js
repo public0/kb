@@ -11,8 +11,8 @@ $(function(e) {
 		}
 	});
 	table.buttons().container()
-	.appendTo( '#example_wrapper .col-md-6:eq(0)' );		
-	
+	.appendTo( '#example_wrapper .col-md-6:eq(0)' );
+
 	$('#example1').DataTable({
 		language: {
 			searchPlaceholder: 'Search...',
@@ -22,7 +22,8 @@ $(function(e) {
 	});
 	$('#example2').DataTable({
 		responsive: true,
-		language: {
+        sort: false,
+        language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',
 			lengthMenu: '_MENU_',
@@ -35,7 +36,7 @@ $(function(e) {
 			sSearch: '',
 			lengthMenu: '_MENU_',
 		}
-	}); 
+	});
     $('#example-delete tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -45,11 +46,11 @@ $(function(e) {
             $(this).addClass('selected');
         }
     } );
- 
+
     $('#button').click( function () {
         table.row('.selected').remove().draw( false );
     } );
-	
+
 	//Details display datatable
 	$('#example-1').DataTable( {
 		responsive: true,

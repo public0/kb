@@ -21,19 +21,39 @@ Route::any('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index']);
 
 Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
-Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);
-Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashBoardController::class, 'index']);
-Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
-Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
-Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
+//Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);
 
-Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
-Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
-Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+Route::middleware(['verified'])->group(function () {
+    Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index']);
+    Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
+    Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
+    Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
+    Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
+    Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
+    Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+
+    Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
+    Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
+    Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
+
+    Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
+    Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);
+    Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
+    Route::any('/admin/article/view/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'view']);
+    Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
+    Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
+});
+
+
+
 Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
 
 Route::post('/search', [App\Http\Controllers\SearchContriller::class, 'index']);
 Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'index']);
+Route::get('/log', function () {
+    return view('auth.login');
+})->name('verification.notice');
+//Route::get('/email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 
 
 /*Route::get('/search', function () {

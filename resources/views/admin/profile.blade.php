@@ -9,11 +9,10 @@
             <!--Page header-->
             <div class="page-header">
                 <div class="page-leftheader">
-                    <h4 class="page-title mb-0">Groups</h4>
+                    <h4 class="page-title mb-0">Profile</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo URL::to('/'); ?>/admin"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/groups">Groups</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Add</li>
+                        <li class="breadcrumb-item" aria-current="page">Profile</li>
                     </ol>
                 </div>
             </div>
@@ -33,33 +32,36 @@
                     <!--div-->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Users Add</h3>
+                            <h3 class="card-title">Change Password</h3>
                         </div>
-                        <div class="card-body pb-2 ">
-                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/groups/add">
+                        <div class="card-body pb-2">
+                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/profile">
                                 @csrf
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input class="form-control" placeholder="Name" name="name" required="required" type="text" value="{{old('name')}}">
+                                            <input name="Password" class="form-control" placeholder="Password" required="required"  type="password" value="">
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Status</label>
-                                            <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="1" @if(old('status') == 1 && $errors->any()) selected="selected" @endif>Active</option>
-                                                <option value="0" @if(old('status') == 0 && $errors->any()) selected="selected" @endif>Inactive</option>
-                                            </select>
+                                            <input name="RetypePassword" class="form-control" placeholder="Retype Password" required="required"  type="password" value="">
                                         </div>
                                         <input type="submit" class="btn btn-info" value="Submit" />
                                     </div>
                                 </div>
+                                <div class="mt-4 mb-0 text-dark">
+                                    * The password must be at least 10 characters and contain at least one uppercase character and one number.
+                                </div>
                             </form>
                         </div>
                     </div>
+
                     <!--/div-->
                 </div>
             </div>
             <!-- End Row-1 -->
+
+
+
         </div>
     </div>
 @endsection
