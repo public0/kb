@@ -16,4 +16,14 @@ class UtileClass{
         }
         return $gen;
     }
+
+    static function getLang(){
+        $lang = '';
+        if(!empty($_COOKIE['lang'])){
+            $lang = $_COOKIE['lang'];
+        } else {
+            $lang = 'RO';
+        }
+        return $lang;
+    }
 }

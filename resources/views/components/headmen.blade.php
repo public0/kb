@@ -77,9 +77,10 @@
 
                                 @if(!empty($lang))
                                 <li>
-                                    <select onclick="changeLang(this)">
-                                        <option>RO</option>
-                                        <option>ENG</option>
+                                    <select class="langselector" onchange="changeLang(this)">
+                                        @foreach($lang as $lng)
+                                            <option @if($selLg == $lng->abv) selected="selected" @endif>{{$lng->abv}}</option>
+                                        @endforeach
                                     </select>
                                 </li>
                                 @endif
