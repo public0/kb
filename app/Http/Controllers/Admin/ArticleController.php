@@ -232,4 +232,8 @@ class ArticleController extends Controller
         return view('admin/art-category-edit', $data);
     }
 
+    public function uploadImg(){
+
+    }
+
 }

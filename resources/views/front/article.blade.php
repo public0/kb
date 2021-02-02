@@ -52,22 +52,22 @@
     <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
 @endif
 <div class="postResponse u-whiteBg u-shadow-0x0x5--05">
-    <h4 class="u-margin0 text-center">Leave a Response</h4>
+    <h4 class="u-margin0 text-center">{{__('labels.leave_a_comment')}}</h4>
     <div class="responseTab u-marginTop50">
 
         <div class="full__Wrap">
             <form  method="post" action="<?php echo URL::current(); ?>">
                 @csrf
                 <div class="form__row">
-                    <textarea @error('msg') style="border-color: red;" @enderror name="msg" placeholder="Write your comment on the article...">{{ old('msg') }}</textarea>
+                    <textarea @error('msg') style="border-color: red;" @enderror name="msg" placeholder="{{__('labels.write_a_comment')}}">{{ old('msg') }}</textarea>
                 </div>
                 <div class="form__row">
                     <div class="row">
                         <div class="col-sm-6">
-                            <input class="input firstChild"  @error('name') style="border-color: red;" @enderror name="name" type="text" placeholder="Your name (Required)" value="{{ old('name') }}">
+                            <input class="input firstChild"  @error('name') style="border-color: red;" @enderror name="name" type="text" placeholder="{{__('labels.your_name_required')}}" value="{{ old('name') }}">
                         </div>
                         <div class="col-sm-6">
-                            <input class="input" type="email" name="email" @error('email') style="border-color: red;" @enderror placeholder="Your email address (Required)" value="{{ old('email') }}">
+                            <input class="input" type="email" name="email" @error('email') style="border-color: red;" @enderror placeholder="{{__('labels.your_email_required')}}" value="{{ old('email') }}">
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <!--input type="submit" value="Post Comment"/-->
-                            <button type="submit">Post Comment</button>
+                            <button type="submit">{{__('labels.post_comment')}}</button>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
 @if(!empty($comments))
 <div class="commentsArea u-shadow-0x0x5--05 u-whiteBg u-marginTop50">
     <div class="comments__Wrapper">
-        <h4 class="comments__Title text-center u-margin0"><?php echo count($comments); ?> Comments</h4>
+        <h4 class="comments__Title text-center u-margin0"><?php echo count($comments); ?> {{__('labels.comments')}}</h4>
         <ol class="comment-list u-marginTop50">
             @foreach($comments as $com)
             <li class="comment parent">

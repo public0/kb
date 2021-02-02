@@ -2,6 +2,7 @@
 namespace App\MyClasses;
 use App\Models\Article;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
 class UtileClass{
     static function generateId($table,$id_fild){
@@ -24,6 +25,7 @@ class UtileClass{
         } else {
             $lang = 'RO';
         }
+        App::setLocale($lang);
         return $lang;
     }
 }

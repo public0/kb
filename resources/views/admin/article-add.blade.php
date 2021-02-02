@@ -9,7 +9,7 @@
             images_dataimg_filter: function(img) {
                 return img.hasAttribute('internal-blob');
             },
-            images_upload_url: site_url+'admin/articles/uploadimage',
+            images_upload_url: site_url+'img',
             relative_urls : false,
             remove_script_host : false,
             convert_urls : true,

@@ -35,6 +35,7 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
     Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
+    Route::any('/admin/uploadimg', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImg']);
 
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
     Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);

@@ -31,7 +31,7 @@
                                 <li class="logo"><a href="<?php echo URL::to('/'); ?>"><img src="<?php echo URL::to('/'); ?>/logofront.png" alt="Ringher" /></a></li>
                                 </li>
                                 @if(!empty($categ))
-                                    <li class="menu-item-has-children"><a href="#">Category</a>
+                                    <li class="menu-item-has-children"><a href="#">{{__('labels.category')}}</a>
 
                                         <ul class="dropdown">
                                             @foreach($categ as $keyCatas => $categories)

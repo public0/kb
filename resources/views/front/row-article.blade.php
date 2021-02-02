@@ -25,7 +25,7 @@
                         </div>
                         <footer class="categoryPost__footer clear u-paddingTop15 n-magrinBottom6">
                             <div class="read-more pull-left">
-                                <a class="u-font17 u-relative u-fontWeight600" href="article/{{$art->article_id}}">Read More</a>
+                                <a class="u-font17 u-relative u-fontWeight600" href="article/{{$art->article_id}}">{{__('labels.read_more')}}</a>
                             </div>
                         </footer>
                     </article>
