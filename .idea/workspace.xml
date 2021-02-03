@@ -20,17 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94a8ca21-762f-43a1-ad2d-ceb72c193163" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/MyClasses/UtileClass.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/MyClasses/UtileClass.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/article-add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/article-add.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/article-edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/article-edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/headmen.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/headmen.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/article.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/search.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/search.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +210,8 @@
       <workItem from="1608191415645" duration="72928000" />
       <workItem from="1610523998943" duration="14857000" />
       <workItem from="1610605059915" duration="10526000" />
-      <workItem from="1610697336772" duration="86922000" />
+      <workItem from="1610697336772" duration="87897000" />
+      <workItem from="1612275753286" duration="8305000" />
     </task>
     <servers />
   </component>
