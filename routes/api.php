@@ -25,3 +25,20 @@ Route::get('articles', function() {
 Route::get('articles/{id}', function($id) {
     return Article::find($id);
 });
+
+/*Route::get('/article/{api_token}/{id}', function (Request $request) {
+    return response()->json([
+        'name' => $request->id,
+    ]);
+})->middleware('api_token');
+
+Route::get('/relevant-article/{api_token}/', function (Request $request) {
+    return response()->json([
+        'name' => $request->id,
+    ]);
+})->middleware('api_token');*/
+
+Route::get('/article/{api_token}/{id}', [App\Http\Controllers\API\ServiceController::class, 'getArticle'])->middleware('api_token');
+
+Route::any('/relevant-article/{api_token}/', [App\Http\Controllers\API\ServiceController::class, 'searchArticle'])->middleware('api_token');
+

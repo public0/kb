@@ -4,13 +4,43 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
+use ScoutElastic\Searchable;
 
 class Article extends Model
 {
     use HasFactory;
     use Searchable;
     protected $table = 'article';
+
+    protected $indexConfigurator = ArticleIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text',
+            ],
+            'description' => [
+                'type' => 'text',
+            ],
+            'body' => [
+                'type' => 'text',
+            ],
+            'status' => [
+                'type' => 'text',
+            ],
+            'lang' => [
+                'type' => 'text',
+            ],
+            'categoty' => [
+                'type' => 'text',
+            ],
+        ]
+    ];
 
     /*public function category()
     {
@@ -28,8 +58,9 @@ class Article extends Model
             'title' => $this->title,
             'description' => $this->description,
             'body' => $this->body,
-            'id' => $this->id,
+            'status' => $this->status,
             'lang' => $this->lang,
+            'categoty' => $this->categoty,
         ];
     }
 }

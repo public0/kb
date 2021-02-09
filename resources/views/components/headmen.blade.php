@@ -91,9 +91,7 @@
                                     <div class="dropdown-menu hasUserMenu">
                                         <div class="userMenu">
                                             <ul>
-                                                <li><a href="#">Dashboard</a></li>
-                                                <li><a href="#">Profile Edite</a></li>
-                                                <li><a href="#">Sign out</a></li>
+                                                <li><a href="<?php echo URL::to('/'); ?>/auth">Sign in</a></li>
                                             </ul>
                                         </div>
                                     </div>

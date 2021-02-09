@@ -54,6 +54,11 @@ Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'i
 Route::get('/log', function () {
     return view('auth.login');
 })->name('verification.notice');
+Route::get('/auth', function () {
+    return view('frontauth.login');
+});
+
+
 //Route::get('/email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 
 
