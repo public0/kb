@@ -25,12 +25,14 @@ class AdminSidebar extends Component
      */
     public function render()
     {
-        $data = [];
-        $data['articles'] = DB::table('article')->count();
-        $data['users'] = DB::table('users')->count();
-        $data['users_groups'] = DB::table('user_groups')->count();
-        $data['newsletter'] = DB::table('Newsletter')->count();
-        $data['current_user_name'] = Auth::user()->full_name;
+        $data = [
+            'users' => DB::table('users')->count(),
+            'users_groups' => DB::table('user_groups')->count(),
+            'articles' => DB::table('article')->count(),
+            'categories' => DB::table('categories')->count(),
+            'subscribers' => DB::table('newsletter')->count(),
+            'current_user_name' => Auth::user()->full_name
+        ];
 
         return view('components.admin-sidebar', $data);
     }
