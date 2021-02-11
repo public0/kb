@@ -3,41 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Models\Article;
 use App\Models\Newsletter;
-use App\MyClasses\ArticleFactoryClass;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
 {
-    public function index(Request $request){
-        if(!empty($_POST)){
+    public function index(Request $request)
+    {
+        if (!empty($_POST)) {
             $validator = Validator::make($request->post(), [
-                'Email' => 'required|unique:Newsletter|email|max:100',
+                'email' => 'required|unique:Newsletter|email|max:255',
             ]);
 
             if ($validator->fails()) {
-
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             } else {
+                $newsletter = new Newsletter();
+                $newsletter->email = $request->post('email');
+                $newsletter->status = 1;
+                $newsletter->save();
 
-                $coment = new Newsletter();
-                $coment->Email = $request->post('Email');
-                $coment->Status = 1;
-                $coment->save();
-                return Redirect::back()->with('msg','Operation Successful !');
-
+                return redirect()->back()
+                    ->with('msg', 'Multumim pentru ca te-ai abonat la newsletterul nostru!');
             }
         }
-
     }
 }
-
-
-
-

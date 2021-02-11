@@ -48,6 +48,8 @@
 
     <!-- Color Skin css -->
     <link id="theme" href="<?php echo URL::to('/'); ?>/th/assets/colors/color1.css" rel="stylesheet" type="text/css"/>
+    <!-- Custom -->
+    <link id="theme" href="<?php echo URL::to('/'); ?>/admin.css" rel="stylesheet" type="text/css"/>
 
     <script src="https://cdn.tiny.cloud/1/9n1b0elpd20obpyx38wu9ffiokuiqd1ldwot2t8g0pl0lys9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 

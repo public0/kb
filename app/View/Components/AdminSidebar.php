@@ -30,7 +30,8 @@ class AdminSidebar extends Component
         $data['users'] = DB::table('users')->count();
         $data['users_groups'] = DB::table('user_groups')->count();
         $data['newsletter'] = DB::table('Newsletter')->count();
-        $data['current_user_name'] = Auth::user()->name;
+        $data['current_user_name'] = Auth::user()->full_name;
+
         return view('components.admin-sidebar', $data);
     }
 }

@@ -26,14 +26,14 @@
                 </div>
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-												<span>
-													<img src="<?php echo URL::to('/'); ?>/th/assets/images/users/2.jpg" alt="img" class="avatar avatar-md brround">
-												</span>
+                        <span>
+                            <img src="<?php echo URL::to('/'); ?>/th/assets/images/users/2.jpg" alt="img" class="avatar avatar-md brround">
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
                         <div class="text-center">
-                            <a href="#" class="dropdown-item text-center user pb-0 font-weight-bold">Jessica</a>
-                            <span class="text-center user-semi-title">Web Designer</span>
+                            <a href="#" class="dropdown-item text-center user pb-0 font-weight-bold">{{$current_user_name}}</a>
+                            <span class="text-center user-semi-title">{{$current_user_email}}</span>
                             <div class="dropdown-divider"></div>
                         </div>
                         <a class="dropdown-item d-flex" href="<?php echo URL::to('/'); ?>/admin/profile">

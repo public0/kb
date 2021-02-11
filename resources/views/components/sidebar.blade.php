@@ -7,10 +7,13 @@
                 @if(Session::has('msg'))
                     <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('msg') }}</div>
                 @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}<br> @endforeach</div>
+                @endif
                 <p>{{__('labels.newslwtter_not_publish')}}</p>
-                <form action="<?php echo URL::to('/'); ?>/newsletter" method="post" class="newsLetterWidget__form">
+                <form action="<?php echo URL::to('/newsletter'); ?>" method="post" class="newsLetterWidget__form">
                     @csrf
-                    <input type="email" @error('Email') style="border-color: red;" @enderror name="Email" class="emailHunter u-borderRadius4" placeholder="{{__('labels.newslwtter_email_here')}}" value="{{ old('Email') }}">
+                    <input type="email" @error('email')style="border-color: red;"@enderror name="email" class="emailHunter u-borderRadius4" placeholder="{{__('labels.newslwtter_email_here')}}" value="{{ old('email') }}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
                     <input type="submit" class="btnWidget u-borderRadius4" value="{{__('labels.subscribe')}}">
                 </form>
             </div>

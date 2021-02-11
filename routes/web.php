@@ -42,6 +42,8 @@ Route::middleware(['verified'])->group(function () {
     Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
     Route::any('/admin/article/view/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'view']);
     Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
+    Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
+    Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
     Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
 });
 
