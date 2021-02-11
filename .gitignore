@@ -9,6 +9,7 @@
 .env
 .env.backup
 .phpunit.result.cache
+composer.phar
 composer.lock
 package-lock.json
 Homestead.json
