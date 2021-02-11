@@ -21,9 +21,9 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (request()->is('admin/*')) {
+        /*if (request()->is('admin/*')) {
             config(['fortify.guard' => 'admin']);
-        }
+        }*/
     }
 
     /**

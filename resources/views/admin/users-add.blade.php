@@ -60,7 +60,7 @@
                                         </div>
                                         @if(!empty($groups))
                                         <div class="form-group">
-                                            <label class="form-label">Group</label>
+                                            <label class="form-label">Groups</label>
                                             <select name="groups[]" id="select-countries" class="form-control custom-select select2" multiple="multiple">
                                                 @foreach($groups as $gr)
                                                     <option value="{{$gr->id}}" @if(!empty(old('groups')) && in_array($gr->id, old('groups'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->name}}</option>

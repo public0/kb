@@ -1,6 +1,6 @@
-@extends('admin.index-login')
+@extends('front.index')
 
-@section('content')
+@section('row-article')
 <div class="container" style="padding-top: 50px; ">
     <div class="row justify-content-center">
         <div class="col-md-8">

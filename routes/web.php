@@ -18,6 +18,9 @@ use App\Models\Article;
     return view('welcome');
 });*/
 Route::any('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/tohome', function () {
+    die('here');
+});
 Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index']);
 
 Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
@@ -31,6 +34,7 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
     Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
     Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+    Route::get('/admin/groups/rights', [App\Http\Controllers\Admin\UsersController::class, 'rights']);
 
     Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
@@ -41,6 +45,7 @@ Route::middleware(['verified'])->group(function () {
     Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);
     Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
     Route::any('/admin/article/view/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'view']);
+    Route::any('/admin/article/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'delete']);
     Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
     Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
@@ -56,9 +61,15 @@ Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'i
 Route::get('/log', function () {
     return view('auth.login');
 })->name('verification.notice');
-Route::get('/auth', function () {
-    return view('frontauth.login');
-});
+
+Route::get('/reset-password', function () {
+    return view('frontauth.passwords.email');
+})->name('front.resetpassword');
+
+
+Route::any('/auth', [App\Http\Controllers\AuthController::class, 'authenticate']);
+Route::any('/auth-out', [App\Http\Controllers\AuthController::class, 'logout']);
+
 
 
 //Route::get('/email/verify', 'Auth\VerificationController@show')->name('verification.notice');

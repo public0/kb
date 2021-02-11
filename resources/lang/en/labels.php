@@ -2,8 +2,8 @@
 
 return [
     'read_more'=>'Read more..',
-    'newslwtter_not_publish'=>'Your email address will not be this published.',
-    'last_articals'=>'Last Articles',
+    'newslwtter_not_publish'=>'Your email address will not be published.',
+    'last_articals'=>'Latest Articles',
     'newslwtter_email_here'=>'Your Mail Here',
     'subscribe'=>'Subcribe',
     'last_read_articals'=>'Last Read Articles',
@@ -16,6 +16,8 @@ return [
     'comments'=>'Comments',
     'no_results'=>'No results found!',
     'continue_reading'=>'Continue Reading..',
-    'no_subscribers_list' => 'No subscribers yet!',
-    'delete' => 'Delete'
+    'no_subscribers_list'=>'No subscribers yet!',
+    'delete'=>'Delete',
+    'email'=>'Email',
+    'password'=>'Password',
 ];

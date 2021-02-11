@@ -46,13 +46,13 @@
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input name="name" class="form-control  mb-4" placeholder="First Name" required="required"  type="text" value="@if(!empty(old('name'))) {{old('name')}} @else {{ $users->name }} @endif">
+                                            <input name="name" class="form-control  mb-4" placeholder="First Name" required="required"  type="text" value="@if(!empty(old('name'))) {{old('name')}} @else {{$users->name}} @endif">
                                         </div>
                                         <div class="form-group">
-                                            <input name="surname" class="form-control mb-4" placeholder="Last Name" required="required" type="text" value="@if(!empty(old('surname'))) {{old('surname')}} @else {{ $users->surname }} @endif">
+                                            <input name="surname" class="form-control mb-4" placeholder="Last Name" required="required" type="text" value="@if(!empty(old('surname'))) {{old('surname')}} @else {{$users->surname}} @endif">
                                         </div>
                                         <div class="form-group">
-                                            <input name="email" class="form-control  mb-4" placeholder="E-Mail" required="required"  type="text" value="@if(!empty(old('email'))) {{old('email')}} @else {{ $users->email }} @endif">
+                                            <input name="email" class="form-control  mb-4" placeholder="E-Mail" required="required"  type="text" value="@if(!empty(old('email'))) {{old('email')}} @else {{$users->email}} @endif">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
