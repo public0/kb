@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+		"editorconfig.editorconfig",
+		"zignd.html-css-class-completion",
+        "felixfbecker.php-debug",
+        "felixfbecker.php-intellisense",
+        "onecentlin.laravel-blade",
+        "ikappas.phpcs",
+        "eg2.vscode-npm-script",
+        "dbaeumer.vscode-eslint",
+        "wayou.vscode-todo-highlight"
+	]
+}

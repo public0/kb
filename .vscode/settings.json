@@ -1,0 +1,37 @@
+{
+    "search.exclude": {
+        "**/bootstrap/cache": true,
+        "**/public/vendor": true,
+        "**/storage": true,
+        "**/tests": true,
+        "**/vendor": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true
+    },
+    "files.associations": {
+        "web.config": "xml"
+    },
+    "todohighlight.isEnable": true,
+    "todohighlight.exclude": [
+        "**/bootstrap/cache/**",
+        "**/public/vendor/**",
+        "**/storage/**",
+        "**/tests/**",
+        "**/vendor/**",
+        "**/.vscode/**",
+        "**/*.example.*",
+        "**/*.min.*",
+        "**/*.map",
+        "**/*.lock",
+        "**/*.phar"
+    ],
+    // PHP CodeSniffer
+    "phpcs.enable": true,
+    "phpcs.executablePath": "vendor\\bin\\phpcs.bat",
+    "phpcs.standard": "PSR2"
+}
