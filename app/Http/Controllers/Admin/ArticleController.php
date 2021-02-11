@@ -227,13 +227,19 @@ class ArticleController extends Controller
 
     public function categoryEdit($id){
         $language = DB::table('language')->get();
-        $categ = Categories::all();
+        $categ = Categories::find($id);
         $data= ['language' => $language, 'categ'=>$categ];
         return view('admin/art-category-edit', $data);
     }
 
     public function uploadImg(){
 
+    }
+
+    public function delete(Request $request)
+    {
+        $id_article = $request->id;
+        dd($id_article);
     }
 
 }

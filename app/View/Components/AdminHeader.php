@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminHeader extends Component
 {
@@ -23,6 +24,8 @@ class AdminHeader extends Component
      */
     public function render()
     {
-        return view('components.admin-header');
+        $data = [];
+        $data['current_user_name'] = Auth::user()->name;
+        return view('components.admin-header', $data);
     }
 }

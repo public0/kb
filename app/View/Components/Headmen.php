@@ -6,6 +6,7 @@ use Illuminate\View\Component;
 use App\Models\Categories;
 use Illuminate\Support\Facades\DB;
 use App\MyClasses\UtileClass;
+use Illuminate\Support\Facades\Auth;
 
 class Headmen extends Component
 {
@@ -17,6 +18,7 @@ class Headmen extends Component
     public $categ;
     public $lang;
     public $selLg;
+    public $user;
     public function __construct()
     {
         $arrayCategory = [];
@@ -40,6 +42,12 @@ class Headmen extends Component
 
         $this->selLg = UtileClass::getLang();
         //echo '<pre>' ;print_r($this->lang); die();
+
+        if(Auth::check()) {
+            $this->user = Auth::user();
+        } else {
+            $this->user = null;
+        }
     }
 
     /**

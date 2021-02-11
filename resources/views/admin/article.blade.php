@@ -1,6 +1,17 @@
 @extends('admin/index')
 
 @section('content')
+    <script>
+        function confirmation() {
+            var txt;
+            var r = confirm("Confirm the deletion!");
+            if (r == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
     <div class="app-content main-content">
         <div class="side-app">
             <!--app header-->
@@ -55,6 +66,7 @@
                                         <td>
                                             <a href="<?php echo URL::to('/'); ?>/admin/article/edit/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
                                             <a href="<?php echo URL::to('/'); ?>/admin/article/view/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> View </a>
+                                            <a href="<?php echo URL::to('/'); ?>/admin/article/delete/{{ $art->article_id }}" class="btn btn-info" onclick="confirmation()"><i class="fe fe-book-open mr-1"></i> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -71,4 +83,5 @@
             <!-- End Row-1 -->
         </div>
     </div>
+
 @endsection

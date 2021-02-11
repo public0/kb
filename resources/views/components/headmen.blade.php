@@ -91,7 +91,11 @@
                                     <div class="dropdown-menu hasUserMenu">
                                         <div class="userMenu">
                                             <ul>
-                                                <li><a href="<?php echo URL::to('/'); ?>/auth">Sign in</a></li>
+                                                @if($user)
+                                                    <li><a href="<?php echo URL::to('/'); ?>/auth-out">Sign out</a></li>
+                                                @else
+                                                    <li><a href="<?php echo URL::to('/'); ?>/auth">Sign in</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>

@@ -40,10 +40,13 @@
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input name="Password" class="form-control" placeholder="Password" required="required"  type="password" value="">
+                                            <input name="CurrentPassword" class="form-control" placeholder="Current password" required="required"  type="password" value="">
                                         </div>
                                         <div class="form-group">
-                                            <input name="RetypePassword" class="form-control" placeholder="Retype Password" required="required"  type="password" value="">
+                                            <input name="Password" class="form-control" placeholder="New password" required="required"  type="password" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="RetypePassword" class="form-control" placeholder="Retype new password" required="required"  type="password" value="">
                                         </div>
                                         <input type="submit" class="btn btn-info" value="Submit" />
                                     </div>

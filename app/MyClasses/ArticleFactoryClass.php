@@ -25,7 +25,8 @@ class ArticleFactoryClass{
     }
 
     static private function getNewArticle($data){
-        $rows = DB::table('article')->where('status', '=', 1)->where('lang', $data['lang'])->orderBy('created_at', 'desc')->take(3)->get();
+        //$rows = DB::table('article')->where('status', '=', 1)->where('lang', $data['lang'])->orderBy('created_at', 'desc')->take(3)->get();
+        $rows = DB::select("select TOP 3 * from article WHERE status = 1 AND lang = ? order by CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END desc",[$data['lang']]);
         return $rows;
     }
 

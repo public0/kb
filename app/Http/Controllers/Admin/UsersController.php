@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
     public function index(){
-        $users = DB::table('users')->get();
+        $users = DB::table('users')->orderBy('id','desc')->get();
         for($i=0; $i<count($users); $i++){
             $groups = DB::table('x_groups_users')
                 ->join('user_groups', 'x_groups_users.group_id', '=', 'user_groups.id')
@@ -36,9 +36,9 @@ class UsersController extends Controller
         $data = ['groups' => $groups];
 
         if(!empty($_POST)){
-            $name = $_POST['name'];
-            $surname = $_POST['surname'];
-            $email = $_POST['email'];
+            $name = trim($_POST['name']);
+            $surname = trim($_POST['surname']);
+            $email = trim($_POST['email']);
             $status = $_POST['status'];
             //$password = $_POST['password'];
 
@@ -219,4 +219,13 @@ class UsersController extends Controller
     }
     return view('admin/user-groups-edit', $data);
 }
+
+    public function rights(){
+
+        $groups = UserGroups::all();
+        $data = ['groups' => $groups];
+        //echo '<pre>'; print_r($groups[0]->name); die();
+
+        return view('admin/groups-rights', $data);
+    }
 }
