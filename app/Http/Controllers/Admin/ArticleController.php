@@ -239,7 +239,25 @@ class ArticleController extends Controller
     public function delete(Request $request)
     {
         $id_article = $request->id;
-        dd($id_article);
+        try {
+            $art = Article::where('article_id', $id_article);
+            $art->delete();
+            return redirect()->back()->with('message', 'Operation Successful !');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function categoryDelete(Request $request)
+    {
+        $id = $request->id;
+        try {
+            $art = Categories::where('id', $id);
+            $art->delete();
+            return redirect()->back()->with('message', 'Operation Successful !');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 }

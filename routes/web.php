@@ -34,11 +34,13 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
     Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
     Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+    Route::any('/admin/groups/delete/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupDelete']);
     Route::get('/admin/groups/rights', [App\Http\Controllers\Admin\UsersController::class, 'rights']);
 
     Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
     Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
+    Route::any('/admin/category/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryDelete']);
     Route::any('/admin/uploadimg', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImg']);
 
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);

@@ -20,29 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94a8ca21-762f-43a1-ad2d-ceb72c193163" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProfileController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/MyClasses/ArticleFactoryClass.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/MyClasses/ArticleFactoryClass.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/FortifyServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/FortifyServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/View/Components/AdminHeader.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/View/Components/AdminHeader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/View/Components/Headmen.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/View/Components/Headmen.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/labels.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/labels.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ro/labels.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ro/labels.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/art-category-edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/art-category-edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/art-categories.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/art-categories.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/article-edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/article-edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/article.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/profile.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users-add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users-add.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users-edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users-edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/admin-header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/admin-header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/admin-sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/admin-sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/headmen.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/headmen.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/frontauth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/frontauth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/frontauth/passwords/email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/frontauth/passwords/email.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/frontauth/passwords/reset.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/frontauth/passwords/reset.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/user-groups.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/user-groups.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/row-article.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -204,15 +191,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\knowlege-base-new\app\Models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views\admin" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\app\Http\Controllers" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\lang\ro" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\public\img" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\knowlege-base-new\app\Models" />
     </key>
   </component>
   <component name="RunManager">
@@ -238,7 +225,9 @@
       <workItem from="1610523998943" duration="14857000" />
       <workItem from="1610605059915" duration="10526000" />
       <workItem from="1610697336772" duration="87897000" />
-      <workItem from="1612275753286" duration="87476000" />
+      <workItem from="1612275753286" duration="94785000" />
+      <workItem from="1613115401185" duration="4666000" />
+      <workItem from="1613376624717" duration="1272000" />
     </task>
     <servers />
   </component>
@@ -266,10 +255,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612470789357" />
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613019319950">
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613132861879">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613019319950" />
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613132861879" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1608184909534">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

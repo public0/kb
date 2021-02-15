@@ -111,7 +111,7 @@
                                                 <label class="form-label">Language</label>
                                                 <select name="lang" id="select-countries" class="form-control custom-select select2">
                                                     @foreach($language as $lng)
-                                                        <option value="{{$lng->abv}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
+                                                        <option value="{{$lng->abv}}" @if($lng->abv == $artical->lang) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

@@ -1,15 +1,37 @@
 .logo img {height:40px;}
 .topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li.logo a::before {background-color: #fff;}
-.submenu { margin-left: 50px; }
+ul.dropdown li{ position: relative;}
+.submenu { position: absolute; left: 260px; top: -60px; background-color: #fff; box-shadow: 0 4px 10px 0px rgba(0, 0, 0, .2);}
+
 .topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li ul.dropdown li { height: auto; }
 .topHeader .topHeader__menu .topHeader__container .topHeader__nav>ul>li ul.dropdown { width: auto; }
-.categoryPost.noPostThumb .categoryPost__content .categoryPost__title {font-size: 22px;}
-.featuredPostArea .gridWrapper .gridSmall article h5, .h6, h6, p {font-size: 14px;}
-.h3, h3 {font-size: 24px;}
-.h4, h4 {font-size: 22px;}
+.categoryPost.noPostThumb .categoryPost__content .categoryPost__title {font-size: 20px;}
+.featuredPostArea .gridWrapper .gridSmall article h5, .h6, h6, p {font-size: 16px;}
+.h3, h3 {font-size: 18px;}
+.h4, h4 {font-size: 16px;}
 ul.dropdown ul.submenu {display: none;}
 .row { margin-left: 0px; }
 .langselector {
     border: none;
     font-size: 18px;
+}
+article {
+    height: 100%; padding: 35px 30px;
+}
+
+article h3{
+    margin-top: 0px;
+}
+
+article a {
+    text-decoration: none;
+}
+
+
+article footer a {
+    font-size: 14px;
+}
+
+article .categoryPost__author_category {
+    font-size: 12px;
 }

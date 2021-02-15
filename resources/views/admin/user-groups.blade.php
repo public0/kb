@@ -24,7 +24,15 @@
                 </div>
             </div>
             <!--End Page header-->
-
+            @if(Session::has('message'))
+                <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+            @endif
             <!-- Row-1 -->
             <div class="row">
                 <div class="col-12">
@@ -54,6 +62,7 @@
                                         <td>@if($gr->status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
                                         <td>
                                             <a href="<?php echo URL::to('/'); ?>/admin/groups/edit/{{$gr->id}}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
+                                            <a href="<?php echo URL::to('/'); ?>/admin/groups/delete/{{$gr->id}}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach

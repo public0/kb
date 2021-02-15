@@ -190,35 +190,35 @@ class UsersController extends Controller
         $group = UserGroups::find($id);
         $data = ['group' => $group];
 
-    if(!empty($_POST)){
-        $name = trim($_POST['name']);
-        $status = $_POST['status'];
+        if(!empty($_POST)){
+            $name = trim($_POST['name']);
+            $status = $_POST['status'];
 
-        if($group->name == $name){
-            $validated = $request->validate([
-                'status' => 'required|integer|max:1',
-            ]);
-        } else {
-            $validated = $request->validate([
-                'name' => 'required|unique:user_groups|max:50',
-                'status' => 'required|integer|max:1',
-            ]);
+            if($group->name == $name){
+                $validated = $request->validate([
+                    'status' => 'required|integer|max:1',
+                ]);
+            } else {
+                $validated = $request->validate([
+                    'name' => 'required|unique:user_groups|max:50',
+                    'status' => 'required|integer|max:1',
+                ]);
+            }
+
+            try {
+                $group->name = $name;
+                $group->status = $status;
+                $group->save();
+            } catch (\Exception $e) {
+                //print_r($e->getMessage()); die();
+                return Redirect::back()->with('error','DB Error !');
+            }
+            return Redirect::back()->with('message','Operation Successful !');
+
+            //$data = ['date' => $_POST];
         }
-
-        try {
-            $group->name = $name;
-            $group->status = $status;
-            $group->save();
-        } catch (\Exception $e) {
-            //print_r($e->getMessage()); die();
-            return Redirect::back()->with('error','DB Error !');
-        }
-        return Redirect::back()->with('message','Operation Successful !');
-
-        //$data = ['date' => $_POST];
+        return view('admin/user-groups-edit', $data);
     }
-    return view('admin/user-groups-edit', $data);
-}
 
     public function rights(){
 
@@ -228,4 +228,17 @@ class UsersController extends Controller
 
         return view('admin/groups-rights', $data);
     }
+
+    public function groupDelete(Request $request)
+    {
+        $id = $request->id;
+        try {
+            $art = UserGroups::where('id', $id);
+            $art->delete();
+            return redirect()->back()->with('message', 'Operation Successful !');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
 }
