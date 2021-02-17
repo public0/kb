@@ -13,7 +13,7 @@ use App\Models\Categories;
 class ArticleController extends Controller
 {
     public function index(){
-        $articles = DB::table('article')->orderBy('lang_parent_id')->orderBy('title')->get();
+        $articles = DB::table('article')->orderBy('lang_parent_id')->orderBy('title')->paginate(100);
         $data= ['articles'=> $articles];
         return view('admin/article', $data);
     }
@@ -347,7 +347,7 @@ class ArticleController extends Controller
         if($subcateg_count > 0){
             return redirect()->back()->with('error', 'There are subcategories to this category!');
         }
-        
+
         try {
             $art = Categories::where('id', $id);
             $art->delete();

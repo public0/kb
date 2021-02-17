@@ -29,6 +29,7 @@
             {{$msg}}
             @endif
     </div><!--// post row end -->
+    {!! $article->appends(Request::all())->links() !!}
 
 </div> <!--// recentPostContainer end-->
 @endsection

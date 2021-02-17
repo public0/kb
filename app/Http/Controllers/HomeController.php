@@ -14,7 +14,7 @@ class HomeController extends Controller
         $lang = UtileClass::getLang();
         //$newArt = ArticleFactoryClass::getArticleList('asoc',['id'=>2]);
         //$newArt = ArticleFactoryClass::getArticleList('new');
-        $article = Article::where('status', 1)->where('lang', $lang)->orderBy('created_at','desc')->get();
+        $article = Article::where('status', 1)->where('lang', $lang)->orderBy('created_at','desc')->paginate(20);
         if(empty($article)){
             $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!'];
             return view('front/row-article', $data);

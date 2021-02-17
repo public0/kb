@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 @if(!empty($articles))
-                                <table class="table table-bordered text-nowrap" id="example2">
+                                <table class="table card-table table-vcenter">
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">Title</th>
@@ -75,6 +75,7 @@
                             </div>
                         </div>
                     </div>
+                    {!! $articles->appends(Request::all())->links() !!}
                     <!--/div-->
                 </div>
             </div>
