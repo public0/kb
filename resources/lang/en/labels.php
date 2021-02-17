@@ -20,4 +20,5 @@ return [
     'delete'=>'Delete',
     'email'=>'Email',
     'password'=>'Password',
+    'home'=> 'Home'
 ];

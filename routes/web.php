@@ -26,7 +26,8 @@ Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'ind
 Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
 //Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);
 
-Route::middleware(['verified'])->group(function () {
+Route::middleware(['verified', 'prevent-back-history'])->group(function () {
+
     Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index']);
     Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);

@@ -9,9 +9,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\UserGroups;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Mail\PasswordMail;
 
 class UsersController extends Controller
 {
+    function __construct() {
+        if (!Auth::check()) {
+            return redirect('/log');
+        }
+    }
+
     public function index(){
         $users = DB::table('users')->orderBy('id','desc')->get();
         for($i=0; $i<count($users); $i++){
@@ -36,6 +44,17 @@ class UsersController extends Controller
         $data = ['groups' => $groups];
 
         if(!empty($_POST)){
+
+            /*$pass = uniqid();
+            $details = [
+                'title' => 'Mail from ItSolutionStuff.com',
+                'body' => 'Passord is :'.$pass;
+            ];
+
+            \Mail::to('gbyte2004@yahoo.com')->send(new \App\Mail\PasswordMail($details));
+            die();*/
+
+
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
             $email = trim($_POST['email']);
@@ -75,7 +94,7 @@ class UsersController extends Controller
                 }
             }
 
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/users')->with('message','Operation Successful !');
 
         }
         return view('admin/users-add', $data);
@@ -143,7 +162,7 @@ class UsersController extends Controller
 
             }
 
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/users')->with('message','Operation Successful !');
 
         }
         return view('admin/users-edit', $data);
@@ -178,7 +197,7 @@ class UsersController extends Controller
                 //print_r($e->getMessage()); die();
                 return Redirect::back()->with('error','DB Error !');
             }
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/groups')->with('message','Operation Successful !');
 
             $data = ['date' => $_POST];
         }
@@ -213,7 +232,7 @@ class UsersController extends Controller
                 //print_r($e->getMessage()); die();
                 return Redirect::back()->with('error','DB Error !');
             }
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/groups')->with('message','Operation Successful !');
 
             //$data = ['date' => $_POST];
         }
@@ -235,7 +254,7 @@ class UsersController extends Controller
         try {
             $art = UserGroups::where('id', $id);
             $art->delete();
-            return redirect()->back()->with('message', 'Operation Successful !');
+            return redirect('/admin/groups')->with('message','Operation Successful !');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

@@ -24,7 +24,15 @@
                 </div>
             </div>
             <!--End Page header-->
-
+            @if(Session::has('message'))
+                <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+            @endif
             <!-- Row-1 -->
             <div class="row">
                 <div class="col-12">

@@ -52,7 +52,7 @@
             templates: [
                 { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
                 { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
-                { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+                { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' },
             ],
             template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
             template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
@@ -77,7 +77,7 @@
                     <h4 class="page-title mb-0">Articles Add</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo URL::to('/'); ?>/admin"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articals</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articles</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Add</li>
                     </ol>
                 </div>
@@ -126,12 +126,17 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Tags</label>
-                                            <input name="tags" class="form-control  mb-4" placeholder="Tags"  type="text" value="">
+                                            <input name="tags" class="form-control  mb-4" type="text" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Rank</label>
+                                            <input name="rank" class="form-control  mb-4" placeholder="Tags"  type="text" value="">
                                         </div>
                                         @if(!empty($groups))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
                                                 <select name="categoty" id="select-countries" class="form-control custom-select select2">
+                                                    <option value="">--</option>
                                                     @foreach($groups as $gr)
                                                         <option value="{{$gr->Id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->Name}}</option>
                                                     @endforeach

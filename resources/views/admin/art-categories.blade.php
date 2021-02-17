@@ -58,7 +58,7 @@
                                     <tbody>
                                     @foreach($categories as $gr)
                                     <tr>
-                                        <td>{{$gr->Name}}</td>
+                                        <td> @for($i = 0;$i<$gr->ind;$i++) ->> @endfor {{$gr->Name}}</td>
                                         <td>{{$gr->Lang}}</td>
                                         <td>{{$gr->created_at}}</td>
                                         <td>@if($gr->Status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>

@@ -32,11 +32,12 @@ class ArticleController extends Controller
         if(!empty($_POST)){
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $body = $_POST['body'];
+            $body = str_replace('<p>}</p>','',$_POST['body']);
             $categoty = $_POST['categoty'];
             $tags = $_POST['tags'];
             $status = $_POST['status'];
             $lang = $_POST['lang'];
+            $rank = $_POST['rank'];
             $article_id = UtileClass::generateId('article','article_id');
             $lang_parent_id = $_POST['lang_parent_id'];
 
@@ -44,7 +45,7 @@ class ArticleController extends Controller
                 'lang' => 'required|max:255',
                 'title' => 'required|unique:article|max:255',
                 'description' => 'required|max:255',
-                'body' => 'required|max:255',
+                'body' => 'required',
                 'tags' => 'max:255',
                 'status' => 'required|integer|max:1'
             ]);
@@ -59,6 +60,7 @@ class ArticleController extends Controller
                 $art->lang = $lang;
                 $art->status = $status;
                 $art->article_id = $article_id;
+                $art->rank = $rank;
                 //$art->lang_parent_id = $lang_parent_id;
                 $art->save();
                 $last_id = $art->id;
@@ -72,10 +74,12 @@ class ArticleController extends Controller
                 }
 
             } catch (\Exception $e){
+                dd($e->getMessage());
                 return Redirect::back()->with('error','DB Error !');
             }
 
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/article')->with('message','Operation Successful !');
+
         }
         return view('admin/article-add', $data);
     }
@@ -92,13 +96,14 @@ class ArticleController extends Controller
 
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $body = $_POST['body'];
+            $body = str_replace('<p>}</p>','',$_POST['body']);
             $categoty = $_POST['categoty'];
             $tags = $_POST['tags'];
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $article_id = UtileClass::generateId('article','article_id');
             $lang_parent_id = $_POST['lang_parent_id'];
+            $rank = $_POST['rank'];
 
             try{
                 /*$art = Article::where('article_id',$id);
@@ -119,15 +124,14 @@ class ArticleController extends Controller
                     'tags'=>$tags,
                     'lang'=>$lang,
                     'status'=>$status,
+                    'rank' => $rank,
                     'lang_parent_id'=>$lang_parent_id]);
 
             } catch (\Exception $e){
-
-                dd($e);
                 return Redirect::back()->with('error','DB Error !');
             }
 
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/article')->with('message','Operation Successful !');
         }
 
         return view('admin/article-edit', $data);
@@ -171,40 +175,61 @@ class ArticleController extends Controller
         $group = UserGroups::find($id);
         $data = ['group' => $group];
 
-    if(!empty($_POST)){
-        try {
-            $name = $_POST['name'];
-            $status = $_POST['status'];
-            $group->name = $name;
-            $group->status = $status;
-            $group->save();
-        } catch (\Exception $e) {
-            //print_r($e->getMessage()); die();
-            return Redirect::back()->with('error','DB Error !');
-        }
-        return Redirect::back()->with('message','Operation Successful !');
+        if(!empty($_POST)){
+            try {
+                $name = $_POST['name'];
+                $status = $_POST['status'];
+                $group->name = $name;
+                $group->status = $status;
+                $group->save();
+            } catch (\Exception $e) {
+                //print_r($e->getMessage()); die();
+                return Redirect::back()->with('error','DB Error !');
+            }
+            return Redirect::back()->with('message','Operation Successful !');
 
-        //$data = ['date' => $_POST];
-    }
+            //$data = ['date' => $_POST];
+        }
     return view('admin/user-groups-edit', $data);
     }
 
-    public function categories(){
-        $categories = DB::table('Categories')->get();
+    public function categories()
+    {
+        $categories = DB::table('Categories')->orderBY('Tree', 'asc')->orderBY('Name', 'asc')->get();
+        for ($i = 0; $i < count($categories); $i++) {
+            $categories[$i]->ind = substr_count($categories[$i]->Tree, ',');
+        }
         $data= ['categories'=> $categories];
         return view('admin/art-categories', $data);
     }
 
-    public function categoryAdd(){
+    public function categoryAdd(Request $request){
         $language = DB::table('language')->get();
         $categ = Categories::all();
         $data= ['language' => $language, 'categ'=>$categ];
+        $parent_tree = null;
         if(!empty($_POST)){
             $name = $_POST["name"];
             $lang = $_POST["lang"];
             $categoty = $_POST["categoty"];
             $status = $_POST["status"];
             $Categ_id = UtileClass::generateId('Categories','Categ_id');
+
+            $validated = $request->validate([
+                'name' => 'required|max:255|unique:Categories',
+                'lang' => 'required|max:255',
+                'status' => 'required|integer|max:1',
+                'categoty'=> 'integer',
+            ]);
+
+
+            try{
+                if(!empty($categoty)){
+                    $parent_tree = Categories::where('id', $categoty)->first()->Tree;
+                }
+            } catch (\Exception $e){
+                return Redirect::back()->with('error','DB Error !');
+            }
 
             try{
                 $cat = new Categories;
@@ -214,21 +239,83 @@ class ArticleController extends Controller
                 $cat->Status = $status;
                 $cat->Categ_id = $Categ_id;
                 $cat->save();
+                $my_id = $cat->id;
 
+                if(!empty($my_id)){
+                    $mY_Tree = (!empty($parent_tree)) ? $parent_tree.','.$my_id : $my_id;
+                    Categories::where("id", $my_id)->update(['Tree'=>$mY_Tree]);
+                }
             } catch (\Exception $e){
                 return Redirect::back()->with('error','DB Error !');
             }
 
-            return Redirect::back()->with('message','Operation Successful !');
+            return redirect('/admin/categories')->with('message','Operation Successful !');
         }
 
         return view('admin/art-category-add', $data);
     }
 
-    public function categoryEdit($id){
+    public function categoryEdit(Request $request){
+        $id = $request->id;
         $language = DB::table('language')->get();
-        $categ = Categories::find($id);
-        $data= ['language' => $language, 'categ'=>$categ];
+        $categ = Categories::all();
+        $my_categ = Categories::where('Id', $id)->first();
+        if(empty($my_categ)){
+            return Redirect::back()->with('error','DB Error !');
+        }
+        $data= ['language' => $language, 'categ'=>$categ, 'my_data' => $my_categ];
+        $parent_tree = null;
+        if(!empty($_POST)){
+            $name = $_POST["name"];
+            $lang = $_POST["lang"];
+            $categoty = $_POST["categoty"];
+            $status = $_POST["status"];
+            $Categ_id = UtileClass::generateId('Categories','Categ_id');
+
+           if($name ==  $my_categ->Name){
+               $validated = $request->validate([
+                   'name' => 'required|max:255',
+                   'lang' => 'required|max:255',
+                   'status' => 'required|integer|max:1',
+                   'categoty'=> 'integer',
+               ]);
+           } else {
+               $validated = $request->validate([
+                   'name' => 'required|max:255|unique:Categories',
+                   'lang' => 'required|max:255',
+                   'status' => 'required|integer|max:1',
+                   'categoty'=> 'integer',
+               ]);
+           }
+
+
+            try{
+                if(!empty($categoty)){
+                    $parent_tree = Categories::where('Id', $categoty)->first()->Tree;
+                }
+            } catch (\Exception $e){
+                return Redirect::back()->with('error','DB Error !');
+            }
+
+            try{
+
+                Categories::where("Id", $id)->update(["Name" => $name,
+                    'Lang'=>$lang,
+                    'Parent_id'=>$categoty,
+                    'Status'=>$status,
+                    'Categ_id'=>$Categ_id]);
+
+                if(!empty($id)){
+                    $mY_Tree = (!empty($parent_tree)) ? $parent_tree.','.$id : $id;
+                    Categories::where("Id", $id)->update(['Tree'=>$mY_Tree]);
+                }
+            } catch (\Exception $e){
+                return Redirect::back()->with('error','DB Error !');
+            }
+
+            return redirect('/admin/categories')->with('message','Operation Successful !');
+        }
+
         return view('admin/art-category-edit', $data);
     }
 
@@ -242,7 +329,7 @@ class ArticleController extends Controller
         try {
             $art = Article::where('article_id', $id_article);
             $art->delete();
-            return redirect()->back()->with('message', 'Operation Successful !');
+            return redirect('/admin/article')->with('message','Operation Successful !');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -251,10 +338,20 @@ class ArticleController extends Controller
     public function categoryDelete(Request $request)
     {
         $id = $request->id;
+        $my_categ = Categories::where('Id', $id)->first();
+        $articles_count = (new Article)->where('categoty', $id)->count();
+        $subcateg_count = (new Categories)->where('Tree', 'like', $my_categ->Tree.',%')->count();
+        if($articles_count > 0){
+            return redirect()->back()->with('error', 'There are articles associated with this category!');
+        }
+        if($subcateg_count > 0){
+            return redirect()->back()->with('error', 'There are subcategories to this category!');
+        }
+        
         try {
             $art = Categories::where('id', $id);
             $art->delete();
-            return redirect()->back()->with('message', 'Operation Successful !');
+            return redirect('/admin/categories')->with('message','Operation Successful !');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

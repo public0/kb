@@ -31,27 +31,29 @@
                                 <li class="logo"><a href="<?php echo URL::to('/'); ?>"><img src="<?php echo URL::to('/'); ?>/logofront.png" alt="Ringher" /></a></li>
                                 </li>
                                 @if(!empty($categ))
-                                    <li class="menu-item-has-children"><a href="#">{{__('labels.category')}}</a>
-
-                                        <ul class="dropdown">
-                                            @foreach($categ as $keyCatas => $categories)
-                                                @if(!empty($categories['name']))
-                                                    <li>
-                                                        <a href="<?php echo URL::to('/') ?>/caregory/{{$keyCatas}}">{{$categories['name']}}</a>
-                                                        @if(!empty($categories['child']))
-                                                            <ul class="submenu">
-                                                                @foreach($categories['child'] as $childrens)
-                                                                    <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
-                                                                @endforeach
-                                                            </ul>
+                                <li>
+                                    <nav>
+                                        <ul class="nav"><li><a href="#">{{__('labels.category')}}</a>
+                                                <ul>
+                                                    @foreach($categ as $keyCatas => $categories)
+                                                        @if(!empty($categories['name']))
+                                                            <li>
+                                                                @if(!empty($categories['child']))
+                                                                <ul>
+                                                                    @foreach($categories['child'] as $childrens)
+                                                                        <li><a href="<?php echo URL::to('/') ?>/caregory/{{$childrens['id']}}">{{$childrens['name']}}</a></li>
+                                                                    @endforeach
+                                                                </ul>
+                                                                @endif
+                                                                <a href="<?php echo URL::to('/') ?>/caregory/{{$keyCatas}}">{{$categories['name']}}</a>
+                                                            </li>
                                                         @endif
-                                                    </li>
-                                                @endif
-                                            @endforeach
+                                                    @endforeach
+                                                </ul>
+                                            </li>
                                         </ul>
-
-
-                                    </li>
+                                    </nav>
+                                </li>
                                 @endif
                             </ul>
                         </div>

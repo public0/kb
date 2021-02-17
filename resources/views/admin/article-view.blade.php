@@ -14,7 +14,7 @@
                     <h4 class="page-title mb-0">Articles List</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo URL::to('/'); ?>/admin"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articals</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articles</a></li>
                         <li class="breadcrumb-item active" aria-current="page">View</li>
                     </ol>
                 </div>
@@ -27,7 +27,7 @@
                     <!--div-->
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Responsive DataTable</div>
+                            <div class="card-title">Article View</div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
