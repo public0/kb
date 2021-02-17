@@ -24,6 +24,16 @@ class ArticleController extends Controller
     }
 
     public function add(Request $request){
+       /* $relatedArticles = DB::table('article')->where('id','>','669')->get();
+        foreach($relatedArticles as $art){
+            $idx = 'AT'.strtoupper(dechex($art->id));
+            Article::where("id", $art->id)->update(['article_id'=>$idx]);
+        }
+
+        echo $idx; die();*/
+
+
+
         $groups = Categories::all();
         $language = DB::table('language')->get();
         $relatedArticles = Article::all();
@@ -38,7 +48,7 @@ class ArticleController extends Controller
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $rank = $_POST['rank'];
-            $article_id = UtileClass::generateId('article','article_id');
+            //$article_id = UtileClass::generateId('article','article_id');
             $lang_parent_id = $_POST['lang_parent_id'];
 
             $validated = $request->validate([
@@ -59,7 +69,7 @@ class ArticleController extends Controller
                 $art->tags = $tags;
                 $art->lang = $lang;
                 $art->status = $status;
-                $art->article_id = $article_id;
+                //$art->article_id = $article_id;
                 $art->rank = $rank;
                 //$art->lang_parent_id = $lang_parent_id;
                 $art->save();
@@ -67,14 +77,14 @@ class ArticleController extends Controller
 
                 if(!empty($last_id)){
                     $lngId = $last_id;
+                    $idx = 'AT'.strtoupper(dechex($last_id));
                     if($lang_parent_id != 0){
                         $lngId = $lang_parent_id.','.$lngId;
                     }
-                    Article::where("id", $last_id)->update(['lang_parent_id'=>$lngId]);
+                    Article::where("id", $last_id)->update(['lang_parent_id'=>$lngId, 'article_id'=>$idx]);
                 }
 
             } catch (\Exception $e){
-                dd($e->getMessage());
                 return Redirect::back()->with('error','DB Error !');
             }
 

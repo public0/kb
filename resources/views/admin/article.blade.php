@@ -45,6 +45,7 @@
                                 <table class="table card-table table-vcenter">
                                     <thead>
                                     <tr>
+                                        <th class="wd-15p border-bottom-0">ID</th>
                                         <th class="wd-15p border-bottom-0">Title</th>
                                         <th class="wd-15p border-bottom-0">Language</th>
                                         <th class="wd-15p border-bottom-0">Tags</th>
@@ -56,6 +57,7 @@
                                     <tbody>
                                     @foreach($articles as $art)
                                     <tr @if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) class="inccls" @endif>
+                                        <td>{{ $art->article_id }}</td>
                                         <td>@if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) &raquo;&raquo;  @endif{{ $art->title }}</td>
                                         <td>{{ $art->lang }}</td>
                                         <td>{{ $art->tags }}</td>
