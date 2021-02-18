@@ -21,8 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="94a8ca21-762f-43a1-ad2d-ceb72c193163" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ArticleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/article.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/article.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ServiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,17 +178,17 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/emails" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\knowlege-base-new\public\images" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views\emails" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views\front" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views\admin" />
       <recent name="C:\xampp\htdocs\knowlege-base-new\app\Http\Controllers" />
-      <recent name="C:\xampp\htdocs\knowlege-base-new\resources\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\knowlege-base-new\app\Models" />
@@ -219,7 +219,7 @@
       <workItem from="1610697336772" duration="87897000" />
       <workItem from="1612275753286" duration="94785000" />
       <workItem from="1613115401185" duration="4666000" />
-      <workItem from="1613376624717" duration="51010000" />
+      <workItem from="1613376624717" duration="58823000" />
     </task>
     <servers />
   </component>

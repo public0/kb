@@ -19,7 +19,7 @@ class HomeController extends Controller
             $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!'];
             return view('front/row-article', $data);
         }
-        $data = ['article'=>$article];
+        $data = ['article'=>$article, 'msg'=>'No results found!'];
         return view('front/row-article', $data);
     }
 }

@@ -39,9 +39,11 @@ class ServiceController extends Controller
 
     public function searchArticle(Request $request){
         $maxno = 15;
+        $cnt_categ_imp = null;
 
         $keyw = $request->input('keywords');
         $categ = $request->input('categid');
+        $categ_imp = implode($categ);
         $no = $request->input('articleno');
         $lang = $request->input('lang');
 
@@ -96,7 +98,16 @@ class ServiceController extends Controller
             return response()->json('no record found', '002');  // empty id
         }
 
+        if(!empty($categ_imp) && is_array($categ_imp)){
+            $cnt_categ_imp = count($categ_imp);
+        }
+
         foreach ($art as $article){
+
+            if($cnt_categ_imp){
+                if($article->)
+
+            }
 
             $data['title'] = $article->title;
             $data['description'] = $article->description;
