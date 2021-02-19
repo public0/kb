@@ -18,7 +18,7 @@ final class CreateArticleIndex implements MigrationInterface
             $mapping->text('description');
             $mapping->text('body');
             $mapping->keyword('id');
-            $mapping->keyword('lang');
+            $mapping->text('lang');
         });
     }
 

@@ -39,6 +39,9 @@ class Article extends Model
             'categoty' => [
                 'type' => 'text',
             ],
+            'article_id' => [
+                'type' => 'text',
+            ],
         ]
     ];
 
@@ -61,6 +64,7 @@ class Article extends Model
             'status' => $this->status,
             'lang' => $this->lang,
             'categoty' => $this->categoty,
+            'article_id' => $this->article_id,
         ];
     }
 }
