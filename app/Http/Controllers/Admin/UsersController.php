@@ -11,16 +11,32 @@ use App\Models\UserGroups;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\PasswordMail;
+use App\MyClasses\UtileClass;
 
 class UsersController extends Controller
 {
     function __construct() {
+
+       /*//UtileClass::getUserGroups(); die();
+        $authUser = Auth::user();
+        var_dump(Auth::user()->full_name); die();*/
+
+        //$this->middleware(function ($request, $next) {
+            /*if (!Auth::check()) {
+                die();
+            }*/
+            //var_dump(Auth::user()->full_name); die();
+       // });
+
+
+
         if (!Auth::check()) {
             return redirect('/log');
         }
     }
 
     public function index(){
+
         $users = DB::table('users')->orderBy('id','desc')->get();
         for($i=0; $i<count($users); $i++){
             $groups = DB::table('x_groups_users')
@@ -251,12 +267,17 @@ class UsersController extends Controller
     public function groupDelete(Request $request)
     {
         $id = $request->id;
-        try {
-            $art = UserGroups::where('id', $id);
-            $art->delete();
-            return redirect('/admin/groups')->with('message','Operation Successful !');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+        $group = UserGroups::where('id', $id)->first();
+        if($group->undelete != 1){
+            try {
+                $art = UserGroups::where('id', $id);
+                $art->delete();
+                return redirect('/admin/groups')->with('message','Operation Successful !');
+            } catch (Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+        } else {
+            return redirect()->back()->with('error', 'This record cannot be deleted!');
         }
     }
 

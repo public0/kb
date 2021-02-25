@@ -1,8 +1,9 @@
 <?php
 namespace App\MyClasses;
-use App\Models\Article;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class UtileClass{
     static function generateId($table,$id_fild){
@@ -27,5 +28,19 @@ class UtileClass{
         }
         App::setLocale($lang);
         return $lang;
+    }
+
+    static function getUserGroups(){
+        $groupsArray = null;
+        if(Auth::check()) {
+            $id = Auth::user()->id;
+            $groups = DB::table('x_groups_users')->where('user_id', $id)->select('group_id')->get();
+            if($groups){
+                foreach ($groups as $gr){
+                    $groupsArray[] = $gr->group_id;
+                }
+            }
+        }
+        return $groupsArray;
     }
 }

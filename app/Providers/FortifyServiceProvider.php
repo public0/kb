@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -58,6 +61,25 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function () {
             return view('auth.verify');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $groupsArray = null;
+            $user = User::where('email', $request->email)->where('status','1')->first();
+
+            if($user){
+                $groups = DB::table('x_groups_users')->leftJoin('user_groups','x_groups_users.group_id','=','user_groups.id')->where('user_id', $user->id)->select('group_id')->get();
+                if($groups){
+                    foreach ($groups as $gr){
+                        $groupsArray[] = $gr->group_id;
+                    }
+                }
+            }
+            if ($user && Hash::check($request->password, $user->password)) {
+                if(!empty($groupsArray) && in_array(1, $groupsArray)){
+                    return $user;
+                }
+            }
         });
 
 

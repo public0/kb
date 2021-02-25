@@ -62,7 +62,9 @@
                                         <td>@if($gr->status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
                                         <td>
                                             <a href="<?php echo URL::to('/'); ?>/admin/groups/edit/{{$gr->id}}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/groups/delete/{{$gr->id}}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
+                                            @if($gr->undelete != 1)
+                                                <a href="<?php echo URL::to('/'); ?>/admin/groups/delete/{{$gr->id}}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

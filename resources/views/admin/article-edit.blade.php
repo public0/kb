@@ -134,25 +134,31 @@
                                             <label class="form-label">Rank</label>
                                             <input name="rank" class="form-control  mb-4"  type="text" value="{{$artical->rank}}">
                                         </div>
-                                        @if(!empty($groups))
+                                        @if(!empty($categories))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
                                                 <select name="categoty" id="select-countries" class="form-control custom-select select2">
                                                     <option value="">--</option>
-                                                    @foreach($groups as $gr)
-                                                        <option value="{{$gr->id}}" @if(isset($artical->category) && in_array($gr->id,$artical->category)) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->Name}}</option>
+                                                    @foreach($categories as $ct)
+                                                        <option value="{{$ct->id}}" @if(isset($artical->category) && in_array($ct->id,$artical->category)) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ct->Name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         @endif
-                                        @if(!empty($relatedArticles))
+
+                                        <div class="form-group">
+                                            <label class="form-label">Lang parent id</label>
+                                            <input name="lang_parent_id" class="form-control"  type="text" value="{{$artical->article_id}}">
+                                        </div>
+                                        @if(!empty($user_groups))
                                             <div class="form-group">
-                                                <label class="form-label">Lang parent</label>
-                                                <select name="lang_parent_id" id="select-countries" class="form-control custom-select select2">
-                                                    <option value="{{$artical->id}}">---</option>
-                                                    @foreach($relatedArticles as $ra)
-                                                        <option value="{{$artical->id}},{{$ra->id}}" @if($artical->lang_parent_id == $ra->lang_parent_id) selected="selected" @endif>{{$ra->title}}</option>
+                                                <label class="form-label">User Groups</label>
+                                                <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
+                                                    <option value="">--</option>
+                                                    @foreach($user_groups as $ug)
+                                                        <option value="{{$ug->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
                                                     @endforeach
+
                                                 </select>
                                             </div>
                                         @endif

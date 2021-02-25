@@ -2,14 +2,15 @@
 
 @section('content')
     <script>
-        var site_url= 'http://localhost/';
+
+        var site_url= {{URL::to('/')}}/;
 
         tinymce.init({
             selector: '#tinymce',
             images_dataimg_filter: function(img) {
                 return img.hasAttribute('internal-blob');
             },
-            images_upload_url: site_url+'img',
+            images_upload_url: site_url+'images',
             relative_urls : false,
             remove_script_host : false,
             convert_urls : true,
@@ -130,31 +131,40 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Rank</label>
-                                            <input name="rank" class="form-control  mb-4" placeholder="Tags"  type="text" value="">
+                                            <input name="rank" class="form-control  mb-4"  type="text" value="">
                                         </div>
-                                        @if(!empty($groups))
+                                        @if(!empty($categories))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
                                                 <select name="categoty" id="select-countries" class="form-control custom-select select2">
                                                     <option value="">--</option>
-                                                    @foreach($groups as $gr)
-                                                        <option value="{{$gr->Id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->Name}}</option>
+                                                    @foreach($categories as $ct)
+                                                        <option value="{{$ct->Id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ct->Name}}</option>
                                                     @endforeach
 
                                                 </select>
                                             </div>
                                         @endif
-                                        @if(!empty($relatedArticles))
+
+                                        <div class="form-group">
+                                            <label class="form-label">Lang parent id</label>
+                                            <input name="lang_parent_id" class="form-control" type="text" value="{{old('lang_parent_id')}}">
+                                        </div>
+
+
+                                        @if(!empty($user_groups))
                                             <div class="form-group">
-                                                <label class="form-label">Lang parent</label>
-                                                <select name="lang_parent_id" id="select-countries" class="form-control custom-select select2">
-                                                    <option value="0">---</option>
-                                                    @foreach($relatedArticles as $ra)
-                                                        <option value="{{$ra->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ra->title}}</option>
+                                                <label class="form-label">User Groups</label>
+                                                <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
+                                                    <option value="">--</option>
+                                                    @foreach($user_groups as $ug)
+                                                        <option value="{{$ug->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
                                                     @endforeach
+
                                                 </select>
                                             </div>
                                         @endif
+
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
@@ -162,6 +172,7 @@
                                                 <option value="0" @if(old('status') == 0) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
                                             </select>
                                         </div>
+
                                         <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />
                                     </div>
                                 </div>

@@ -18,7 +18,7 @@
                                         </h4>
                                         <ul class="defPost__meta">
                                             <li class="author">
-                                                {{date('M d, Y',strtotime($art->created_at))}}
+                                                {{date('M d, Y',strtotime($art->created_at))}} | {{$art->article_id}}
                                             </li>
                                         </ul>
                                         <div class="postText u-marginTop15">

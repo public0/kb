@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\UserGroups;
 use App\MyClasses\UtileClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ use App\Models\Categories;
 class ArticleController extends Controller
 {
     public function index(){
-        $articles = DB::table('article')->orderBy('lang_parent_id')->orderBy('title')->paginate(100);
+        $articles = DB::table('article')->orderBy('lang_parent_id', 'asc')->paginate(100);
         $data= ['articles'=> $articles];
         return view('admin/article', $data);
     }
@@ -24,20 +25,23 @@ class ArticleController extends Controller
     }
 
     public function add(Request $request){
-       /* $relatedArticles = DB::table('article')->where('id','>','669')->get();
-        foreach($relatedArticles as $art){
-            $idx = 'AT'.strtoupper(dechex($art->id));
-            Article::where("id", $art->id)->update(['article_id'=>$idx]);
+
+        /*try{
+            $details = [
+                'title' => 'Mail from ItSolutionStuff.com',
+                'body' => 'Passord is :',
+            ];
+            \Mail::to('gbyte2005@gmail.com')->send(new \App\Mail\PasswordMail($details));
+        } catch (\Exception $e){
+            print_r($e->getMessage()); die();
         }
-
-        echo $idx; die();*/
-
+        die('send');*/
 
 
-        $groups = Categories::all();
+        $user_groups = UserGroups::where('status',1)->get();
+        $categories = Categories::where('status',1)->get();
         $language = DB::table('language')->get();
-        $relatedArticles = Article::all();
-        $data = ['groups' => $groups, 'relatedArticles' => $relatedArticles, 'language' => $language];
+        $data = ['categories' => $categories, 'language' => $language, 'user_groups' => $user_groups];
 
         if(!empty($_POST)){
             $title = $_POST['title'];
@@ -48,8 +52,8 @@ class ArticleController extends Controller
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $rank = $_POST['rank'];
-            //$article_id = UtileClass::generateId('article','article_id');
             $lang_parent_id = $_POST['lang_parent_id'];
+            $u_groups = $_POST['user_groups'];
 
             $validated = $request->validate([
                 'lang' => 'required|max:255',
@@ -60,6 +64,29 @@ class ArticleController extends Controller
                 'status' => 'required|integer|max:1'
             ]);
 
+            if(!empty($lang_parent_id)){
+                $parent = Article::where('article_id',$lang_parent_id)->first();
+                if($parent){
+                    $lang_parent_id = $parent->id;
+                    if($parent->lang == $lang){
+                        return Redirect::back()->with('error','It is the same language as the parent!');
+                    }
+                } else {
+                    return Redirect::back()->with('error','Invalid parent id !');
+                }
+            }
+
+            $user_groups_list = ',';
+            if(!empty($u_groups)){
+                foreach($u_groups as $u_g){
+                    $user_groups_list .= $u_g.',';
+                }
+            }
+            if(strlen($user_groups_list) == 1){
+                $user_groups_list = '';
+            }
+
+
             try{
                 $art = new Article;
                 $art->title = $title;
@@ -69,9 +96,8 @@ class ArticleController extends Controller
                 $art->tags = $tags;
                 $art->lang = $lang;
                 $art->status = $status;
-                //$art->article_id = $article_id;
                 $art->rank = $rank;
-                //$art->lang_parent_id = $lang_parent_id;
+                $art->user_groups = $user_groups_list;
                 $art->save();
                 $last_id = $art->id;
 
@@ -82,6 +108,13 @@ class ArticleController extends Controller
                         $lngId = $lang_parent_id.','.$lngId;
                     }
                     Article::where("id", $last_id)->update(['lang_parent_id'=>$lngId, 'article_id'=>$idx]);
+                }
+
+                if(!empty($u_groups) && $last_id){
+                    DB::table('x_articles_ugroups')->where('id_article', $last_id)->delete();
+                    foreach($u_groups as $u_g){
+                        DB::table('x_articles_ugroups')->insert(['id_article' => $last_id, 'id_user_group' => $u_g]);
+                    }
                 }
 
             } catch (\Exception $e){
@@ -95,12 +128,12 @@ class ArticleController extends Controller
     }
 
     public function edit($id){
-        $categ = Categories::all();
-        $relatedArticles = Article::all();
+        $user_groups = UserGroups::where('status',1)->get();
+        $categories = Categories::where('status',1)->get();
         $language = DB::table('language')->get();
         $articals = DB::table('article')->where('article_id',$id)->get();
 
-        $data= ['artical'=> $articals[0], 'groups' => $categ, 'relatedArticles' => $relatedArticles, 'language' => $language];
+        $data= ['artical'=> $articals[0], 'categories' => $categories, 'language' => $language, 'user_groups' => $user_groups];
 
         if(!empty($_POST)){
 
@@ -114,6 +147,35 @@ class ArticleController extends Controller
             $article_id = UtileClass::generateId('article','article_id');
             $lang_parent_id = $_POST['lang_parent_id'];
             $rank = $_POST['rank'];
+            $u_groups = $_POST['user_groups'];
+
+
+
+            if(!empty($lang_parent_id)){
+                $parent = Article::where('article_id',$lang_parent_id)->first();
+                if($parent && $parent->id == $id){
+                    return Redirect::back()->with('error','Invalid parent id !');
+                } else {
+                    if($parent && $parent->id != $id){
+                        $lang_parent_id = $parent->id;
+                        if($parent->lang == $lang){
+                            return Redirect::back()->with('error','It is the same language as the parent!');
+                        }
+                    } else {
+                        return Redirect::back()->with('error','Invalid parent id !');
+                    }
+                }
+            }
+
+            $user_groups_list = ',';
+            if(!empty($u_groups)){
+                foreach($u_groups as $u_g){
+                    $user_groups_list .= $u_g.',';
+                }
+            }
+            if(strlen($user_groups_list) == 1){
+                $user_groups_list = '';
+            }
 
             try{
                 /*$art = Article::where('article_id',$id);
@@ -135,10 +197,18 @@ class ArticleController extends Controller
                     'lang'=>$lang,
                     'status'=>$status,
                     'rank' => $rank,
+                    'user_groups' => $user_groups_list,
                     'lang_parent_id'=>$lang_parent_id]);
 
             } catch (\Exception $e){
                 return Redirect::back()->with('error','DB Error !');
+            }
+
+            if(!empty($u_groups) && $id){
+                DB::table('x_articles_ugroups')->where('id_article', $id)->delete();
+                foreach($u_groups as $u_g){
+                    DB::table('x_articles_ugroups')->insert(['id_article' => $id, 'id_user_group' => $u_g]);
+                }
             }
 
             return redirect('/admin/article')->with('message','Operation Successful !');

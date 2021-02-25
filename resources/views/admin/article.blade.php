@@ -46,7 +46,7 @@
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">ID</th>
-                                        <th class="wd-15p border-bottom-0">Title</th>
+                                        <th class="wd-15p border-bottom-0" style="width: 500px;">Title</th>
                                         <th class="wd-15p border-bottom-0">Language</th>
                                         <th class="wd-15p border-bottom-0">Tags</th>
                                         <th class="wd-15p border-bottom-0">Created AT</th>
