@@ -162,7 +162,7 @@ class UsersController extends Controller
             }
 
             DB::table('users')->where('id', $id)->update(
-                ['name' => $name, 'surname' => $surname, 'email' => $email, 'password' => 'old', 'status' => $status]
+                ['name' => $name, 'surname' => $surname, 'email' => $email, 'status' => $status]
             );
 
             $groups = (!empty($_POST['groups'])) ? $_POST['groups'] : null;
