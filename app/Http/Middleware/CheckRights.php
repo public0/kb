@@ -21,7 +21,8 @@ class CheckRights
         //return $next($request);
         $groupsArray = null;
         if (!Auth::check()) {
-            return redirect('/log')->with('error','Invalid permission!');
+            //return redirect('/')->with('error','Invalid permission!');
+            abort(404);
         } else {
             $id = Auth::user()->id;
             $groups = DB::table('x_groups_users')->where('user_id', $id)->select('group_id')->get();
@@ -31,10 +32,11 @@ class CheckRights
                 }
             }
         }
-        if(!empty($groupsArray) && in_array(1, $groupsArray)){
+        if(!empty($groupsArray) && (in_array(1, $groupsArray) || in_array(6, $groupsArray) )){
             return $next($request);
         } else {
-            $this->unlogin();
+            //$this->unlogin();
+            abort(404);
         }
     }
 
@@ -42,7 +44,7 @@ class CheckRights
         if (Auth::check()) {
             return redirect('/auth-out');
         } else {
-            return redirect('/log')->with('error','Invalid permission!');
+            return redirect('/')->with('error','Invalid permission!');
         }
     }
 }

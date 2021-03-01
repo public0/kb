@@ -15,17 +15,20 @@ class HomeController extends Controller
         $lang = UtileClass::getLang();
         $user_groups = UtileClass::getUserGroups();
         $like = '(';
-        if($user_groups && !in_array([1,6], $user_groups)){
-            for($i=0;$i < count($user_groups);$i++){
-                if($i == 0){
-                    $like .= "user_groups like '%,".$user_groups[$i].",%' ";
-                } else {
-                    $like .= "or user_groups like '%,".$user_groups[$i].",%' ";
+        if($user_groups){
+            if(!in_array(1, $user_groups) && !in_array(6, $user_groups)){
+                for($i=0;$i < count($user_groups);$i++){
+                    if($i == 0){
+                        $like .= "user_groups like '%,".$user_groups[$i].",%' ";
+                    } else {
+                        $like .= "or user_groups like '%,".$user_groups[$i].",%' ";
+                    }
                 }
+                $like .= ') OR user_groups IS NULL ';
+                $article = Article::where('status', 1)->whereRaw($like)->where('lang', $lang)->orderBy('created_at','desc')->paginate(20);
+            } else {
+                $article = Article::where('status', 1)->where('lang', $lang)->orderBy('created_at','desc')->paginate(20);
             }
-            $like .= ')';
-
-            $article = Article::where('status', 1)->whereRaw($like)->where('lang', $lang)->orderBy('created_at','desc')->paginate(20);
         } else {
             $article = Article::where('status', 1)->where('lang', $lang)->where('user_groups',null)->orderBy('created_at','desc')->paginate(20);
         }

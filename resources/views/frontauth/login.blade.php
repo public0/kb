@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-body">
-                    <form method="POST" action="<?php echo URL::to('/'); ?>/auth">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -56,10 +56,10 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('front.resetpassword'))
-                                    <!--a class="btn btn-link" href="{{ route('front.resetpassword') }}">
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
-                                    </a-->
+                                    </a>
                                 @endif
                             </div>
                         </div>

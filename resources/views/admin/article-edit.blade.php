@@ -156,7 +156,7 @@
                                                 <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
                                                     <option value="">--</option>
                                                     @foreach($user_groups as $ug)
-                                                        <option value="{{$ug->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
+                                                        <option value="{{$ug->id}}" @if(isset($artical->user_groups) && in_array($ug->id,$artical->user_groups)) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
                                                     @endforeach
 
                                                 </select>

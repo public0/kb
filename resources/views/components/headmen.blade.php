@@ -93,10 +93,13 @@
                                     <div class="dropdown-menu hasUserMenu">
                                         <div class="userMenu">
                                             <ul>
+                                                @if($admin)
+                                                <li><a href="<?php echo URL::to('/'); ?>/admin">Admin</a></li>
+                                                @endif
                                                 @if($user)
                                                     <li><a href="<?php echo URL::to('/'); ?>/auth-out">Sign out</a></li>
                                                 @else
-                                                    <li><a href="<?php echo URL::to('/'); ?>/auth">Sign in</a></li>
+                                                    <li><a href="<?php echo URL::to('/'); ?>/login">Sign in</a></li>
                                                 @endif
                                             </ul>
                                         </div>

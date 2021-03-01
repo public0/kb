@@ -132,6 +132,7 @@ class ArticleController extends Controller
         $categories = Categories::where('status',1)->get();
         $language = DB::table('language')->get();
         $articals = DB::table('article')->where('article_id',$id)->get();
+        $articals[0]->user_groups = array_filter(explode(',', $articals[0]->user_groups));
 
         $data= ['artical'=> $articals[0], 'categories' => $categories, 'language' => $language, 'user_groups' => $user_groups];
 
@@ -149,6 +150,24 @@ class ArticleController extends Controller
             $rank = $_POST['rank'];
             $u_groups = $_POST['user_groups'];
 
+            if($title != $articals[0]->title){
+                $validated = $request->validate([
+                    'lang' => 'required|max:255',
+                    'title' => 'required|unique:article|max:255',
+                    'description' => 'required|max:255',
+                    'body' => 'required',
+                    'tags' => 'max:255',
+                    'status' => 'required|integer|max:1'
+                ]);
+            } else {
+                $validated = $request->validate([
+                    'lang' => 'required|max:255',
+                    'description' => 'required|max:255',
+                    'body' => 'required',
+                    'tags' => 'max:255',
+                    'status' => 'required|integer|max:1'
+                ]);
+            }
 
 
             if(!empty($lang_parent_id)){

@@ -35,7 +35,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Send Password Reset Link') }}
                                 </button>
-                                <a class="btn btn-link" href="{{ route('login') }}">
+                                <a class="btn btn-link" href="<?php echo URL::to('/'); ?>/login">
                                     {{ __('Login') }}
                                 </a>
                             </div>

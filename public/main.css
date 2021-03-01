@@ -135,3 +135,7 @@ nav ul {
 .breadcrumb a:hover{
     text-decoration: none;
 }
+
+.dropdown__login .userMenu ul li {
+    margin-bottom: 10px;
+}

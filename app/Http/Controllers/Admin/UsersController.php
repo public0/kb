@@ -61,15 +61,6 @@ class UsersController extends Controller
 
         if(!empty($_POST)){
 
-            /*$pass = uniqid();
-            $details = [
-                'title' => 'Mail from ItSolutionStuff.com',
-                'body' => 'Passord is :'.$pass;
-            ];
-
-            \Mail::to('gbyte2004@yahoo.com')->send(new \App\Mail\PasswordMail($details));
-            die();*/
-
 
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
@@ -109,6 +100,15 @@ class UsersController extends Controller
                     }
                 }
             }
+
+            /*$pass = uniqid();
+            $details = [
+                'title' => 'Mail from ItSolutionStuff.com',
+                'body' => 'Passord is :'.$pass;
+            ];
+
+            \Mail::to('gbyte2004@yahoo.com')->send(new \App\Mail\PasswordMail($details));
+            die();*/
 
             return redirect('/admin/users')->with('message','Operation Successful !');
 

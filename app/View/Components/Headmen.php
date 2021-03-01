@@ -19,8 +19,10 @@ class Headmen extends Component
     public $lang;
     public $selLg;
     public $user;
+    public $admin;
     public function __construct()
     {
+        $this->admin = false;
         $arrayCategory = [];
         $arrayPrimarykeys = [];
         $catego = Categories::where('Status', 1)->orderBy('Name')->get();
@@ -45,9 +47,21 @@ class Headmen extends Component
 
         if(Auth::check()) {
             $this->user = Auth::user();
+
+
+            $groupsArray = UtileClass::getUserGroups();
+            if(!empty($groupsArray) && (in_array(1, $groupsArray) || in_array(6, $groupsArray) )){
+                $this->admin = true;
+            }
+
+
         } else {
             $this->user = null;
         }
+
+
+
+
     }
 
     /**

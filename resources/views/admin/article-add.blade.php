@@ -111,7 +111,7 @@
                                                 <label class="form-label">Language</label>
                                                 <select name="lang" id="select-countries" class="form-control custom-select select2">
                                                     @foreach($language as $lng)
-                                                        <option value="{{$lng->abv}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
+                                                        <option value="{{$lng->abv}}" @if(!empty(old('lang')) && in_array($lng->abv,old('lang'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -127,11 +127,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Tags</label>
-                                            <input name="tags" class="form-control  mb-4" type="text" value="">
+                                            <input name="tags" class="form-control  mb-4" type="text" value="{{old('tags')}}">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Rank</label>
-                                            <input name="rank" class="form-control  mb-4"  type="text" value="">
+                                            <input name="rank" class="form-control  mb-4"  type="text" value="{{old('rank')}}">
                                         </div>
                                         @if(!empty($categories))
                                             <div class="form-group">
@@ -139,7 +139,7 @@
                                                 <select name="categoty" id="select-countries" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
-                                                        <option value="{{$ct->Id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ct->Name}}</option>
+                                                        <option value="{{$ct->Id}}" @if(!empty(old('categoty')) && in_array($ct->Id,old('categoty'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ct->Name}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -158,7 +158,7 @@
                                                 <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
                                                     <option value="">--</option>
                                                     @foreach($user_groups as $ug)
-                                                        <option value="{{$ug->id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
+                                                        <option value="{{$ug->id}}" @if(!empty(old('user_groups')) && in_array($ug->id,old('user_groups'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
                                                     @endforeach
 
                                                 </select>

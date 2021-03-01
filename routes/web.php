@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Article;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,24 +63,23 @@ Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'in
 
 Route::post('/search', [App\Http\Controllers\SearchContriller::class, 'index']);
 Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'index']);
-Route::get('/log', function () {
-    return view('auth.login');
-})->name('verification.notice');
 
-Route::get('/reset-password', function () {
+
+
+Route::get('/reset-pwd', function () {
+   // Config::set('auth.auth_front','true');
     return view('frontauth.passwords.email');
 })->name('front.resetpassword');
 
+/*Route::get('/reset-passworddd/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');*/
 
-Route::any('/auth', [App\Http\Controllers\AuthController::class, 'authenticate']);
+Route::any('/login', [App\Http\Controllers\AuthController::class, 'authenticate']);
 Route::any('/auth-out', [App\Http\Controllers\AuthController::class, 'logout']);
 
 
+Route::get('/log', function () {
+    return view('frontauth.login');
+})->name('verification.notice');
 
-//Route::get('/email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-
-
-/*Route::get('/search', function () {
-    $a = Article::search('description:(sdfas)')->first();
-    print_r($a);
-});*/

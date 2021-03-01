@@ -50,17 +50,20 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
-           return view('auth.login');
+           //return view('auth.login');
+        //   return view('frontauth.login');
         });
         Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.passwords.email');
+            //return view('auth.passwords.email');
+            return view('frontauth.passwords.email');            //formular cerere reset
         });
         Fortify::resetPasswordView(function ($request) {
-            return view('auth.passwords.reset', ['request' => $request]);
+            //return view('auth.passwords.reset', ['request' => $request]);
+           return view('frontauth.passwords.reset', ['request' => $request]);  //formular schimbare parola
         });
 
         Fortify::verifyEmailView(function () {
-            return view('auth.verify');
+      //      return view('auth.verify');
         });
 
         Fortify::authenticateUsing(function (Request $request) {
@@ -81,14 +84,5 @@ class FortifyServiceProvider extends ServiceProvider
                 }
             }
         });
-
-
-        /*Fortify::loginView(function () {
-            if (Route::get('/login')) {
-                return view('/auth.userlogin');
-            } else {
-                return view('auth.adminlogin');
-            }
-        });*/
     }
 }

@@ -116,5 +116,6 @@ return [
     */
 
     'password_timeout' => 10800,
+    'auth_front' => false,
 
 ];
