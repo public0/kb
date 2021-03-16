@@ -27,7 +27,7 @@ Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
 //Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);
 
 Route::middleware(['verified'])->group(function () {
-    Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index']);
+    Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('admin.home');
     Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
@@ -52,9 +52,84 @@ Route::middleware(['verified'])->group(function () {
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
     Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
     Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
+    // Templates Admin Interface
+    Route::get(
+        '/admin/templates-types',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'index']
+    )->name('admin.tpl.types');
+    Route::any(
+        '/admin/templates-types/add',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'add']
+    )->name('admin.tpl.types.add');
+    Route::any(
+        '/admin/templates-types/edit/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'edit']
+    )->name('admin.tpl.types.edit');
+    Route::get(
+        '/admin/templates-types/delete/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'delete']
+    )->name('admin.tpl.types.delete');
+    Route::get(
+        '/admin/templates-types/status/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'status']
+    )->name('admin.tpl.types.status');
+
+    Route::get(
+        '/admin/templates-placeholders',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'index']
+    )->name('admin.tpl.place.group');
+    Route::any(
+        '/admin/templates-placeholders/add-group',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'addGroup']
+    )->name('admin.tpl.place.group.add');
+    Route::any(
+        '/admin/templates-placeholders/edit-group/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'editGroup']
+    )->name('admin.tpl.place.group.edit');
+    Route::get(
+        '/admin/templates-placeholders/delete-group/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'deleteGroup']
+    )->name('admin.tpl.place.group.delete');
+    Route::get(
+        '/admin/templates-placeholders/status-group/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'statusGroup']
+    )->name('admin.tpl.place.group.status');
+
+    Route::get(
+        '/admin/templates-placeholders/placeholders/{gid}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'placeholders']
+    )->name('admin.tpl.places');
+    Route::any(
+        '/admin/templates-placeholders/placeholders/{gid}/add-placeholder',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'addPlaceholder']
+    )->name('admin.tpl.places.add');
+    Route::any(
+        '/admin/templates-placeholders/placeholders/{gid}/edit-placeholder/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'editPlaceholder']
+    )->name('admin.tpl.places.edit');
+    Route::get(
+        '/admin/templates-placeholders/placeholders/{gid}/delete-placeholder/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'deletePlaceholder']
+    )->name('admin.tpl.places.delete');
+    Route::get(
+        '/admin/templates-placeholders/placeholders/{gid}/status-placeholder/{id}',
+        [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'statusPlaceholder']
+    )->name('admin.tpl.places.status');
 });
 
-
+// Template (no auth)
+Route::any(
+    '/templates/open/{uid}',
+    [App\Http\Controllers\Tpl\TemplatesController::class, 'open']
+)->name('tpl.open');
+Route::post(
+    '/templates/upload-image',
+    [App\Http\Controllers\Tpl\TemplatesController::class, 'uploadImage']
+)->name('tpl.uploadimage');
+Route::get(
+    '/templates/delete-image/{uid}/{field}/{image}',
+    [App\Http\Controllers\Tpl\TemplatesController::class, 'deleteImage']
+)->name('tpl.deleteimage');
 
 Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
 

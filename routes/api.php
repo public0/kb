@@ -18,13 +18,23 @@ use App\Models\Article;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('articles', function() {
+Route::get('articles', function () {
     return Article::all();
 });
 
-Route::get('articles/{id}', function($id) {
+Route::get('articles/{id}', function ($id) {
     return Article::find($id);
 });
+
+// Templates
+Route::post(
+    'templates/open',
+    [App\Http\Controllers\API\TemplatesController::class, 'open']
+);
+Route::get(
+    'templates/get-placeholders/{type_id}',
+    [App\Http\Controllers\API\TemplatesController::class, 'getPlaceholders']
+);
 
 /*Route::get('/article/{api_token}/{id}', function (Request $request) {
     return response()->json([
