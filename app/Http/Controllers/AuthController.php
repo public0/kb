@@ -19,13 +19,14 @@ class AuthController extends Controller
         $password = $request->input('password');
 
         if (Auth::check()) {
-            return redirect('/');
+            return redirect()->back();
         }
 
-        if(!empty($_POST)) {
-            if (Auth::attempt(['email' => $email, 'password' => $password, 'status' => 1])){
+        if (!empty($_POST)) {
+            if (Auth::attempt(['email' => $email, 'password' => $password, 'status' => 1])) {
                 $request->session()->regenerate();
-                return redirect('/');
+
+                return redirect($request->query('redirect') ?? '/');
             }
 
             return back()->withErrors([
@@ -33,7 +34,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return view('frontauth.login');
+        return view('auth.login');
     }
 
     public function logout(Request $request)
@@ -42,10 +43,7 @@ class AuthController extends Controller
             Auth::logout();
 
             $request->session()->invalidate();
-
             $request->session()->regenerateToken();
-
-            return redirect('/auth-out');
         }
 
         return redirect('/');

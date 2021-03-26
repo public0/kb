@@ -40,13 +40,13 @@
                             <h3 class="card-title">Articles List</h3>
                         </div>
                         <div class="card-body">
+                            @if(!empty($articles))
                             <div class="table-responsive">
-                                @if(!empty($articles))
-                                <table class="table card-table table-vcenter">
+                                <table class="table table-bordered table-vcenter">
                                     <thead>
-                                    <tr>
+                                    <tr class="border-top" role="row">
                                         <th class="wd-15p border-bottom-0">ID</th>
-                                        <th class="wd-15p border-bottom-0" style="width: 500px;">Title</th>
+                                        <th class="wd-15p border-bottom-0">Title</th>
                                         <th class="wd-15p border-bottom-0">Language</th>
                                         <th class="wd-15p border-bottom-0">Tags</th>
                                         <th class="wd-15p border-bottom-0">Created AT</th>
@@ -56,28 +56,34 @@
                                     </thead>
                                     <tbody>
                                     @foreach($articles as $art)
-                                    <tr @if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) class="inccls" @endif>
+                                    <tr role="row" @if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) class="inccls" @endif>
                                         <td>{{ $art->article_id }}</td>
                                         <td>@if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) &raquo;&raquo;  @endif{{ $art->title }}</td>
                                         <td>{{ $art->lang }}</td>
-                                        <td>{{ $art->tags }}</td>
-                                        <td>{{ $art->created_at }}</td>
-                                        <td>@if($art->status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
                                         <td>
+                                            @php $art->tags = array_filter(explode(',', $art->tags)) @endphp
+                                            @if(!empty($art->tags))
+                                            @foreach($art->tags as $tag)
+                                            <span class="badge badge-info" title="{{ $tag }}">{{ $tag }}</span>
+                                            @endforeach
+                                            @endif
+                                        </td>
+                                        <td class="text-nowrap">{{ $art->created_at }}</td>
+                                        <td class="text-nowrap">{{ $art->status_name }}</td>
+                                        <td class="text-nowrap">
                                             <a href="<?php echo URL::to('/'); ?>/admin/article/edit/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
                                             <a href="<?php echo URL::to('/'); ?>/admin/article/view/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> View </a>
                                             <a href="<?php echo URL::to('/'); ?>/admin/article/delete/{{ $art->article_id }}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach
-
                                     </tbody>
                                 </table>
-                                    @endif
                             </div>
+                            {!! $articles->appends(Request::all())->links() !!}
+                            @endif
                         </div>
                     </div>
-                    {!! $articles->appends(Request::all())->links() !!}
                     <!--/div-->
                 </div>
             </div>

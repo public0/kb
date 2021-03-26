@@ -81,7 +81,7 @@
 			}
 		});
 	});
-	
+
 	// ______________Quantity Cart Increase & Descrease
 	$(function () {
 		$('.add').on('click',function(){
@@ -99,7 +99,7 @@
 			}
 		});
 	});
-	
+
 	// ___________TOOLTIP
 	$('[data-toggle="tooltip"]').tooltip();
 	// colored tooltip
@@ -359,30 +359,39 @@
 	});
 
 	// ______________ Styles ______________//
-	
+
 	//$('body').addClass('color-menu');//
-	
+
 	//$('body').addClass('light-menu');//
-	
+
 	//$('body').addClass('dark-menu');//
-	
+
 	//$('body').addClass('gradient-menu');//
-	
+
 	//$('body').addClass('light-hor-header');//
-	
+
 	//$('body').addClass('color-hor-header');//
-	
+
 	//$('body').addClass('dark-hor-header');//
-	
+
 	//$('body').addClass('gradient-hor-header');//
-	
+
 	//$('body').addClass('color-hor-menu');//
-	
+
 	//$('body').addClass('light-hor-menu');//
-	
+
 	//$('body').addClass('gradient-hor-menu');//
-	
+
 	//$('body').addClass('dark-hor-menu');//
+
+    $(document).ready(function() {
+        $('.select2-tokens[multiple]').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            minimumResultsForSearch: Infinity,
+            width: '100%'
+        });
+    });
 
 })(jQuery);
 

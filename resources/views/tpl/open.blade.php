@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="{{ $lang }}" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <title>{{ $pageTitle }} - {{ env('APP_NAME') }}</title>
     <meta name='viewport' content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/png" href="<?php echo URL::to('/th/assets/images/brand/favicon.ico'); ?>" />
+    <link rel="icon" href="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" type="image/x-icon" />
     <!--Bootstrap css -->
     <link href="<?php echo URL::to('/th/assets/plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" />
     <!-- Style css -->
@@ -78,9 +78,9 @@
     <div class="page-main">
         <aside class="app-sidebar ps ps--active-y">
             <div class="app-sidebar__logo">
-                <a class="header-brand" href="<?php echo url()->current() ?>">
-                    <img src="<?php echo URL::to('/logofront.png'); ?>" class="header-brand-img desktop-logo" alt="{{ env('APP_NAME') }}" />
-                    <img src="<?php echo URL::to('/logofront.png'); ?>" class="header-brand-img dark-logo" alt="{{ env('APP_NAME') }}" />
+                <a class="header-brand" href="{{ url()->current() }}">
+                    <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ env('APP_NAME') }}">
+                    <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ env('APP_NAME') }}">
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">
@@ -116,7 +116,7 @@
                                 </a>
                             </div>
                         </div>
-                        <form class="needs-validation" method="post" action="<?php echo url()->current() ?>" enctype="multipart/form-data">
+                        <form class="needs-validation" method="post" action="{{ url()->current() }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row row-sm">
@@ -179,8 +179,8 @@
 <script src="<?php echo URL::to('/th/assets/plugins/p-scrollbar/p-scrollbar.js'); ?>"></script>
 <script src="https://cdn.tiny.cloud/1/9n1b0elpd20obpyx38wu9ffiokuiqd1ldwot2t8g0pl0lys9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    var uploadURL = '<?php echo route('tpl.uploadimage'); ?>';
-    var csrf = '<?php echo csrf_token(); ?>';
+    var uploadURL = '{{ route('tpl.uploadimage') }}';
+    var csrf = '{{ @csrf_token() }}';
     tinymce.init({
         selector: '#tinymce',
         height: 700,

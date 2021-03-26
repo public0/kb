@@ -1,116 +1,103 @@
 @extends('front/index')
-@section('row-article')
-<div class="singlePostContainer">
-    <article class="singlePost styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom40 u-paddingTop40 galleryPostFormat">
-        <div class="singlePost__content">
-            <h3 class="  u-fontWeight600 postTitle">{{$article->title}}</h3>
-            <ul class="singlePost__author_category u-font17 u-xs-font14 u-fontWeight600">
-                <li class="singlePost__author u-inlineBlock">{{date('M d, Y',strtotime($article->created_at))}}</li>
-            </ul>
-            <div class="postText u-paddingTop20">
-                {!! $article->body !!}
-            </div>
-        </div>
 
-    </article>
-</div> <!--//PostContainer end-->
-<!-- releted post -->
-@if(!empty($assoc))
-<div class="reletedPostArea u-paddingBottom60">
-    <div class="related__top text-center">
-        <h4 class="u-marginTop55 u-marginBottom30">You Might Also Like</h4>
-    </div>
-    <div class="row u-flex">
-        @foreach($assoc as $asc)
-        <div class="col-sm-6 u-flex u-xs-marginBottom30">
-            <article class="defPost u-noOverFolow defPost defPost--oneHalf u-flex u-flex--contentSpace u-flex--dir_col u-heightBlock styleOne u-relative u-whiteBg u-shadow-0x0x5--05 u-paddingBottom30">
-                <div class="defPost__content u-padding0x30">
-                    <h5 class="  u-fontWeight600 u-marginTop25 u-marginBottom10">
-                        <a class="textDark" href="<?php echo URL::to('/'); ?>/article/{{$asc->article_id}}">{{$asc->title}}</a>
-                    </h5>
-                    <ul class="defPost__author_category u-font15">
-                        <li class="defPost__author u-inlineBlock">{{date('M d, Y',strtotime($asc->created_at))}}</li>
-                    </ul>
-                    <div class="postText u-paddingTop15 u-paddingBottom10">
-                        <p>{{$asc->description}}</p>
-                    </div>
-                </div>
-                <footer class="defPost__footer clear u-padding0x30">
-                    <div class="read-more pull-left">
-                        <a class="u-font15 u-relative u-fontWeight600" href="<?php echo URL::to('/'); ?>/article/{{$asc->article_id}}">Read More</a>
-                    </div>
-                </footer>
-            </article>
-        </div>
-        @endforeach
+@section('title', $article->title)
 
-    </div>
-</div><!--//releted post end-->
-@endif
-<!--post response-->
-@if(Session::has('message'))
-    <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
-@endif
-<div class="postResponse u-whiteBg u-shadow-0x0x5--05">
-    <h4 class="u-margin0 text-center">{{__('labels.leave_a_comment')}}</h4>
-    <div class="responseTab u-marginTop50">
-
-        <div class="full__Wrap">
-            <form  method="post" action="<?php echo URL::current(); ?>">
-                @csrf
-                <div class="form__row">
-                    <textarea @error('msg') style="border-color: red;" @enderror name="msg" placeholder="{{__('labels.write_a_comment')}}">{{ old('msg') }}</textarea>
-                </div>
-                <div class="form__row">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <input class="input firstChild"  @error('name') style="border-color: red;" @enderror name="name" type="text" placeholder="{{__('labels.your_name_required')}}" value="{{ old('name') }}">
-                        </div>
-                        <div class="col-sm-6">
-                            <input class="input" type="email" name="email" @error('email') style="border-color: red;" @enderror placeholder="{{__('labels.your_email_required')}}" value="{{ old('email') }}">
-                        </div>
-                    </div>
-                </div>
-                <div class="form__row">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <!--input type="submit" value="Post Comment"/-->
-                            <button type="submit">{{__('labels.post_comment')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div><!--// full__Wrap end -->
-    </div>
-</div><!--//post response end -->
-
-
-<!-- post comments-->
-@if(!empty($comments))
-<div class="commentsArea u-shadow-0x0x5--05 u-whiteBg u-marginTop50">
-    <div class="comments__Wrapper">
-        <h4 class="comments__Title text-center u-margin0"><?php echo count($comments); ?> {{__('labels.comments')}}</h4>
-        <ol class="comment-list u-marginTop50">
-            @foreach($comments as $com)
-            <li class="comment parent">
-                <article class="comment-body">
-                    <div class="comment-meta">
-                        <div class="author-pic">
-                            <img src="<?php echo URL::to('/'); ?>/thf/img/p32-110x110.jpg" alt="">
-                        </div>
-                        <div class="comment-metadata">
-                            <h4 class="author-name"><a href="#">{{$com->Name}}</a></h4>
-                            <time datetime="2018-02-14 20:00">{{date('M d, Y',strtotime($com->created_at))}}</time>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        <p>{{$com->Comment}}</p>
-                    </div>
-                </article>
-            </li>
-            @endforeach
+@section('page-header')
+<div class="page-header">
+    <div class="page-leftheader">
+        <h4 class="page-title mb-0">{{ $article->title }}</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('front.home') }}"><i class="fe fe-home mr-2 fs-14"></i>{{ __('labels.home') }}</a></li>
+            <li class="breadcrumb-item active">{{ $article->title }}</li>
         </ol>
     </div>
 </div>
-    @endif
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="card overflow-hidden">
+            {{-- <div class="item7-card-img px-4 pt-4">
+                <img src="../../assets/images/photos/blog.jpg" alt="img" class="cover-image br-7 w-100">
+            </div> --}}
+            <div class="card-body">
+                <div class="item7-card-desc d-md-flex">
+                    <a href="javascript:void(0)" class="d-flex mr-4"><i class="fe fe-calendar fs-16 mr-1"></i><div class="mt-0">{{ date('d.m.Y',strtotime($article->created_at)) }}</div></a>
+                    <span class="fs-14 ml-2 mr-4"> {{ $article->rank }} <i class="fa fa-star text-yellow"></i></span>
+                    <a href="javascript:void(0)" class="d-flex"><i class="fe fe-user fs-16 mr-1"></i><div class="mt-0">{{ $article->article_id }}</div></a>
+                    <div class="ml-auto"><a class="mr-0 d-flex" href="javascript:void(0)" onclick="scrollToElm('a[name=ArticleComments]')"><i class="fe fe-message-square fs-16 mr-1"></i><div class="mt-0">{{ count($comments) }} {{ __('labels.comments') }}</div></a></div>
+                </div>
+                <hr>
+                <p>{!! $article->body !!}</p>
+            </div>
+        </div>
+
+        @if(count($assoc))
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Similare</h4>
+            </div>
+            <div class="card-body">
+                @foreach($assoc as $art)
+                @php
+                $url = route('front.article', ['id' => $art->article_id]);
+                @endphp
+                    <h4><a href="{{ $url }}">{{ $art->title }}</a></h4>
+                    <div class="text-muted">{{ $art->description }}</div>
+                    <div class="d-flex align-items-center pt-3 mt-auto">
+                        <a href="{{ $url }}" class="d-flex"><i class="fe fe-calendar fs-16 mr-1"></i> @if($art->created_at > $art->updated_at){{ date('d.m.Y', strtotime($art->created_at)) }}@else{{ date('d.m.Y', strtotime($art->updated_at)) }}@endif</a>
+                        <div class="ml-auto"><a class="mr-0 d-flex" href="{{ $url }}"><i class="fe fe-message-square fs-16 mr-1"></i>{{ $art->comments_number }} {{ __('labels.comments') }}</a></div>
+                    </div>
+                    @if(!$loop->last)<hr>@endif
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        <a name="ArticleComments"></a>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ count($comments) }} {{ __('labels.comments') }}</h3>
+            </div>
+            @if(count($comments))
+            <div class="card-body">
+                @foreach($comments as $com)
+                <div class="d-sm-flex p-5 mb-4 border sub-review-section">
+                    <div class="d-flex mr-3"><span class="media-object brround avatar avatar-md"><i class="fe fe-message-circle"></i></span></div>
+                    <div class="media-body Comments1">
+                        <h5 class="mt-0 mb-1 font-weight-semibold">{{$com->name}}</h5>
+                        <p class="font-13  mb-2 mt-2">{{$com->comment}}</p>
+                        <span class="badge badge-light">{{date('d.m.Y', strtotime($com->created_at))}}</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ __('labels.leave_a_comment') }}</h3>
+            </div>
+            <div class="card-body">
+                @if(Session::has('message'))
+                    <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
+                @endif
+                @if ($errors->comment->any())
+                    <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->comment->all() as $error) {{ $error }}<br> @endforeach</div>
+                @endif
+                <div class="mt-2">
+                    <form method="post" action="<?php echo url()->current() ?>">
+                        @csrf
+                        <div class="form-group"><input type="text" class="form-control" name="comment_name" placeholder="{{__('labels.your_name_required')}}" value="{{ old('comment_name') }}" @error('comment_name')style="border-color: red;"@enderror /></div>
+                        <div class="form-group"><input type="text" class="form-control" name="comment_email" placeholder="{{__('labels.your_email_required')}}" value="{{ old('comment_email') }}" @error('comment_email')style="border-color: red;"@enderror /></div>
+                        <div class="form-group"><textarea class="form-control" name="comment_text" rows="6" placeholder="{{__('labels.write_a_comment')}}" @error('comment_text') style="border-color: red;"@enderror>{{ old('comment_text') }}</textarea></div>
+                        <button type="submit" class="btn btn-primary">{{__('labels.post_comment')}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

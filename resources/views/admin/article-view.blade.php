@@ -11,7 +11,7 @@
             <!--Page header-->
             <div class="page-header">
                 <div class="page-leftheader">
-                    <h4 class="page-title mb-0">Articles List</h4>
+                    <h4 class="page-title mb-0">Article View</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo URL::to('/'); ?>/admin"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articles</a></li>
@@ -27,38 +27,45 @@
                     <!--div-->
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Article View</div>
+                            <div class="card-title">{{ $article->title }}</div>
                         </div>
                         <div class="card-body">
+                            @if(!empty($article))
                             <div class="table-responsive">
-                                @if(!empty($articles))
-                                <table class="table table-bordered text-nowrap" id="example2">
+                                <table class="table table-bordered text-nowrap">
                                     <tbody>
                                     <tr>
-                                        <td>Lang</td><td>{{ $articles->lang }}</td>
+                                        <td>Language</td><td>{{ $article->lang }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Title</td><td>{{ $articles->title }}</td>
+                                        <td>Title</td><td>{{ $article->title }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Description</td><td>{{ $articles->description }}</td>
+                                        <td>Description</td><td>{{ $article->description }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Body</td><td>{!! $articles->body !!}</td>
+                                        <td>Category</td><td>{{ $article->category_id }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Category</td><td>{{ $articles->categoty }}</td>
+                                        <td>Tags</td>
+                                        <td>
+                                            @php $article->tags = array_filter(explode(',', $article->tags)) @endphp
+                                            @if(!empty($article->tags))
+                                            @foreach($article->tags as $tag)
+                                            <span class="badge badge-info" title="{{ $tag }}">{{ $tag }}</span>
+                                            @endforeach
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Tags</td><td>{{ $articles->tags }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status</td><td>@if($articles->status == 0) Active @else Inactive @endif</td>
+                                        <td>Status</td><td>{{ $article->status_name }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                    @endif
                             </div>
+                            <br><br>
+                            {!! $article->body !!}
+                            @endif
                         </div>
                     </div>
                     <!--/div-->

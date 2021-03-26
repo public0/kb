@@ -8,7 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class UserGroups extends Model
 {
     use HasFactory;
-    protected $table = 'user_groups';
+
+    protected $table = 'dbo.user_groups';
+
+    /**
+     * Scope a query to only include active groups.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 
     /*protected $primaryKey = 'id';
     public $incrementing = true;

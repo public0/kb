@@ -58,13 +58,13 @@
                                     <tbody>
                                     @foreach($categories as $gr)
                                     <tr>
-                                        <td> @for($i = 0;$i<$gr->ind;$i++) ->> @endfor {{$gr->Name}}</td>
-                                        <td>{{$gr->Lang}}</td>
+                                        <td>@for($i = 0; $i < $gr->ind; $i++)<i class="fe fe-arrow-right"></i>@endfor {{$gr->name}}</td>
+                                        <td>{{$gr->lang}}</td>
                                         <td>{{$gr->created_at}}</td>
-                                        <td>@if($gr->Status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
+                                        <td>{{$gr->status_name}}</td>
                                         <td>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/category/edit/{{$gr->Id}}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/category/delete/{{$gr->Id}}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
+                                            <a href="<?php echo URL::to('/'); ?>/admin/category/edit/{{$gr->id}}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
+                                            <a href="<?php echo URL::to('/'); ?>/admin/category/delete/{{$gr->id}}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach

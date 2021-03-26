@@ -1,14 +1,14 @@
-@extends('admin.index-login')
+@extends('front.index')
 
-@section('content')
-<div class="container" style="padding-top: 50px; ">
+@section('content-full')
+<div class="container" style="padding-top:50px">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{-- route('login') --}}<?php echo url()->full() ?>">
                         @csrf
 
                         <div class="form-group row">

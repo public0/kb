@@ -15,26 +15,6 @@ use App\MyClasses\UtileClass;
 
 class UsersController extends Controller
 {
-    function __construct() {
-
-       /*//UtileClass::getUserGroups(); die();
-        $authUser = Auth::user();
-        var_dump(Auth::user()->full_name); die();*/
-
-        //$this->middleware(function ($request, $next) {
-            /*if (!Auth::check()) {
-                die();
-            }*/
-            //var_dump(Auth::user()->full_name); die();
-       // });
-
-
-
-        if (!Auth::check()) {
-            return redirect('/log');
-        }
-    }
-
     public function index(){
 
         $users = DB::table('users')->orderBy('id','desc')->get();

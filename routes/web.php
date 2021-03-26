@@ -16,19 +16,10 @@ use Illuminate\Support\Facades\Password;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-Route::any('/', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/tohome', function () {
-    die('here');
-});
-Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index']);
+Route::any('/', [App\Http\Controllers\HomeController::class, 'index'])->name('front.home');
+// Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
 
-Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
-//Route::any('/login', [App\Http\Controllers\Admin\LoginController::class, 'index']);
-
-Route::middleware(['verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('admin.home');
     Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
@@ -43,7 +34,8 @@ Route::middleware(['verified'])->group(function () {
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
     Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
     Route::any('/admin/category/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryDelete']);
-    Route::any('/admin/uploadimg', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImg']);
+    Route::any('/admin/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
+    Route::any('/admin/import-images', [App\Http\Controllers\Admin\ArticleController::class, 'importImages']);
 
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
     Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);
@@ -133,26 +125,37 @@ Route::get(
     [App\Http\Controllers\Tpl\TemplatesController::class, 'deleteImage']
 )->name('tpl.deleteimage');
 
-Route::any('/newsletter', [App\Http\Controllers\NewsletterController::class, 'index']);
+// Articles
+Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'index'])->name('front.category');
+Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index'])->name('front.article');
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('front.search');
 
-Route::post('/search', [App\Http\Controllers\SearchContriller::class, 'index']);
-Route::get('/caregory/{id}', [App\Http\Controllers\CategoryController::class, 'index']);
+// Newsletter
+Route::any(
+    '/newsletter',
+    [App\Http\Controllers\NewsletterController::class, 'index']
+)->name('front.newsletter');
 
+// Auth
+Route::name('auth.')->group(function () {
+    Route::any(
+        '/login',
+        [App\Http\Controllers\AuthController::class, 'authenticate']
+    )->name('login');
+    Route::any(
+        '/logout',
+        [App\Http\Controllers\AuthController::class, 'logout']
+    )->name('logout');
+});
 
-
-Route::get('/reset-pwd', function () {
-   // Config::set('auth.auth_front','true');
-    return view('frontauth.passwords.email');
-})->name('front.resetpassword');
-
-/*Route::get('/reset-passworddd/{token}', function ($token) {
-    return view('auth.reset-password', ['token' => $token]);
-})->middleware('guest')->name('password.reset');*/
-
-Route::any('/login', [App\Http\Controllers\AuthController::class, 'authenticate']);
-Route::any('/auth-out', [App\Http\Controllers\AuthController::class, 'logout']);
-
-
-Route::get('/log', function () {
-    return view('frontauth.login');
-})->name('verification.notice');
+// API Token
+Route::middleware(['api_token'])->group(function () {
+    Route::get(
+        '/help/{api_token}/article/view/{id}',
+        [App\Http\Controllers\ArticleController::class, 'helpView']
+    )->name('help.articles.view');
+    Route::get(
+        '/help/{api_token}/search',
+        [App\Http\Controllers\SearchController::class, 'helpSearch']
+    )->name('help.articles.search');
+});

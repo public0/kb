@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="{{ $lang }}" dir="ltr">
 <head>
-
+    <meta charset="UTF-8">
+    <!-- Title -->
+    <title>Admin - {{ env('APP_NAME') }}</title>
+    <!-- Meta data -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <meta content="{{ env('APP_NAME') }}" name="description" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <!-- Meta data -->
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-    <meta content="Admitro - Admin Panel HTML template" name="description">
-    <meta content="Spruko Technologies Private Limited" name="author">
-    <!-- Title -->
-    <title>Ringhel</title>
-
     <!--Favicon -->
-    <link rel="icon" href="<?php echo URL::to('/'); ?>/th/assets/images/brand/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" type="image/x-icon" />
 
     <!--Bootstrap css -->
     <link href="<?php echo URL::to('/'); ?>/th/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -48,19 +45,18 @@
     <link href="<?php echo URL::to('/'); ?>/th/assets/plugins/select2/select2.min.css" rel="stylesheet" />
 
     <!-- Color Skin css -->
-    <link id="theme" href="<?php echo URL::to('/'); ?>/th/assets/colors/color1.css" rel="stylesheet" type="text/css"/>
+    <link id="theme" href="<?php echo URL::to('/'); ?>/th/assets/colors/color1.css" rel="stylesheet" type="text/css" />
     <!-- Custom -->
-    <link id="theme" href="<?php echo URL::to('/'); ?>/admin.css" rel="stylesheet" type="text/css"/>
+    <link id="theme" href="<?php echo URL::to('/'); ?>/admin.css" rel="stylesheet" type="text/css" />
 
     <script src="https://cdn.tiny.cloud/1/9n1b0elpd20obpyx38wu9ffiokuiqd1ldwot2t8g0pl0lys9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
 </head>
 
 <body class="app sidebar-mini">
 
 <!---Global-loader-->
 <div id="global-loader" >
-    <img src="<?php echo URL::to('/'); ?>/th/assets/images/svgs/loader.svg" alt="loader">
+    <img src="<?php echo URL::to('/th/assets/images/svgs/loader.svg'); ?>" alt="loader" />
 </div>
 <!--- End Global-loader-->
 
@@ -76,15 +72,11 @@
         <!-- App-Content -->
         @section('footer')
         @show
+        <!--Footer-->
         <x-AdminFooter/>
+        <!-- End Footer-->
         <!-- End app-content-->
     </div>
-
-
-    <!--Footer-->
-
-    <!-- End Footer-->
-
 </div>
 <!-- End Page -->
 
@@ -113,8 +105,6 @@
 <!-- P-scroll js-->
 <script src="<?php echo URL::to('/'); ?>/th/assets/plugins/p-scrollbar/p-scrollbar.js"></script>
 <script src="<?php echo URL::to('/'); ?>/th/assets/plugins/p-scrollbar/p-scroll1.js"></script>
-<script src="<?php echo URL::to('/'); ?>/th/assets/plugins/p-scrollbar/p-scroll.js"></script>
-
 
 
 <!-- INTERNAL Data tables -->
@@ -168,4 +158,3 @@
 
 </body>
 </html>
-

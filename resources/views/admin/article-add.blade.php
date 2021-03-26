@@ -2,18 +2,17 @@
 
 @section('content')
     <script>
-
-        var site_url= {{URL::to('/')}}/;
-
+        var site_url = '{{ URL::to('/') }}';
         tinymce.init({
             selector: '#tinymce',
             images_dataimg_filter: function(img) {
                 return img.hasAttribute('internal-blob');
             },
-            images_upload_url: site_url+'images',
-            relative_urls : false,
-            remove_script_host : false,
-            convert_urls : true,
+            images_file_types: 'jpg,jpeg,png,gif',
+            images_upload_url: site_url + '/admin/upload-image?_token={{@csrf_token()}}',
+            relative_urls: false,
+            remove_script_host: true,
+            convert_urls: true,
 
             plugins: 'print preview powerpaste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons  ',
             imagetools_cors_hosts: ['ringhel.ro'],
@@ -27,12 +26,12 @@
             autosave_retention: "20m",
             image_advtab: true,
             // content_css: '//www.tiny.cloud/css/codepen.min.css',
-            link_list: [
-            ],
-            image_list: [
-            ],
-            image_class_list: [
-            ],
+            // link_list: [
+            // ],
+            // image_list: [
+            // ],
+            // image_class_list: [
+            // ],
             importcss_append: true,
             // file_picker_callback: function (callback, value, meta) {
             //     /* Provide file and text for the link dialog */
@@ -91,7 +90,7 @@
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
             @endif
             @if ($errors->any())
-                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
             <!-- Row-1 -->
             <div class="row">
@@ -111,13 +110,13 @@
                                                 <label class="form-label">Language</label>
                                                 <select name="lang" id="select-countries" class="form-control custom-select select2">
                                                     @foreach($language as $lng)
-                                                        <option value="{{$lng->abv}}" @if(!empty(old('lang')) && in_array($lng->abv,old('lang'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
+                                                    <option value="{{$lng->abv}}" @if(!empty(old('lang')) && $lng->abv == old('lang')) selected="selected"@endif>{{$lng->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         @endif
                                         <div class="form-group">
-                                            <input name="title" class="form-control" placeholder="Title" required="required"  type="text" value="{{old('title')}}">
+                                            <input name="title" class="form-control" placeholder="Title" required="required" type="text" value="{{old('title')}}">
                                         </div>
                                         <div class="form-group">
                                             <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required"  type="text">{{old('description')}}</textarea>
@@ -127,7 +126,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Tags</label>
-                                            <input name="tags" class="form-control  mb-4" type="text" value="{{old('tags')}}">
+                                            <select name="tags[]" class="form-control custom-select select2-tokens" multiple>
+                                                @if(old('tags'))
+                                                @foreach(old('tags') as $tag)
+                                                <option value="{{$tag}}" selected>{{$tag}}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Rank</label>
@@ -136,12 +141,11 @@
                                         @if(!empty($categories))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
-                                                <select name="categoty" id="select-countries" class="form-control custom-select select2">
+                                                <select name="category_id" id="select-countries" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
-                                                        <option value="{{$ct->Id}}" @if(!empty(old('categoty')) && in_array($ct->Id,old('categoty'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ct->Name}}</option>
+                                                    <option value="{{$ct->Id}}" @if(!empty(old('category_id')) && $ct->Id == old('category_id')) selected="selected"@endif>{{$ct->Name}}</option>
                                                     @endforeach
-
                                                 </select>
                                             </div>
                                         @endif

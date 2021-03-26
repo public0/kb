@@ -1,7 +1,7 @@
-@extends('admin.index-login')
+@extends('front.index')
 
-@section('content')
-<div class="container" style="padding-top: 50px; ">
+@section('content-full')
+<div class="container" style="padding-top:50px">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

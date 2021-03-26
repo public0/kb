@@ -27,7 +27,7 @@
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
             @endif
             @if ($errors->any())
-                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
             <!-- Row-1 -->
             <div class="row">
@@ -43,14 +43,14 @@
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input class="form-control" placeholder="Name" name="name" required="required" type="text" value="">
+                                            <input class="form-control" placeholder="Name" name="name" required="required" type="text" value="{{old('name')}}">
                                         </div>
                                         @if(!empty($language))
                                             <div class="form-group">
                                                 <label class="form-label">Language</label>
-                                                <select name="lang" id="select-countries" class="form-control custom-select select2">
+                                                <select name="lang" class="form-control custom-select select2">
                                                     @foreach($language as $lng)
-                                                        <option value="{{$lng->abv}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$lng->name}}</option>
+                                                        <option value="{{$lng->abv}}">{{$lng->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -58,10 +58,10 @@
                                         @if(!empty($categ))
                                             <div class="form-group">
                                                 <label class="form-label">Parent</label>
-                                                <select name="categoty" id="select-countries" class="form-control custom-select select2">
-                                                    <option value="0" data-data='{"image": "./../../assets/images/flags/br.svg"}'>---</option>
+                                                <select name="parent_id" class="form-control custom-select select2">
+                                                    <option value="0">---</option>
                                                     @foreach($categ as $gr)
-                                                        <option value="{{$gr->Id}}" data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->Name}}</option>
+                                                        <option value="{{$gr->id}}">{{$gr->name}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -69,7 +69,7 @@
                                         @endif
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
-                                            <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
+                                            <select name="status" placeholder="E-Mail" class="form-control custom-select select2">
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
                                             </select>

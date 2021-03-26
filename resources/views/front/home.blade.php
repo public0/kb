@@ -1,14 +1,11 @@
 @extends('front/index')
 
-@section('title', __('labels.search_results'))
-
 @section('page-header')
 <div class="page-header">
     <div class="page-leftheader">
-        <h4 class="page-title mb-0">{{ __('labels.search_title') }}: {{ request()->input('q') }}</h4>
+        <h4 class="page-title mb-0">Ringhel Workspace</h4>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('front.home') }}"><i class="fe fe-home mr-2 fs-14"></i>{{ __('labels.home') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('labels.search_results') }}</li>
+            <li class="breadcrumb-item active"><a href="{{ route('front.home') }}"><i class="fe fe-home mr-2 fs-14"></i>{{ __('labels.home') }}</a></li>
         </ol>
     </div>
 </div>
@@ -29,5 +26,10 @@
             </div>
         </div>
     @endif
+</div>
+<div class="row">
+    <div class="col-md-12">
+    {!! $articles->appends(Request::all())->links() !!}
+    </div>
 </div>
 @endsection

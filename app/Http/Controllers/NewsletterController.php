@@ -11,14 +11,14 @@ class NewsletterController extends Controller
 {
     public function index(Request $request)
     {
-        if (!empty($_POST)) {
+        if ($request->isMethod('post')) {
             $validator = Validator::make($request->post(), [
-                'email' => 'required|unique:Newsletter|email|max:255',
+                'email' => 'required|email|max:255|unique:' . Newsletter::class
             ]);
 
             if ($validator->fails()) {
                 return redirect()->back()
-                    ->withErrors($validator)
+                    ->withErrors($validator, 'newsletter')
                     ->withInput();
             } else {
                 $newsletter = new Newsletter();

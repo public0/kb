@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GroupsUsers;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +11,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    protected $table = 'dbo.users';
 
     /**
      * The attributes that are mass assignable.
@@ -49,5 +52,38 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->name} {$this->surname}";
+    }
+
+    /**
+     * Get user groups.
+     *
+     * @return array
+     */
+    public function getMyGroupsAttribute()
+    {
+        $result = [];
+        if ($this->id) {
+            $groups = GroupsUsers::where('user_id', $this->id)
+                ->select('group_id')
+                ->get();
+            if ($groups) {
+                foreach ($groups as $group) {
+                    $result[] = $group->group_id;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }

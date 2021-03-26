@@ -5,29 +5,29 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Article;
-use App\Models\Users;
+use App\Models\User;
 use App\Models\Newsletter;
-use App\Models\Categories;
+use App\Models\Category;
 
 class DashBoardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $articles_all =  (new Article)->count();
         $articles_active = (new Article)->where('status', 1)->count();
 
-        $users_all =  (new Users)->count();
-        $users_active = (new Users)->where('status', 1)->count();
+        $users_all =  (new User)->count();
+        $users_active = (new User)->where('status', 1)->count();
 
-        $category_all =  (new Categories)->count();
-        $category_active = (new Categories)->where('Status', 1)->count();
+        $category_all =  (new Category)->count();
+        $category_active = (new Category)->where('status', 1)->count();
 
         $subscribe_all =  (new Newsletter)->count();
         $subscribe_active = (new Newsletter)->where('status', 1)->count();
 
         $recent_articles = (new Article)->orderBy('created_at', 'desc')->take(5)->get();
 
-        $recent_users = (new Users)->orderBy('created_at', 'desc')->take(5)->get();
-
+        $recent_users = (new User)->orderBy('created_at', 'desc')->take(5)->get();
 
         $data = [
             'articles_all' => $articles_all,

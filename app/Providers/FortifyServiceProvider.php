@@ -50,36 +50,37 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
-           //return view('auth.login');
-        //   return view('frontauth.login');
+            return view('auth.login');
         });
         Fortify::requestPasswordResetLinkView(function () {
-            //return view('auth.passwords.email');
-            return view('frontauth.passwords.email');            //formular cerere reset
+            return view('auth.passwords.email');
         });
         Fortify::resetPasswordView(function ($request) {
-            //return view('auth.passwords.reset', ['request' => $request]);
-           return view('frontauth.passwords.reset', ['request' => $request]);  //formular schimbare parola
+            return view('auth.passwords.reset', ['request' => $request]);
         });
 
         Fortify::verifyEmailView(function () {
-      //      return view('auth.verify');
+            // return view('auth.verify');
         });
 
         Fortify::authenticateUsing(function (Request $request) {
             $groupsArray = null;
-            $user = User::where('email', $request->email)->where('status','1')->first();
+            $user = User::where('email', $request->email)->where('status', '1')->first();
 
-            if($user){
-                $groups = DB::table('x_groups_users')->leftJoin('user_groups','x_groups_users.group_id','=','user_groups.id')->where('user_id', $user->id)->select('group_id')->get();
-                if($groups){
-                    foreach ($groups as $gr){
+            if ($user) {
+                $groups = DB::table('x_groups_users')
+                    ->leftJoin('user_groups', 'x_groups_users.group_id', '=', 'user_groups.id')
+                    ->where('user_id', $user->id)
+                    ->select('group_id')
+                    ->get();
+                if ($groups) {
+                    foreach ($groups as $gr) {
                         $groupsArray[] = $gr->group_id;
                     }
                 }
             }
             if ($user && Hash::check($request->password, $user->password)) {
-                if(!empty($groupsArray) && in_array(1, $groupsArray)){
+                if (!empty($groupsArray) && in_array(1, $groupsArray)) {
                     return $user;
                 }
             }

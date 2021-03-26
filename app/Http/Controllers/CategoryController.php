@@ -3,46 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use App\Models\Article;
-use App\MyClasses\ArticleFactoryClass;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\Categories;
-use App\MyClasses\UtileClass;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $id = $request->id;
-        $parents_category = null;
-        $lang = UtileClass::getLang();
-        if(!empty($id)){
-            $categ = Categories::where('Id', $id)->first();
-            if(!empty($categ->Tree)){
-                $parents_id = explode(',',$categ->Tree);
-                $parents_category = Categories::whereIn('Id', $parents_id)->get();
+        if (!empty($id)) {
+            $parents = [];
+            $category = Category::where('id', $id)->first();
+            if (!empty($category->tree)) {
+                $parents = Category::whereIn('id', explode(',', $category->tree))->get();
             }
 
-            $newArt = ArticleFactoryClass::getArticleList('new');
-            $article = Article::where(['categoty'=> $id, 'status'=> 1, 'lang'=>$lang])->paginate(20);
-            if(empty($article)){
-                $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!'];
-                return view('front/row-article', $data);
-            }
-            $data = ['article'=>$article, 'new'=>$newArt, 'msg'=>'No results found!', 'parents' => $parents_category, 'categ_id' => $id];
-            return view('front/category-article', $data);
+            $articles = Article::active()
+                ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
+                ->where(['category_id' => $id, 'lang' => $this->lang])
+                ->paginate(20);
+            $data = [
+                'articles' => $articles,
+                'parents' => $parents,
+                'category' => $category
+            ];
+
+            return view('front/category', $data);
         } else {
             abort(404);
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
