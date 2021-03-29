@@ -39,11 +39,14 @@ class TemplatePlaceholderGroup extends Model
         return $this->hasMany(TemplatePlaceholder::class, 'placeholder_group_id');
     }
 
-    public static function boot()
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
-
-        self::deleting(function ($group) {
+        static::deleting(function ($group) {
             $group->placeholders()->each(function ($placeholder) {
                 $placeholder->delete();
             });
