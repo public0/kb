@@ -23,7 +23,7 @@ class NewsletterController extends Controller
             $newsletter = Newsletter::where('id', $id);
             $data = $newsletter->first();
             $newsletter->update([
-                'Status' => 1 - $data->status
+                'status' => 1 - $data->status
             ]);
 
             return redirect()->back();

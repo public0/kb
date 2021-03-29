@@ -9,7 +9,7 @@ class Newsletter extends Model
 {
     use HasFactory;
 
-    protected $table = 'newsletter';
+    protected $table = 'dbo.newsletter';
 
     /**
      * Get status name.
