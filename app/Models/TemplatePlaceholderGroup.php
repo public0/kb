@@ -38,4 +38,15 @@ class TemplatePlaceholderGroup extends Model
     {
         return $this->hasMany(TemplatePlaceholder::class, 'placeholder_group_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($group) {
+            $group->placeholders()->each(function ($placeholder) {
+                $placeholder->delete();
+            });
+        });
+    }
 }

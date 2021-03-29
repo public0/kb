@@ -90,7 +90,6 @@ class TemplatePlaceholdersController extends Controller
         try {
             $group = TemplatePlaceholderGroup::where('id', $id);
             $data = $group->first();
-            $group->placeholders()->delete();
             $group->delete();
 
             return redirect()->back()
