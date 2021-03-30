@@ -65,6 +65,20 @@ class Article extends Model
     }
 
     /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($article) {
+            $article->comments()->each(function ($comment) {
+                $comment->delete();
+            });
+        });
+    }
+
+    /**
      * Get status name.
      *
      * @return string

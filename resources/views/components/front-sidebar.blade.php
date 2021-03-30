@@ -23,7 +23,7 @@
 @if(!empty($new))
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">{{__('labels.last_articals')}}</h4>
+        <h4 class="card-title">{{__('labels.last_articles')}}</h4>
     </div>
     <div class="card-body">
         @foreach($new as $art)

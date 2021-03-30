@@ -2,6 +2,12 @@
 
 namespace App\View\Components;
 
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Newsletter;
+use App\Models\User;
+use App\Models\UserGroups;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -26,11 +32,12 @@ class AdminSidebar extends Component
     public function render()
     {
         $data = [
-            'users' => DB::table('users')->count(),
-            'users_groups' => DB::table('user_groups')->count(),
-            'articles' => DB::table('article')->count(),
-            'categories' => DB::table('categories')->count(),
-            'subscribers' => DB::table('newsletter')->count(),
+            'users' => User::count(),
+            'users_groups' => UserGroups::count(),
+            'articles' => Article::count(),
+            'categories' => Category::count(),
+            'comments' => Comment::count(),
+            'subscribers' => Newsletter::count(),
             'current_user_name' => Auth::user()->full_name
         ];
 

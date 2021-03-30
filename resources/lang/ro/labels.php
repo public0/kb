@@ -3,10 +3,10 @@
 return [
     'read_more'=>'Citeste mai mult..',
     'newslwtter_not_publish'=>'Emailul tau nu va fi facut public.',
-    'last_articals'=>'Ultimele Articole',
+    'last_articles'=>'Ultimele Articole',
     'newslwtter_email_here'=>'Emailul tau',
     'subscribe'=>'Inscriere',
-    'last_read_articals'=>'Ultimile Articole Citie',
+    'last_read_articles'=>'Ultimile Articole Citie',
     'category'=>'Categorii',
     'leave_a_comment'=>'Lasa un comentariu',
     'write_a_comment'=>'Scrie comentariul tau la articol...',

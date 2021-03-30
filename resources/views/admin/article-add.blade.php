@@ -101,7 +101,7 @@
                             <h3 class="card-title">Articles Add</h3>
                         </div>
                         <div class="card-body pb-2">
-                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/article/add">
+                            <form class="needs-validation" method="post" action="{{ url()->current() }}">
                                 @csrf
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
@@ -116,13 +116,13 @@
                                             </div>
                                         @endif
                                         <div class="form-group">
-                                            <input name="title" class="form-control" placeholder="Title" required="required" type="text" value="{{old('title')}}">
+                                            <input name="title" class="form-control" placeholder="Title" type="text" required="required" value="{{old('title')}}">
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required"  type="text">{{old('description')}}</textarea>
+                                            <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required" type="text">{{old('description')}}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required"  type="text" style="height: 200px;">{{old('body')}}</textarea>
+                                            <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required" type="text" style="height: 200px;">{{old('body')}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Tags</label>
@@ -141,7 +141,7 @@
                                         @if(!empty($categories))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
-                                                <select name="category_id" id="select-countries" class="form-control custom-select select2">
+                                                <select name="category_id" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
                                                     <option value="{{$ct->Id}}" @if(!empty(old('category_id')) && $ct->Id == old('category_id')) selected="selected"@endif>{{$ct->Name}}</option>
@@ -149,34 +149,29 @@
                                                 </select>
                                             </div>
                                         @endif
-
                                         <div class="form-group">
                                             <label class="form-label">Lang parent id</label>
-                                            <input name="lang_parent_id" class="form-control" type="text" value="{{old('lang_parent_id')}}">
+                                            <select name="lang_parent_id" class="form-control"></select>
                                         </div>
-
-
                                         @if(!empty($user_groups))
                                             <div class="form-group">
                                                 <label class="form-label">User Groups</label>
-                                                <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
+                                                <select name="user_groups[]" class="form-control custom-select select2" multiple>
                                                     <option value="">--</option>
                                                     @foreach($user_groups as $ug)
-                                                        <option value="{{$ug->id}}" @if(!empty(old('user_groups')) && in_array($ug->id,old('user_groups'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
+                                                        <option value="{{$ug->id}}" @if(!empty(old('user_groups')) && in_array($ug->id,old('user_groups'))) selected="selected" @endif>{{$ug->name}}</option>
                                                     @endforeach
 
                                                 </select>
                                             </div>
                                         @endif
-
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
-                                            <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
+                                            <select name="status" placeholder="E-Mail" class="form-control custom-select select2">
                                                 <option value="1" @if(old('status') == 1) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
                                                 <option value="0" @if(old('status') == 0) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
                                             </select>
                                         </div>
-
                                         <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />
                                     </div>
                                 </div>
@@ -188,9 +183,59 @@
                 </div>
             </div>
             <!-- End Row-1 -->
-
-
-
         </div>
     </div>
 @endsection
+
+@push('body-scripts')
+<script>
+    function populateLangParentId(lang) {
+        $('select[name="lang_parent_id"]').select2({
+            ajax: {
+                method: 'GET',
+                url: '{{ route('api.articles.list') }}',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        term: params.term,
+                        select: 'id,title',
+                        lang_not: lang
+                    };
+                },
+                processResults: function (data) {
+                    var items = [];
+                    $.each(data.articles, function(idx, val) {
+                        items.push({id: val.id, text: val.title});
+                    });
+                    return {
+                        results: items
+                    };
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        var selectLang = $('select[name="lang"]');
+        @if(!empty(old('lang_parent_id')))
+        $.ajax('{{ route('api.articles.item', ['id' => old('lang_parent_id')]) }}', {
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                select: 'id,title'
+            },
+            success: function (data) {
+                $('select[name="lang_parent_id"]').append($('<option>', {
+                    value: data.article.id,
+                    text: data.article.title,
+                    selected: true
+                }));
+            }
+        });
+        @endif
+        selectLang.on('change', function () {
+            populateLangParentId($(this).val());
+        });
+        populateLangParentId(selectLang.val());
+    });
+</script>
+@endpush

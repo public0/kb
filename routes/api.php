@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +17,16 @@ use App\Models\Article;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-/* Route::get('/articles', function () {
-    return Article::all();
-});
 
-Route::get('/articles/{id}', function ($id) {
-    return Article::find($id);
-}); */
+// Articles
+Route::get(
+    '/articles',
+    [App\Http\Controllers\API\ArticlesController::class, 'list']
+)->name('api.articles.list');
+Route::get(
+    '/articles/{id}',
+    [App\Http\Controllers\API\ArticlesController::class, 'item']
+)->name('api.articles.item');
 
 // Templates
 Route::post(

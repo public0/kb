@@ -3,10 +3,10 @@
 return [
     'read_more'=>'Read more..',
     'newslwtter_not_publish'=>'Your email address will not be published.',
-    'last_articals'=>'Latest Articles',
+    'last_articles'=>'Latest Articles',
     'newslwtter_email_here'=>'Your Mail Here',
     'subscribe'=>'Subcribe',
-    'last_read_articals'=>'Last Read Articles',
+    'last_read_articles'=>'Last Read Articles',
     'category'=>'Category',
     'leave_a_comment'=>'Leave a Comment',
     'write_a_comment'=>'Write your comment on the article..',

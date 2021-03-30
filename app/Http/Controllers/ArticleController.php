@@ -15,7 +15,11 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $article = Article::where('article_id', $request->id)->first();
+        $article = Article::where('article_id', $request->id);
+        if (!$request->query('preview')) {
+            $article->active();
+        }
+        $article = $article->first();
         if (empty($article->id)) {
             return abort(404);
         }
@@ -61,7 +65,7 @@ class ArticleController extends Controller
         }
 
         $assocArt = ArticleFactoryClass::getArticleList('asoc', ['id' => $article->id, 'tags' => $article->tags]);
-        $comments = Comment::where('article_id', $article->id)->orderBy('created_at', 'desc')->get();
+        $comments = Comment::active()->where('article_id', $article->id)->orderBy('created_at', 'desc')->get();
         $data = [
             'article' => $article,
             'assoc' => $assocArt,

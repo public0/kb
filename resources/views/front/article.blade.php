@@ -88,7 +88,7 @@
                     <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->comment->all() as $error) {{ $error }}<br> @endforeach</div>
                 @endif
                 <div class="mt-2">
-                    <form method="post" action="<?php echo url()->current() ?>">
+                    <form method="post" action="<?php echo url()->full() ?>">
                         @csrf
                         <div class="form-group"><input type="text" class="form-control" name="comment_name" placeholder="{{__('labels.your_name_required')}}" value="{{ old('comment_name') }}" @error('comment_name')style="border-color: red;"@enderror /></div>
                         <div class="form-group"><input type="text" class="form-control" name="comment_email" placeholder="{{__('labels.your_email_required')}}" value="{{ old('comment_email') }}" @error('comment_email')style="border-color: red;"@enderror /></div>

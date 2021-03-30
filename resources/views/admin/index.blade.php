@@ -156,5 +156,6 @@
 <!-- Custom js and DATATABLES-->
 <script src="<?php echo URL::to('/'); ?>/th/assets/js/custom.js"></script>
 
+@stack('body-scripts')
 </body>
 </html>

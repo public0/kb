@@ -40,11 +40,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
     Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);
     Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
-    Route::any('/admin/article/view/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'view']);
     Route::any('/admin/article/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'delete']);
+    Route::get('/admin/article/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'status']);
+    // Comments
+    Route::get('/admin/comments', [App\Http\Controllers\Admin\CommentsController::class, 'index']);
+    Route::get('/admin/comments/status/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'status']);
+    Route::get('/admin/comments/delete/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'delete']);
+    // Newsletter
     Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
     Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
+    // User Profile
     Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
     // Templates Admin Interface
     Route::get(

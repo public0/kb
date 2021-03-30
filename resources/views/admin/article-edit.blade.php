@@ -101,65 +101,68 @@
                             <h3 class="card-title">Article Edit</h3>
                         </div>
                         <div class="card-body pb-2">
-                            @if(!empty($artical))
-                            <form class="needs-validation" method="post" action="<?php echo URL::to('/'); ?>/admin/article/edit/{{ $artical->article_id }}">
+                            @if(!empty($article))
+                            <form class="needs-validation" method="post" action="{{ url()->current() }}">
                                 @csrf
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         @if(!empty($language))
                                             <div class="form-group">
                                                 <label class="form-label">Language</label>
-                                                <select name="lang" id="select-countries" class="form-control custom-select select2">
+                                                <select name="lang" class="form-control custom-select select2">
                                                     @foreach($language as $lng)
-                                                    <option value="{{$lng->abv}}" @if($lng->abv == $artical->lang) selected="selected"@endif>{{$lng->name}}</option>
+                                                    <option value="{{$lng->abv}}" @if($lng->abv == $article->lang) selected="selected"@endif>{{$lng->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         @endif
                                         <div class="form-group">
-                                            <input name="title" class="form-control  mb-4" placeholder="Title" required="required" type="text" value="{{$artical->title}}">
+                                            <input name="title" class="form-control  mb-4" placeholder="Title" required="required" type="text" value="{{$article->title}}">
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required"  type="text">{{$artical->description}}</textarea>
+                                            <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required" type="text">{{$article->description}}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required"  type="text" style="height: 200px;">{!! $artical->body !!}</textarea>
+                                            <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required" type="text" style="height: 200px;">{!! $article->body !!}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Tags</label>
                                             <select name="tags[]" class="form-control custom-select select2-tokens" multiple>
-                                                @foreach($artical->tags as $tag)
-                                                <option value="{{$tag}}" selected>{{$tag}}</option>
+                                                @foreach($article->tags as $tag)
+                                                <option value="{{$tag}}" selected="selected">{{$tag}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Rank</label>
-                                            <input name="rank" class="form-control  mb-4"  type="text" value="{{$artical->rank}}">
+                                            <input name="rank" class="form-control  mb-4"  type="text" value="{{$article->rank}}">
                                         </div>
                                         @if(!empty($categories))
                                             <div class="form-group">
                                                 <label class="form-label">Category</label>
-                                                <select name="category_id" id="select-countries" class="form-control custom-select select2">
+                                                <select name="category_id" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
-                                                    <option value="{{$ct->id}}" @if(isset($artical->category) && in_array($ct->id,$artical->category)) selected="selected"@endif>{{$ct->Name}}</option>
+                                                    <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>{{$ct->Name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         @endif
-
                                         <div class="form-group">
                                             <label class="form-label">Lang parent id</label>
-                                            <input name="lang_parent_id" class="form-control"  type="text" value="{{$artical->article_id}}">
+                                            <select name="lang_parent_id" class="form-control">
+                                                @if(!empty($article_lang))
+                                                <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>
+                                                @endif
+                                            </select>
                                         </div>
                                         @if(!empty($user_groups))
                                             <div class="form-group">
                                                 <label class="form-label">User Groups</label>
-                                                <select name="user_groups[]" id="select-countries" class="form-control custom-select select2" multiple>
+                                                <select name="user_groups[]" class="form-control custom-select select2" multiple>
                                                     <option value="">--</option>
                                                     @foreach($user_groups as $ug)
-                                                        <option value="{{$ug->id}}" @if(isset($artical->user_groups) && in_array($ug->id,$artical->user_groups)) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$ug->name}}</option>
+                                                        <option value="{{$ug->id}}" @if(isset($article->user_groups) && in_array($ug->id, $article->user_groups)) selected="selected" @endif>{{$ug->name}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -168,8 +171,8 @@
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="1" @if($artical->status == 1) {{'selected="selected"'}} @endif >Active</option>
-                                                <option value="0" @if($artical->status == 0) {{'selected="selected"'}} @endif >Inactive</option>
+                                                <option value="1" @if($article->status == 1) {{'selected="selected"'}} @endif >Active</option>
+                                                <option value="0" @if($article->status == 0) {{'selected="selected"'}} @endif >Inactive</option>
                                             </select>
                                         </div>
                                         <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />
@@ -187,3 +190,39 @@
         </div>
     </div>
 @endsection
+
+@push('body-scripts')
+<script>
+    function populateLangParentId(lang) {
+        $('select[name="lang_parent_id"]').select2({
+            ajax: {
+                url: '{{ route('api.articles.list') }}',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        term: params.term,
+                        select: 'id,title',
+                        lang_not: lang
+                    };
+                },
+                processResults: function (data) {
+                    var items = [];
+                    $.each(data.articles, function(idx, val) {
+                        items.push({id: val.id, text: val.title});
+                    });
+                    return {
+                        results: items
+                    };
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        var selectLang = $('select[name="lang"]');
+        selectLang.on('change', function () {
+            populateLangParentId($(this).val());
+        });
+        populateLangParentId(selectLang.val());
+    });
+</script>
+@endpush

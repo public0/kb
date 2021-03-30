@@ -51,14 +51,15 @@
                                         <th class="wd-15p border-bottom-0">Tags</th>
                                         <th class="wd-15p border-bottom-0">Created AT</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
+                                        <th class="wd-15p border-bottom-0">Comments</th>
                                         <th class="wd-10p border-bottom-0">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($articles as $art)
-                                    <tr role="row" @if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) class="inccls" @endif>
+                                    <tr role="row" @if(!empty($art->lang_parent_id) && $art->lang_parent_id != $art->id) class="inccls" @endif>
                                         <td>{{ $art->article_id }}</td>
-                                        <td>@if($art->lang_parent_id != $art->id && !empty($art->lang_parent_id)) &raquo;&raquo;  @endif{{ $art->title }}</td>
+                                        <td>{{ $art->title }}</td>
                                         <td>{{ $art->lang }}</td>
                                         <td>
                                             @php $art->tags = array_filter(explode(',', $art->tags)) @endphp
@@ -68,12 +69,25 @@
                                             @endforeach
                                             @endif
                                         </td>
-                                        <td class="text-nowrap">{{ $art->created_at }}</td>
-                                        <td class="text-nowrap">{{ $art->status_name }}</td>
                                         <td class="text-nowrap">
-                                            <a href="<?php echo URL::to('/'); ?>/admin/article/edit/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/article/view/{{ $art->article_id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> View </a>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/article/delete/{{ $art->article_id }}" class="btn btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
+                                            @if($art->created_at)<span title="{{ $art->created_at }}">{{ \Carbon\Carbon::parse($art->created_at)->format('d.m.Y') }}</span>@endif
+                                        </td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="<?php echo URL::to('/admin/article/status/' . $art->id); ?>" class="btn btn-sm btn-link">{{ $art->status_name }}</a>
+                                        </td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="<?php echo URL::to('/admin/comments?article=' . $art->id); ?>" class="btn btn-sm btn-link">{{ $art->comments_number }} {{ __('labels.comments') }}</a>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <a href="<?php echo URL::to('/admin/article/edit/' . $art->id); ?>" class="btn btn-sm btn-green btn-info"><i class="fe fe-edit-2 mr-1"></i> Edit </a>
+                                            @php
+                                            $viewParams = ['id' => $art->article_id];
+                                            if (!$art->status) {
+                                                $viewParams['preview'] = 'true';
+                                            }
+                                            @endphp
+                                            <a href="{{ route('front.article', $viewParams) }}" target="_blank" class="btn btn-sm btn-info"><i class="fe fe-book-open mr-1"></i> View</a>
+                                            <a href="<?php echo URL::to('/admin/article/delete/' . $art->id); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-2"></i> Delete </a>
                                         </td>
                                     </tr>
                                     @endforeach
