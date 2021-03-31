@@ -44,6 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function groups()
+    {
+        return $this->hasMany(GroupsUsers::class, 'user_id');
+    }
+
     /**
      * Get the user's full name.
      *
@@ -52,6 +57,16 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->name} {$this->surname}";
+    }
+
+    /**
+     * Get status name.
+     *
+     * @return string
+     */
+    public function getStatusNameAttribute()
+    {
+        return $this->status ? __('status.active') : __('status.inactive');
     }
 
     /**

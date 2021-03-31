@@ -25,6 +25,7 @@ return [
     'filter' => 'Filter',
     'reset' => 'Reset',
     'back' => 'Back',
+    'close' => 'Close',
     'submit' => 'Submit',
     'save' => 'Save',
     'add'=>'Add',
@@ -32,5 +33,6 @@ return [
     'delete'=>'Delete',
     'email'=>'Email',
     'password'=>'Password',
+    'password_reset' => 'Password Reset',
     'home'=> 'Home'
 ];

@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 @if(!empty($users))
-                                <table class="table table-bordered text-nowrap" id="example2">
+                                <table class="table table-bordered text-nowrap" id="example1">
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">First name</th>
@@ -57,7 +57,6 @@
 
                                     </tr>
                                     </thead>
-
                                     <tbody>
                                     @foreach($users as $usr)
                                     <tr>
@@ -65,17 +64,19 @@
                                         <td>{{ $usr->surname }}</td>
                                         <td>{{ $usr->email }}</td>
                                         <td>{{ $usr->created_at }}</td>
-                                        <td>{{ substr($usr->groups,0,-2) }}</td>
-                                        <td>@if($usr->status == 1)  {{'Active'}} @else {{'Inactive'}} @endif</td>
-                                        <td>
-                                            <a href="<?php echo URL::to('/'); ?>/admin/users/edit/{{ $usr->id }}" class="btn btn-info"><i class="fe fe-book-open mr-1"></i> Edit </a>
+                                        <td>{{ $usr->groups }}</td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="<?php echo URL::to('/admin/users/status/' . $usr->id); ?>" class="btn btn-sm btn-link">{{ $usr->status_name }}</a>
+                                        </td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="<?php echo URL::to('/admin/users/edit/' . $usr->id); ?>" class="btn btn-sm btn-success"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                            <button type="button" data-href="<?php echo URL::to('/admin/users/password-reset/' . $usr->id); ?>" class="btn btn-sm btn-primary btn-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('labels.password_reset') }}</button>
                                         </td>
                                     </tr>
                                     @endforeach
-
                                     </tbody>
                                 </table>
-                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -83,9 +84,91 @@
                 </div>
             </div>
             <!-- End Row-1 -->
-
-
-
         </div>
     </div>
 @endsection
+
+@push('body-scripts')
+<script>
+    function passwordResetModal(self, data) {
+        $('.modal').remove();
+        var _token = '{{ @csrf_token() }}';
+        var buttons = {
+            cancel: '{{ __('labels.close') }}',
+            ok: '{{ __('labels.reset') }}'
+        };
+
+        var html = '<div class="modal show" aria-modal="true">';
+        html += '<div class="modal-dialog modal-md" role="document">';
+        html += '<div class="modal-content">';
+        html += '<div class="modal-header">';
+        html += '<h6 class="modal-title">{{ __('labels.password_reset') }}</h6>';
+        html += '<button aria-label="' + buttons.cancel + '" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>';
+        html += '</div>';
+        html += '<div class="modal-body">';
+
+        html += '<table class="table table-bordered">';
+        html += '<tr>';
+        html += '<td width="24" align="center"><i class="fe fe-user"></i></td>';
+        html += '<td>' + data.name + '</td>';
+        html += '</tr>';
+        html += '<tr>';
+        html += '<td width="24" align="center"><i class="fe fe-mail"></i></td>';
+        html += '<td>' + data.email + '</td>';
+        html += '</tr>';
+        html += '</table>';
+        html += '<div class="input-group reset-link-input-group">';
+        html += '<input type="text" class="form-control" />';
+        html += '<div class="input-group-append">';
+        html += '<button class="btn btn-indigo" type="button"><i class="fe fe-arrow-right"></i></button>';
+        html += '</div>';
+        html += '</div>';
+
+        html += '</div>';
+        html += '<div class="modal-footer justify-content-center">';
+        html += '<button class="btn btn-indigo btn-reset" type="button">' + buttons.ok + '</button>';
+        html += '<button class="btn btn-secondary" data-dismiss="modal" type="button">' + buttons.cancel + '</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        $('body').append(html);
+        $('.modal').modal();
+
+        if (!data.reset_link) {
+            $('.modal .reset-link-input-group').addClass('d-none');
+        }
+
+        $('.modal .btn-reset').on('click', function () {
+            $.ajax(self.data('href'), {
+                method: 'POST',
+                data: {'_token': _token},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.reset_link) {
+                        $('.modal .reset-link-input-group input.form-control').val(data.reset_link);
+                        $('.modal .reset-link-input-group .btn').on('click', function () {
+                            window.open(data.reset_link, '_blank');
+                        });
+                        $('.modal .reset-link-input-group').removeClass('d-none');
+                    }
+                }
+            });
+        });
+    }
+    $(document).ready(function () {
+        $('.btn-password-reset').on('click', function (e) {
+            e.preventDefault();
+            var self = $(this);
+            $.ajax(self.data('href'), {
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    passwordResetModal(self, data);
+                }
+            });
+        });
+    });
+</script>
+@endpush

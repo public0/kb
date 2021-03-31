@@ -25,6 +25,7 @@ return [
     'filter' => 'Filtreaza',
     'reset' => 'Reseteaza',
     'back' => 'Inapoi',
+    'close' => 'Inchide',
     'submit' => 'Trimite',
     'save' => 'Salveaza',
     'add'=>'Adauga',
@@ -32,5 +33,6 @@ return [
     'delete'=>'Sterge',
     'email'=>'Email',
     'password'=>'Parola',
+    'password_reset' => 'Reseteaza parola',
     'home'=> 'Acasa'
 ];

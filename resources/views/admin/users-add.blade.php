@@ -43,19 +43,22 @@
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
+                                            <label class="form-label">First Name</label>
                                             <input name="name" class="form-control  mb-4" placeholder="First Name" required="required"  type="text" value="{{old('name')}}">
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">Last Name</label>
                                             <input name="surname" class="form-control mb-4" placeholder="Last Name" required="required"  type="text" value="{{old('surname')}}">
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">E-Mail</label>
                                             <input name="email" class="form-control  mb-4" placeholder="E-Mail"  required="required" type="text" value="{{old('email')}}">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Status</label>
                                             <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="1" @if(old('status') == 1) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
-                                                <option value="0" @if(old('status') == 0) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
+                                                <option value="1" @if(old('status') == 1) selected="selected" @endif>Active</option>
+                                                <option value="0" @if(old('status') == 0) selected="selected" @endif>Inactive</option>
                                             </select>
                                         </div>
                                         @if(!empty($groups))
@@ -63,7 +66,7 @@
                                             <label class="form-label">Groups</label>
                                             <select name="groups[]" id="select-countries" class="form-control custom-select select2" multiple="multiple">
                                                 @foreach($groups as $gr)
-                                                    <option value="{{$gr->id}}" @if(!empty(old('groups')) && in_array($gr->id, old('groups'))) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->name}}</option>
+                                                    <option value="{{$gr->id}}" @if(!empty(old('groups')) && in_array($gr->id, old('groups'))) selected="selected" @endif>{{$gr->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -78,7 +81,6 @@
                 </div>
             </div>
             <!-- End Row-1 -->
-
         </div>
     </div>
 @endsection

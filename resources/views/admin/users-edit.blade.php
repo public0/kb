@@ -46,12 +46,15 @@
                                 <div class="row row-sm">
                                     <div class="col-lg-12">
                                         <div class="form-group">
+                                            <label class="form-label">First name</label>
                                             <input name="name" class="form-control  mb-4" placeholder="First Name" required="required"  type="text" value="@if(!empty(old('name'))) {{old('name')}} @else {{$users->name}} @endif">
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">Last Name</label>
                                             <input name="surname" class="form-control mb-4" placeholder="Last Name" required="required" type="text" value="@if(!empty(old('surname'))) {{old('surname')}} @else {{$users->surname}} @endif">
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">E-Mail</label>
                                             <input name="email" class="form-control  mb-4" placeholder="E-Mail" required="required"  type="text" value="@if(!empty(old('email'))) {{old('email')}} @else {{$users->email}} @endif">
                                         </div>
                                         <div class="form-group">
@@ -66,7 +69,7 @@
                                                 <label class="form-label">Group</label>
                                                 <select name="groups[]" id="select-countries" class="form-control custom-select select2" multiple="multiple">
                                                     @foreach($groups as $gr)
-                                                        <option value="{{$gr->id}}" @if(collect(old('groups'))->contains($gr->id) && $errors->any())  selected="selected" @else @if(isset($users->groups) && in_array($gr->id,$users->groups) && !$errors->any()) selected="selected" @endif @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>{{$gr->name}}</option>
+                                                        <option value="{{$gr->id}}" @if(collect(old('groups'))->contains($gr->id) && $errors->any())  selected="selected" @else @if(isset($users->groups) && in_array($gr->id,$users->groups) && !$errors->any()) selected="selected" @endif @endif>{{$gr->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

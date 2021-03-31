@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ $lang }}" dir="ltr">
+<html lang="{{ $lang ?? '' }}" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <!-- Title -->

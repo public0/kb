@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
+    Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
+    Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
     Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
     Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
     Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
@@ -152,6 +154,10 @@ Route::name('auth.')->group(function () {
         '/logout',
         [App\Http\Controllers\AuthController::class, 'logout']
     )->name('logout');
+    Route::any(
+        '/password-reset',
+        [App\Http\Controllers\AuthController::class, 'passwordReset']
+    )->name('password.reset');
 });
 
 // API Token
