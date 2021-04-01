@@ -22,15 +22,19 @@
                 <img src="../../assets/images/photos/blog.jpg" alt="img" class="cover-image br-7 w-100">
             </div> --}}
             <div class="card-body">
-                <div class="item7-card-desc d-md-flex">
+                <div class="item7-card-desc d-md-flex pb-3 mb-3 border-bottom">
                     <a href="javascript:void(0)" class="d-flex mr-4"><i class="fe fe-calendar fs-16 mr-1"></i><div class="mt-0">{{ date('d.m.Y',strtotime($article->created_at)) }}</div></a>
-                    <span class="fs-14 ml-2 mr-4"> {{ $article->rank }} <i class="fa fa-star text-yellow"></i></span>
-                    <a href="javascript:void(0)" class="d-flex"><i class="fe fe-user fs-16 mr-1"></i><div class="mt-0">{{ $article->article_id }}</div></a>
-                    <div class="ml-auto"><a class="mr-0 d-flex" href="javascript:void(0)" onclick="scrollToElm('a[name=ArticleComments]')"><i class="fe fe-message-square fs-16 mr-1"></i><div class="mt-0">{{ count($comments) }} {{ __('labels.comments') }}</div></a></div>
+                    {{-- <span class="fs-14 ml-2 mr-4"> {{ $article->rank }} <i class="fa fa-star text-yellow"></i></span> --}}
+                    <a href="javascript:void(0)" class="d-flex"><i class="fe fe-info fs-16 mr-1"></i><div class="mt-0">{{ $article->article_id }}</div></a>
+                    <div class="ml-auto"><a class="mr-0 d-flex" href="javascript:void(0)" onclick="scrollToElm('a[name=ArticleComments]')"><div class="mt-0">{{ count($comments) }}</div> <i class="fe fe-message-square fs-16 ml-1"></i></a></div>
                 </div>
-                <hr>
                 <p>{!! $article->body !!}</p>
             </div>
+            @if($article->tags)
+            <div class="card-footer">
+                <i class="fe fe-tag fs-16 mr-2 text-primary"></i> {{ str_replace(',', ', ', ltrim(rtrim($article->tags, ','), ',')) }}
+            </div>
+            @endif
         </div>
 
         @if(count($assoc))
@@ -47,7 +51,7 @@
                     <div class="text-muted">{{ $art->description }}</div>
                     <div class="d-flex align-items-center pt-3 mt-auto">
                         <a href="{{ $url }}" class="d-flex"><i class="fe fe-calendar fs-16 mr-1"></i> @if($art->created_at > $art->updated_at){{ date('d.m.Y', strtotime($art->created_at)) }}@else{{ date('d.m.Y', strtotime($art->updated_at)) }}@endif</a>
-                        <div class="ml-auto"><a class="mr-0 d-flex" href="{{ $url }}"><i class="fe fe-message-square fs-16 mr-1"></i>{{ $art->comments_number }} {{ __('labels.comments') }}</a></div>
+                        <div class="ml-auto"><a class="mr-0 d-flex" href="{{ $url }}">{{ $art->comments_number }} <i class="fe fe-message-square fs-16 ml-1"></i></a></div>
                     </div>
                     @if(!$loop->last)<hr>@endif
                 @endforeach

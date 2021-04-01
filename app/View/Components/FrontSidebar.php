@@ -8,7 +8,9 @@ use Illuminate\View\Component;
 
 class FrontSidebar extends Component
 {
-    public $new;
+    public $newArticles;
+    public $newsletterBox = false;
+    public $rightColumnArticles;
 
     /**
      * Create a new component instance.
@@ -19,10 +21,14 @@ class FrontSidebar extends Component
     {
         $data = [];
         $req = Request::capture();
+        if (!$req->segment(0) && !$req->segment(1)) {
+            $this->newsletterBox = true;
+        }
         if ($req->segment(1) == 'article') {
             $data['exclude_article_id'] = $req->segment(2);
         }
-        $this->new = ArticleFactoryClass::getArticleList('new', $data);
+        $this->newArticles = ArticleFactoryClass::getArticleList('new', $data);
+        $this->rightColumnArticles = ArticleFactoryClass::getArticleList('right_col');
     }
 
     /**

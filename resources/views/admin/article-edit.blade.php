@@ -143,7 +143,7 @@
                                                 <select name="category_id" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
-                                                    <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>{{$ct->Name}}</option>
+                                                    <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -169,10 +169,17 @@
                                             </div>
                                         @endif
                                         <div class="form-group">
+                                            <label class="form-label">Right column</label>
+                                            <select name="in_right_col" class="form-control custom-select select2">
+                                                <option value="1" @if($article->in_right_col == 1) selected="selected" @endif>Yes</option>
+                                                <option value="0" @if($article->in_right_col == 0) selected="selected" @endif>No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="form-label">Status</label>
-                                            <select name="status" id="select-countries" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="1" @if($article->status == 1) {{'selected="selected"'}} @endif >Active</option>
-                                                <option value="0" @if($article->status == 0) {{'selected="selected"'}} @endif >Inactive</option>
+                                            <select name="status" class="form-control custom-select select2">
+                                                <option value="1" @if($article->status == 1) selected="selected" @endif>Active</option>
+                                                <option value="0" @if($article->status == 0) selected="selected" @endif>Inactive</option>
                                             </select>
                                         </div>
                                         <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />

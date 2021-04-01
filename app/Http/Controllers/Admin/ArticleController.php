@@ -59,6 +59,7 @@ class ArticleController extends Controller
             $rank = $_POST['rank'];
             $lang_parent_id = $_POST['lang_parent_id'] ?? null;
             $u_groups = $_POST['user_groups'] ?? [];
+            $in_right_col = $_POST['in_right_col'];
 
             $validated = $request->validate([
                 'lang' => 'required|max:255',
@@ -92,6 +93,7 @@ class ArticleController extends Controller
                 $art->status = $status;
                 $art->rank = $rank;
                 $art->user_groups = $u_groups ? ',' . implode(',', $u_groups) . ',' : null;
+                $art->in_right_col = $in_right_col;
                 $art->save();
                 $last_id = $art->id;
 
@@ -140,6 +142,7 @@ class ArticleController extends Controller
             $lang_parent_id = $_POST['lang_parent_id'] ?? null;
             $rank = $_POST['rank'];
             $u_groups = $_POST['user_groups'] ?? [];
+            $in_right_col = $_POST['in_right_col'];
             $article_id = UtileClass::generateId(new Article, 'article_id');
 
             if ($title != $article->title) {
@@ -184,7 +187,8 @@ class ArticleController extends Controller
                     'status' => $status,
                     'rank' => $rank,
                     'user_groups' => $u_groups ? ',' . implode(',', $u_groups) . ',' : null,
-                    'lang_parent_id' => $lang_parent_id
+                    'lang_parent_id' => $lang_parent_id,
+                    'in_right_col' => $in_right_col
                 ]);
             } catch (\Exception $e) {
                 return redirect()->back()

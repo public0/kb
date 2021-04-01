@@ -21,7 +21,22 @@ class ArticleFactoryClass
             case 'asoc':
                 return self::getAssocArticles($data);
                 break;
+            case 'right_col':
+                return self::getRightColumnArticles($data);
+                break;
         }
+    }
+
+    private static function getRightColumnArticles($data)
+    {
+        $articles = Article::active()
+            ->where('lang', $data['lang'])
+            ->where('in_right_col', 1)
+            ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
+            ->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END desc')
+            ->get();
+
+        return $articles;
     }
 
     private static function getLastArticles($data)

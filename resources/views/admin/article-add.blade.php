@@ -144,7 +144,7 @@
                                                 <select name="category_id" class="form-control custom-select select2">
                                                     <option value="">--</option>
                                                     @foreach($categories as $ct)
-                                                    <option value="{{$ct->Id}}" @if(!empty(old('category_id')) && $ct->Id == old('category_id')) selected="selected"@endif>{{$ct->Name}}</option>
+                                                    <option value="{{$ct->id}}" @if(!empty(old('category_id')) && $ct->id == old('category_id')) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -166,10 +166,17 @@
                                             </div>
                                         @endif
                                         <div class="form-group">
+                                            <label class="form-label">Right column</label>
+                                            <select name="in_right_col" class="form-control custom-select select2">
+                                                <option value="1" @if(old('in_right_col') == 1) selected="selected" @endif>Yes</option>
+                                                <option value="0" @if(old('in_right_col') == 0) selected="selected" @endif>No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="form-label">Status</label>
-                                            <select name="status" placeholder="E-Mail" class="form-control custom-select select2">
-                                                <option value="1" @if(old('status') == 1) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/br.svg"}'>Active</option>
-                                                <option value="0" @if(old('status') == 0) selected="selected" @endif data-data='{"image": "./../../assets/images/flags/cz.svg"}'>Inactive</option>
+                                            <select name="status" class="form-control custom-select select2">
+                                                <option value="1" @if(old('status') == 1) selected="selected" @endif>Active</option>
+                                                <option value="0" @if(old('status') == 0) selected="selected" @endif>Inactive</option>
                                             </select>
                                         </div>
                                         <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />

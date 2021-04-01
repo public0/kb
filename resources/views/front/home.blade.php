@@ -15,7 +15,9 @@
 <div class="row">
     @if(!empty($articles) && count($articles) > 0)
         @foreach($articles as $art)
+        <div class="col-md-6">
         <x-front-article-box :art="$art" />
+        </div>
         @endforeach
     @else
         <div class="col-md-12">
