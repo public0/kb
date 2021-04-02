@@ -23,7 +23,7 @@ class UsersController extends Controller
             'groups' => function ($query) {
                 return $query->with('group');
             }
-        ])->orderBy('id', 'desc')->get();
+        ])->get();
         foreach ($users as $user) {
             $groups = [];
             foreach ($user->groups as $group) {
@@ -55,7 +55,7 @@ class UsersController extends Controller
 
     public function add(Request $request)
     {
-        $groups = UserGroups::all();
+        $groups = UserGroups::active()->get();
         $data = ['groups' => $groups];
 
         if (!empty($_POST)) {
@@ -117,24 +117,15 @@ class UsersController extends Controller
     public function edit(Request $request)
     {
         $id = $request->id;
-        $groupss = UserGroups::all();
+        $groups = UserGroups::active()->get();
         $users = User::with('groups')->where('id', $id)->get();
-        foreach ($users as $user) {
-            $groups = [];
-            foreach ($user->groups as $group) {
-                $groups[] = !empty($group->group) ? $group->group_id : null;
-            }
-            $user->groups = $groups;
-        }
-
-        $data = ['users'=> $users[0], 'groups' => $groupss];
+        $data = ['users'=> $users[0], 'groups' => $groups];
 
         if (!empty($_POST)) {
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
             $email = trim($_POST['email']);
             $status = $_POST['status'];
-            $groups = (!empty($_POST['group'])) ? $_POST['group'] : null;
 
             if ($email != $users[0]->email) {
                 $validated = $request->validate([
@@ -198,12 +189,11 @@ class UsersController extends Controller
     {
         $groups = UserGroups::all();
         $data = ['groups' => $groups];
-        //echo '<pre>'; print_r($groups[0]->name); die();
 
         return view('admin/user-groups', $data);
     }
 
-    public function groupsAdd(Request $request)
+    public function groupAdd(Request $request)
     {
         if (!empty($_POST)) {
             $name = $_POST['name'];
@@ -230,7 +220,7 @@ class UsersController extends Controller
         return view('admin/user-groups-add');
     }
 
-    public function groupsEdit(Request $request)
+    public function groupEdit(Request $request)
     {
         $id = $request->id;
         $group = UserGroups::find($id);
@@ -266,12 +256,20 @@ class UsersController extends Controller
         return view('admin/user-groups-edit', $data);
     }
 
-    public function rights()
+    public function groupStatus($id)
     {
-        $groups = UserGroups::all();
-        $data = ['groups' => $groups];
+        try {
+            $group = UserGroups::where('id', $id);
+            $data = $group->first();
+            $group->update([
+                'status' => 1 - $data->status
+            ]);
 
-        return view('admin/groups-rights', $data);
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function groupDelete(Request $request)

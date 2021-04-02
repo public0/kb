@@ -65,22 +65,9 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function (Request $request) {
             $groupsArray = null;
-            $user = User::where('email', $request->email)->where('status', '1')->first();
-
-            if ($user) {
-                $groups = DB::table('x_groups_users')
-                    ->leftJoin('user_groups', 'x_groups_users.group_id', '=', 'user_groups.id')
-                    ->where('user_id', $user->id)
-                    ->select('group_id')
-                    ->get();
-                if ($groups) {
-                    foreach ($groups as $gr) {
-                        $groupsArray[] = $gr->group_id;
-                    }
-                }
-            }
+            $user = User::where('email', $request->email)->where('status', 1)->first();
             if ($user && Hash::check($request->password, $user->password)) {
-                if (!empty($groupsArray) && in_array(1, $groupsArray)) {
+                if ($user->my_groups && in_array(1, $user->my_groups)) {
                     return $user;
                 }
             }

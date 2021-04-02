@@ -201,59 +201,6 @@ class ArticleController extends Controller
         return view('admin/article-edit', $data);
     }
 
-    public function groups()
-    {
-        $groups = UserGroups::all();
-        $data = ['groups' => $groups];
-
-        return view('admin/user-groups', $data);
-    }
-
-    public function groupsAdd()
-    {
-        if (!empty($_POST)) {
-            try {
-                $name = $_POST['name'];
-                $status = $_POST['status'];
-                $group = new UserGroups;
-                $group->name = $name;
-                $group->status = $status;
-                $group->save();
-            } catch (\Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-            return redirect()->back()->with('message', 'Operation Successful !');
-
-            $data = ['date' => $_POST];
-        }
-
-        return view('admin/user-groups-add');
-    }
-
-    public function groupsEdit($id)
-    {
-        $group = UserGroups::find($id);
-        $data = ['group' => $group];
-
-        if (!empty($_POST)) {
-            try {
-                $name = $_POST['name'];
-                $status = $_POST['status'];
-                $group->name = $name;
-                $group->status = $status;
-                $group->save();
-            } catch (\Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            return redirect()->back()->with('message', 'Operation Successful !');
-        }
-
-        return view('admin/user-groups-edit', $data);
-    }
-
     public function categories()
     {
         $categories = Category::orderBy('tree', 'asc')->orderBy('name', 'asc')->get();

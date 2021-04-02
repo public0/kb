@@ -12,6 +12,16 @@ class UserGroups extends Model
     protected $table = 'dbo.user_groups';
 
     /**
+     * Get status name.
+     *
+     * @return string
+     */
+    public function getStatusNameAttribute()
+    {
+        return $this->status ? __('status.active') : __('status.inactive');
+    }
+
+    /**
      * Scope a query to only include active groups.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -21,12 +31,4 @@ class UserGroups extends Model
     {
         return $query->where('status', 1);
     }
-
-    /*protected $primaryKey = 'id';
-    public $incrementing = true;
-    protected $keyType = 'bigint';
-    public $timestamps = true;
-    protected $dateFormat = 'U';
-    const CREATED_AT = 'creation_date';
-    const UPDATED_AT = 'last_update';*/
 }

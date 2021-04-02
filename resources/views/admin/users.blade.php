@@ -3,23 +3,21 @@
 @section('content')
     <div class="app-content main-content">
         <div class="side-app">
-
             <!--app header-->
             <x-AdminHeader/>
             <!--/app header-->
-
             <!--Page header-->
             <div class="page-header">
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Users</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo URL::to('/'); ?>/admin"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Users</li>
                     </ol>
                 </div>
                 <div class="page-rightheader">
                     <div class="btn btn-list">
-                        <a href="<?php echo URL::to('/'); ?>/admin/users/add" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a>
+                        <a href="<?php echo URL::to('/admin/users/add'); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
                     </div>
                 </div>
             </div>
@@ -31,19 +29,16 @@
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
             @endif
             @if ($errors->any())
-                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach ($errors->all() as $error) {{ $error }}, @endforeach</div>
+                <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
             <!-- Row-1 -->
             <div class="row">
                 <div class="col-12">
                     <!--div-->
                     <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Users List</div>
-                        </div>
                         <div class="card-body">
+                            @if(!empty($users))
                             <div class="table-responsive">
-                                @if(!empty($users))
                                 <table class="table table-bordered text-nowrap" id="example1">
                                     <thead>
                                     <tr>
@@ -53,8 +48,7 @@
                                         <th class="wd-15p border-bottom-0">Created AT</th>
                                         <th class="wd-20p border-bottom-0">Groups</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
-                                        <th class="wd-10p border-bottom-0">Actions</th>
-
+                                        <th class="wd-10p border-bottom-0 no-sort">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -76,8 +70,8 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                @endif
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!--/div-->

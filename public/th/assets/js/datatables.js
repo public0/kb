@@ -13,7 +13,14 @@ $(function(e) {
 	table.buttons().container()
 	.appendTo( '#example_wrapper .col-md-6:eq(0)' );
 
-	$('#example1').DataTable({
+    $('#example1').DataTable({
+        sort: true,
+        columnDefs: [
+            {
+                targets: 'no-sort',
+                orderable: false
+            }
+        ],
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',
