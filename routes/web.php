@@ -27,10 +27,10 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
     Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
     Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
-    Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupsAdd']);
-    Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupsEdit']);
+    Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupAdd']);
+    Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupEdit']);
     Route::any('/admin/groups/delete/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupDelete']);
-    Route::get('/admin/groups/rights', [App\Http\Controllers\Admin\UsersController::class, 'rights']);
+    Route::any('/admin/groups/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupStatus']);
 
     Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
