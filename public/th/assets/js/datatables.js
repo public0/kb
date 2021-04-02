@@ -27,6 +27,29 @@ $(function(e) {
 			lengthMenu: '_MENU_',
 		}
 	});
+
+	$('#example3').DataTable({
+		pageLength: 50,
+		responsive: true,
+		sort: false,
+		language: {
+			searchPlaceholder: 'Search...',
+			sSearch: '',
+			lengthMenu: '_MENU_',
+		}
+	});
+
+	$('#triggers_table').DataTable({
+		pageLength: 50,
+		responsive: true,
+		sort: false,
+		language: {
+			searchPlaceholder: 'Search...',
+			sSearch: '',
+			lengthMenu: '_MENU_',
+		}
+	});
+
 	$('#example2').DataTable({
 		responsive: true,
         sort: false,

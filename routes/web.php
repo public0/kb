@@ -20,7 +20,34 @@ Route::any('/', [App\Http\Controllers\HomeController::class, 'index'])->name('fr
 // Route::any('/test', [App\Http\Controllers\TestController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/ibd/ajax/getparamsbytype/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'getParamsByType']);
+    Route::get('/ibd/ajax/getcalculations', [App\Http\Controllers\IBD\AjaxController::class, 'getCalculations']);
+    Route::get('/ibd/ajax/getcalculationbytype/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'getCalculationByType']);
+    Route::get('/ibd/ajax/getcalculationinputtypes/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'getCalculationInputTypes']);
+    Route::get('/ibd/ajax/getcalculationcustomparams/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'getCalculationCustomParams']);
+    Route::get('/ibd/ajax/gettypes', [App\Http\Controllers\IBD\AjaxController::class, 'getTypes']);
+    Route::get('/ibd/ajax/getselecttypes', [App\Http\Controllers\IBD\AjaxController::class, 'getTypesForSelect']);
+    Route::get('/ibd/ajax/getselectcalcs', [App\Http\Controllers\IBD\AjaxController::class, 'getCalculationsForSelect']);
+    Route::get('/ibd/ajax/getparams', [App\Http\Controllers\IBD\AjaxController::class, 'getParams']);
+    Route::get('/ibd/ajax/getdistincttypes', [App\Http\Controllers\IBD\AjaxController::class, 'getDistinctCalcTypes']);
+    Route::get('/ibd/ajax/gettriggerparamsbytrigger/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'getTriggerParamsByTrigger']);
+    Route::post('/ibd/ajax/addcalculationinput', [App\Http\Controllers\IBD\AjaxController::class, 'addCalculationInput']);
+    Route::post('/ibd/ajax/addcalculationparam', [App\Http\Controllers\IBD\AjaxController::class, 'addcalculationParam']);
+    Route::post('/ibd/ajax/updatecalculationinput/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'updateCalculationInput']);
+    Route::post('/ibd/ajax/updatecalculationparam/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'updateCalculationParam']);
+    Route::post('/ibd/ajax/addcalculation', [App\Http\Controllers\IBD\AjaxController::class, 'addCalculation']);
+    Route::post('/ibd/ajax/updatecalculation/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'updateCalculation']);
+    Route::post('/ibd/ajax/addtrigger', [App\Http\Controllers\IBD\AjaxController::class, 'addTrigger']);
+    Route::post('/ibd/ajax/updatetrigger/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'updateTrigger']);
+    Route::post('/ibd/ajax/addtriggerparam', [App\Http\Controllers\IBD\AjaxController::class, 'addTriggerParam']);
+    Route::post('/ibd/ajax/updatetriggerparam/{id}', [App\Http\Controllers\IBD\AjaxController::class, 'updateTriggerParam']);
+
     Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('admin.home');
+
+    Route::get('/ibd', [App\Http\Controllers\IBD\DefaultController::class, 'index'])->name('ibd.home');
+    Route::get('/ibd/types', [App\Http\Controllers\IBD\DefaultController::class, 'index'])->name('ibd.types');
+    Route::get('/ibd/triggers', [App\Http\Controllers\IBD\DefaultController::class, 'triggers'])->name('ibd.triggers');
+
     Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::any('/admin/users/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);

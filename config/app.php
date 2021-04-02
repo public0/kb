@@ -178,6 +178,10 @@ return [
         Mailjet\LaravelMailjet\MailjetServiceProvider::class,
         Mailjet\LaravelMailjet\MailjetMailServiceProvider::class,
 
+        /*
+         * Custom Service Providers...
+         */
+        App\Providers\ConfigServiceProvider::class,
     ],
 
     /*

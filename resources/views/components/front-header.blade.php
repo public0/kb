@@ -48,7 +48,7 @@
                             Admin
                         </a>
                         @endif
-                        <a class="dropdown-item d-flex" href="{{ route('admin.home') }}">
+                        <a class="dropdown-item d-flex" href="{{ route('ibd.home') }}">
                             <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-aperture"></i></span>
                             Configurator
                         </a>
