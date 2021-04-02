@@ -95,6 +95,7 @@
                                             <ul>
                                                 @if($admin)
                                                 <li><a href="<?php echo URL::to('/'); ?>/admin">Admin</a></li>
+                                                <li><a href="<?php echo URL::to('/'); ?>/ibd">Configurator</a></li>
                                                 @endif
                                                 @if($user)
                                                     <li><a href="<?php echo URL::to('/'); ?>/auth-out">Sign out</a></li>
