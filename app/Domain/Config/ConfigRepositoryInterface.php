@@ -24,8 +24,10 @@ interface ConfigRepositoryInterface {
     public function addTrigger($data);
     public function getTriggerParametersByTrigger(int $trigger);
     public function getTriggerParam($id);
-    public function updateTriggerParam(int $triggerParam, $data);
     public function addTriggerParam($data);
+    public function updateTriggerParam(int $triggerParam, $data);
+    public function addCalculation($data);
+    public function updateCalculation(int $triggerParam, $data);
 
 
 }

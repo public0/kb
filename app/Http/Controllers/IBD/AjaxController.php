@@ -130,28 +130,6 @@ class AjaxController extends Controller
         ]);
     }
 
-    public function addCalculation(
-        Request $request,
-        ConfigRepositoryInterface $config
-    ) {
-        dd($request);
-
-        return response()->json([
-            'typeParams' => $typeParams,
-        ]);
-    }
-
-    public function updateCalculation(
-        Request $request,
-        ConfigRepositoryInterface $config
-    ) {
-        dd($request);
-
-        return response()->json([
-            'typeParams' => $typeParams,
-        ]);
-    }
-
     public function addCalculationInput(
         Request $request,
         ConfigRepositoryInterface $config
@@ -288,6 +266,55 @@ class AjaxController extends Controller
             'result' => $response,
         ]);
     }
+
+    public function addCalculation(
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $rules = [
+            'name' => 'required',
+            'outputType' => 'required',
+            'type' => 'required',
+            'calc' => 'required',
+            'status' => 'required',
+        ];
+
+        $messages = [
+            'required' => 'The :attribute field is required!'
+        ];
+
+        $request->validate($rules, $messages);
+
+        $response = $config->addCalculation($request->all());
+
+        return response()->json([
+            'result' => $response,
+        ]);
+    }
+
+    public function updateCalculation(
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $rules = [
+            'name' => 'required',
+            'outputType' => 'required',
+            'type' => 'required',
+            'calc' => 'required',
+            'status' => 'required',
+        ];
+
+        $messages = [
+            'required' => 'The :attribute field is required!'
+        ];
+        $request->validate($rules, $messages);
+        $config->updateCalculation($request->id, $request->all());
+
+        return response()->json([
+            'result' => true,
+        ]);
+    }
+
 
     public function addTriggerParam(
         Request $request,

@@ -165,6 +165,99 @@
 			});
 		});
 
+        $('#add-calculation').click(function(event) {
+            event.stopPropagation();
+            $("#calculations tbody").prepend('<tr>'+
+                '<td>' +
+                '<p id="calculation_id"><button class="btn btn-outline-success" type="button">New</button></p>'+
+                '</td>' +
+                '<td><textarea class="form-control" name="calc_name"></textarea></td>'+
+                '<td><textarea class="form-control" name="calc_desc"></textarea></td>'+
+                '<td>' +
+                '<select class="custom-select form-control" name="calc_type">' +
+                    '<option value="Standard">Standard</option>' +
+                    '<option value="Aggregation">Aggregation</option>' +
+                    '<option value="AggregationWithFilter">AggregationWithFilter</option>' +
+                '</select>'+
+                '</td>'+
+                '<td><textarea class="form-control" name="calc_calc"></textarea></td>'+
+                '<td>'+
+                '<select class="custom-select form-control" name="calc_status">' +
+                    '<option value="0">Inactive</option>' +
+                    '<option value="1">Active</option>' +
+                '</select>'+
+                '</td>'+
+                '<td>'+
+                '<button type="button" class="mx-2 my-2 btn btn-success btn-sm iu-calculation">Save</button>'+
+                '<button type="button" class="mx-2 my-2 btn btn-danger btn-sm">Delete</button><br/>'+
+                '<button type="button" class="mx-2 my-2 btn btn-facebook btn-sm calc_inputs" data-toggle="modal" data-target="#calculations-inputs-modal" data-id="">Inputs</button>'+
+                '<button type="button" class="mx-2 my-2 btn btn-info btn-sm calc_params" data-toggle="modal" data-target="#calculations-params-modal" data-id="">Params</button>'+
+                '</td>'+
+                '</tr>'
+            );
+        });
+
+        $('body').on('click', ".iu-calculation", function() {
+            let data_id = null;
+            if (typeof $(this).data('id') !== 'undefined') {
+                data_id = $(this).data('id');
+            }
+            let inputs = $(this).parent().parent().find('textarea, input, select');
+            let inputValues = [];
+            let btn = $(this);
+            let btn_id =$(this).parent().parent().find('#calculation_id');
+            inputs.each(function() {
+                if(!$(this).attr('disabled'))
+                    inputValues[$(this).attr('name')] = $(this).val();
+            });
+
+            if(!data_id) {
+                $.post( "/ibd/ajax/addcalculation",
+                    {
+                        name : inputValues['calc_name'],
+                        desc : inputValues['calc_desc'],
+                        outputType : $('#activeType').attr('data-value'),
+                        type : inputValues['calc_type'],
+                        calc : inputValues['calc_calc'],
+                        status : inputValues['calc_status'],
+                    }).done(function(msg) {
+                    //param_id
+                    btn.attr('data-id', msg.result.Id);
+                    btn_id.html(msg.result.Id);
+                    $('#calculation-alert').addClass('d-none');
+                    $('#calculation-succes').removeClass('d-none').html('<p>Salvat</p>');
+
+                }).fail(function(xhr, status, error) {
+                    let message = JSON.parse(xhr.responseText);
+                    $('#calculation-succes').empty().addClass('d-none');
+                    $('#calculation-alert').empty().removeClass('d-none');
+                    $.each(message.errors, function(index, value) {
+                        $('#calculation-alert').append('<p>'+value+'</p>');
+                    });
+                });
+            } else {
+                $.post( "/ibd/ajax/updatecalculation/"+data_id,
+                    {
+                        name : inputValues['calc_name'],
+                        desc : inputValues['calc_desc'],
+                        outputType : $('#activeType').attr('data-value'),
+                        type : inputValues['calc_type'],
+                        calc : inputValues['calc_calc'],
+                        status : inputValues['calc_status'],
+                    }).done(function(msg) {
+                    $('#calculation-alert').addClass('d-none');
+                    $('#calculation-succes').removeClass('d-none').html('<p>Salvat</p>');
+                }).fail(function(xhr, status, error) {
+                    let message = JSON.parse(xhr.responseText);
+                    $('#calculation-succes').empty().addClass('d-none');
+                    $('#calculation-alert').empty().removeClass('d-none');
+                    $.each(message.errors, function(index, value) {
+                        $('#calculation-alert').append('<p>'+value+'</p>');
+                    });
+                });
+            }
+        });
+
 		$('#add-trigger-param').click(function(event) {
 			event.stopPropagation();
 			$.get( "/ibd/ajax/gettypes", function( data ) {
@@ -292,6 +385,7 @@
 			let data_id = null;
 			if (typeof $(this).data('id') !== 'undefined') {
 				data_id = $(this).data('id');
+                $('#activeType').attr('data-value',  data_id);
 			}
 
 			$.get( "/ibd/ajax/getcalculationbytype/"+data_id, function( data ) {
@@ -306,25 +400,25 @@
 					statusArray[1] = (value.Activ === '1')?'selected':'';
 					$("#calculations tbody").append('<tr>'+
 						'<td><br/><b>'+value.CalculationId+'</b></td>' +
-						'<td><textarea class="form-control">'+value.CalculationName+'</textarea></td>'+
-						'<td><textarea class="form-control">'+value.Description+'</textarea></td>'+
+						'<td><textarea class="form-control" name="calc_name">'+value.CalculationName+'</textarea></td>'+
+						'<td><textarea class="form-control" name="calc_desc">'+value.Description+'</textarea></td>'+
 						'<td>' +
-						'<select class="custom-select form-control">' +
+						'<select class="custom-select form-control" name="calc_type">' +
 							'<option value="Standard"'+typeArray['Standard']+'>Standard</option>' +
 							'<option value="Aggregation"'+typeArray['Aggregation']+'>Aggregation</option>' +
-							'<option value="AggregationWithFilter"'+typeArray['AggregationWithFilter']+'>Standard</option>' +
+							'<option value="AggregationWithFilter"'+typeArray['AggregationWithFilter']+'>AggregationWithFilter</option>' +
 						'</select>'+
 						'</td>'+
-						'<td><textarea class="form-control">'+value.Calculation+'</textarea></td>'+
+						'<td><textarea class="form-control" name="calc_calc">'+value.Calculation+'</textarea></td>'+
 						'<td>'+
-						'<select class="custom-select form-control">' +
+						'<select class="custom-select form-control" name="calc_status">' +
 							'<option value="0"'+statusArray[0]+'>Inactive</option>' +
 							'<option value="1"'+statusArray[1]+'>Active</option>' +
 						'</select>'+
 						'</td>'+
 						'<td>'+
-						'<button type="button" class="mx-2 my-2 btn btn-success btn-sm">Save</button>'+
-						'<button type="button" class="mx-2 my-2 btn btn-danger btn-sm" >Delete</button><br/>'+
+						'<button type="button" class="mx-2 my-2 btn btn-success btn-sm iu-calculation" data-id="'+value.CalculationId+'">Save</button>'+
+						'<button type="button" class="mx-2 my-2 btn btn-danger btn-sm" data-id="'+value.CalculationId+'">Delete</button><br/>'+
 						'<button type="button" class="mx-2 my-2 btn btn-facebook btn-sm calc_inputs" data-toggle="modal" data-target="#calculations-inputs-modal" data-id="'+value.CalculationId+'">Inputs</button>'+
 						'<button type="button" class="mx-2 my-2 btn btn-info btn-sm calc_params" data-toggle="modal" data-target="#calculations-params-modal" data-id="'+value.CalculationId+'">Params</button>'+
 						'</td>'+

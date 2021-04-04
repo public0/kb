@@ -58,7 +58,7 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
         }
     }
     public function addCalculationCustomParam($data) {
-        $params = sprintf('@Id=NULL,@CalculationId=%s,@TypeIdInput=%s,@ParameterId=%s,@CalculationCustomParamType=%s,@SQLExpression=%s',
+        $params = sprintf('@Id=NULL,@CalculationId=%s,@TypeIdInput=%s,@ParameterId=%s,@CalculationCustomParamType=%s,@SQLExpression=\'%s\'',
             $data['calculation'],
             $data['typeId'],
             $data['param'],
@@ -89,7 +89,7 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
     }
 
     public function updateCalculationParam(int $param, $data) {
-        $params = sprintf('@Id=%s,@CalculationId=%s,@TypeIdInput=%s,@ParameterId=%s,@CalculationCustomParamType=%s,@SQLExpression=%s',
+        $params = sprintf('@Id=%s,@CalculationId=%s,@TypeIdInput=%s,@ParameterId=%s,@CalculationCustomParamType=%s,@SQLExpression=\'%s\'',
             $param,
             $data['calculation'],
             $data['typeId'],
@@ -195,5 +195,39 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
         }
     }
 
+    public function addCalculation($data) {
+        $params = sprintf('@Id=NULL,@Name="%s",@Description="%s",@OutputTypeId=%s,@CalculationType="%s",@Calculation="%s",@Activ=%s',
+            $data['name'],
+            $data['desc'],
+            $data['outputType'],
+            $data['type'],
+            $data['calc'],
+            $data['status']
+        );
+        try {
+            return DB::connection('sqlsrv2')->selectOne(DB::raw('exec [ibd].[Config_Calculation_IU] '.$params));
+        } catch(MSSQLException $e) {
+            return ['error', $e->getMessage()];
+        }
+    }
+
+    public function updateCalculation(int $id, $data) {
+        $params = sprintf('@Id=%s,@Name="%s",@Description="%s",@OutputTypeId=%s,@CalculationType="%s",@Calculation="%s",@Activ=%s',
+            $id,
+            $data['name'],
+            $data['desc'],
+            $data['outputType'],
+            $data['type'],
+            $data['calc'],
+            $data['status']
+        );
+
+        try {
+            return DB::connection('sqlsrv2')->update(DB::raw('exec [ibd].[Config_Calculation_IU] '.$params));
+        } catch(MSSQLException $e) {
+            return ['error', $e->getMessage()];
+        }
+
+    }
 
 }

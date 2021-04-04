@@ -62,13 +62,20 @@
                 <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Calculation</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div id="activeCalculation" data-value=""></div>
+                            <div id="activeType" data-value=""></div>
+                            <div class="alert alert-danger d-none" id="calculation-alert" role="alert"></div>
+                            <div class="alert alert-light-success d-none" id="calculation-succes" role="alert"></div>
+                            <button type="button" id="add-calculation" class="float-right btn btn-success" data-dismiss="modal">Add new</button>
+                            <br />
+                            <br />
+                            <br />
                             <table class="table table-bordered text-nowrap" id="calculations">
                                 <thead>
                                 <th>Id</th>
