@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <!-- Title -->
-    <title>Admin - {{ env('APP_NAME') }}</title>
+    <title>Admin - {{ config('app.name') }}</title>
     <!-- Meta data -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-    <meta content="{{ env('APP_NAME') }}" name="description" />
+    <meta content="{{ config('app.name') }}" name="description" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />

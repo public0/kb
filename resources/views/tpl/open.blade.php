@@ -2,7 +2,7 @@
 <html lang="{{ $lang }}" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>{{ $pageTitle }} - {{ env('APP_NAME') }}</title>
+    <title>{{ $pageTitle }} - {{ config('app.name') }}</title>
     <meta name='viewport' content="width=device-width, initial-scale=1.0, user-scalable=0">
     <link rel="icon" href="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" type="image/x-icon" />
     <!--Bootstrap css -->
@@ -79,8 +79,8 @@
         <aside class="app-sidebar ps ps--active-y">
             <div class="app-sidebar__logo">
                 <a class="header-brand" href="{{ url()->current() }}">
-                    <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ env('APP_NAME') }}">
-                    <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ env('APP_NAME') }}">
+                    <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ config('app.name') }}">
+                    <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ config('app.name') }}">
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">

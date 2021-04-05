@@ -4,10 +4,10 @@
         <div class="d-flex">
             <a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a>
             <a class="header-brand" href="{{ route('front.home') }}">
-                <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ env('APP_NAME') }}">
-                <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ env('APP_NAME') }}">
-                <img src="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" class="header-brand-img mobile-logo" alt="{{ env('APP_NAME') }}">
-                <img src="<?php echo URL::to('/th/assets/images/brand/favicon1.png'); ?>" class="header-brand-img darkmobile-logo" alt="{{ env('APP_NAME') }}">
+                <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ config('app.name') }}">
+                <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ config('app.name') }}">
+                <img src="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" class="header-brand-img mobile-logo" alt="{{ config('app.name') }}">
+                <img src="<?php echo URL::to('/th/assets/images/brand/favicon1.png'); ?>" class="header-brand-img darkmobile-logo" alt="{{ config('app.name') }}">
             </a>
             <div class="mt-1">
                 <form class="form-inline" method="get" action="{{ route('front.search') }}">
