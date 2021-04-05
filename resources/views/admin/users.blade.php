@@ -151,17 +151,15 @@
             });
         });
     }
-    $(document).ready(function () {
-        $('.btn-password-reset').on('click', function (e) {
-            e.preventDefault();
-            var self = $(this);
-            $.ajax(self.data('href'), {
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    passwordResetModal(self, data);
-                }
-            });
+    $('.btn-password-reset').on('click', function (e) {
+        e.preventDefault();
+        var self = $(this);
+        $.ajax(self.data('href'), {
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                passwordResetModal(self, data);
+            }
         });
     });
 </script>
