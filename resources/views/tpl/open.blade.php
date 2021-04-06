@@ -78,13 +78,13 @@
     <div class="page-main">
         <aside class="app-sidebar ps ps--active-y">
             <div class="app-sidebar__logo">
-                <a class="header-brand" href="{{ url()->current() }}">
+                <a class="header-brand" href="{{ route('front.home') }}">
                     <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ config('app.name') }}">
                     <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ config('app.name') }}">
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">
-                <li class="side-item side-item-category mt-4">Placeholders</li>
+                <li class="side-item side-item-category mt-4">{{ __('tpl.placeholders') }}</li>
                 @foreach($placeholdersGroups as $group)
                 <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="javascript:void(0)"><svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"></path></svg> <span class="side-menu__label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ $group->name }}">{{ $group->name }}</span><i class="angle fa fa-angle-right"></i></a>
@@ -111,7 +111,7 @@
                         <div class="card-header">
                             <div class="card-title">{{ $pageTitle }}</div>
                             <div class="app-sidebar__toggle" data-toggle="sidebar">
-                                <a class="open-toggle" href="#">
+                                <a class="open-toggle" href="javascript:void(0)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-left header-icon mt-1"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>
                                 </a>
                             </div>
@@ -122,35 +122,35 @@
                             <div class="row row-sm">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ $template->name }}" maxlength="255" />
+                                        <label class="form-label">{{ __('tpl.name') }}</label>
+                                        <input type="text" name="name" placeholder="{{ __('tpl.name') }}" class="form-control" required="required" value="{{ $template->name }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Subject</label>
-                                        <input type="text" name="subject" placeholder="Subject" class="form-control" required="required" value="{{ $template->subject }}" maxlength="255" />
+                                        <label class="form-label">{{ __('tpl.subject') }}</label>
+                                        <input type="text" name="subject" placeholder="{{ __('tpl.subject') }}" class="form-control" required="required" value="{{ $template->subject }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Header</label>
+                                        <label class="form-label">{{ __('tpl.header') }}</label>
                                         <input type="file" name="header" class="form-control-file" />
                                         @if($template->header_image)
                                         <div class="imgs mt-4 position-relative">
-                                        <a href="<?php echo route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'header', 'image' => $template->header_image]); ?>" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="Delete image" onclick="return confirmModal(this, 'Notice', 'Are you sure you want to delete the image?', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
+                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'header', 'image' => $template->header_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return confirmModal(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
                                         <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->header_image }}" alt="header" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Footer</label>
+                                        <label class="form-label">{{ __('tpl.footer') }}</label>
                                         <input type="file" name="footer" class="form-control-file" />
                                         @if($template->footer_image)
                                         <div class="imgs mt-4 position-relative">
-                                        <a href="<?php echo route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'footer', 'image' => $template->footer_image]); ?>" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="Delete image" onclick="return confirmModal(this, 'Notice', 'Are you sure you want to delete the image?', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
+                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'footer', 'image' => $template->footer_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return confirmModal(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
                                         <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->footer_image }}" alt="footer" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="content" id="tinymce" placeholder="Content" class="form-control" required="required" style="height:300px;">{{ $template->content }}</textarea>
+                                        <textarea name="content" id="tinymce" placeholder="{{ __('tpl.content') }}" class="form-control" required="required" style="height:300px;">{{ $template->content }}</textarea>
                                     </div>
                                 </div>
                             </div>
