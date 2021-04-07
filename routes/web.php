@@ -160,6 +160,20 @@ Route::get(
     [App\Http\Controllers\Tpl\TemplatesController::class, 'deleteImage']
 )->name('tpl.deleteimage');
 
+// Procesio (req key)
+Route::any(
+    '/procesio',
+    [App\Http\Controllers\Procesio\ProcesioController::class, 'index']
+)->name('procesio.home');
+Route::any(
+    '/procesio/search',
+    [App\Http\Controllers\Procesio\ProcesioController::class, 'search']
+)->name('procesio.search');
+Route::any(
+    '/procesio/partners/edit/{id}',
+    [App\Http\Controllers\Procesio\ProcesioController::class, 'partnersEdit']
+)->name('procesio.partners.edit');
+
 // Articles
 Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'index'])->name('front.category');
 Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index'])->name('front.article');
