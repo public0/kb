@@ -91,6 +91,7 @@ class ArticleController extends Controller
                 $art->tags = $tags ? ',' . implode(',', $tags) . ',' : null;
                 $art->lang = $lang;
                 $art->status = $status;
+                $art->lang_parent_id = $lang_parent_id;
                 $art->rank = $rank;
                 $art->user_groups = $u_groups ? ',' . implode(',', $u_groups) . ',' : null;
                 $art->in_right_col = $in_right_col;
@@ -136,7 +137,7 @@ class ArticleController extends Controller
             $description = $_POST['description'];
             $body = trim($_POST['body']);
             $category_id = $_POST['category_id'];
-            $tags = $_POST['tags'];
+            $tags = $_POST['tags'] ?? [];
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $lang_parent_id = $_POST['lang_parent_id'] ?? null;
