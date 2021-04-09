@@ -28,6 +28,12 @@ Route::get(
     [App\Http\Controllers\API\ArticlesController::class, 'item']
 )->name('api.articles.item');
 
+// Files
+Route::get(
+    '/files',
+    [App\Http\Controllers\API\FilesController::class, 'list']
+)->name('api.files.list');
+
 // Templates
 Route::post(
     '/templates/open',

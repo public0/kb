@@ -6,6 +6,8 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Newsletter;
+use App\Models\TemplatePlaceholderGroup;
+use App\Models\TemplateType;
 use App\Models\User;
 use App\Models\UserGroups;
 use Illuminate\View\Component;
@@ -38,6 +40,8 @@ class AdminSidebar extends Component
             'categories' => Category::count(),
             'comments' => Comment::count(),
             'subscribers' => Newsletter::count(),
+            'tpl_types' => TemplateType::count(),
+            'tpl_placeholders' => TemplatePlaceholderGroup::count(),
             'current_user_name' => Auth::user()->full_name
         ];
 

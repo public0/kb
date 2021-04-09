@@ -99,97 +99,110 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Article Edit</h3>
+                            <div class="card-options">
+                                <a href="{{ route('front.article', ['id' => $article->article_id]) }}" target="_blank" class="btn btn-sm btn-primary"><i class="fe fe-book-open"></i></a>
+                            </div>
                         </div>
+                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                        @csrf
                         <div class="card-body pb-2">
-                            @if(!empty($article))
-                            <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                                @csrf
-                                <div class="row row-sm">
-                                    <div class="col-lg-12">
-                                        @if(!empty($language))
-                                            <div class="form-group">
-                                                <label class="form-label">Language</label>
-                                                <select name="lang" class="form-control custom-select select2">
-                                                    @foreach($language as $lng)
-                                                    <option value="{{$lng->abv}}" @if($lng->abv == $article->lang) selected="selected"@endif>{{$lng->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @endif
+                            <div class="row row-sm">
+                                <div class="col-lg-12">
+                                    @if(!empty($language))
                                         <div class="form-group">
-                                            <input name="title" class="form-control  mb-4" placeholder="Title" required="required" type="text" value="{{$article->title}}">
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required" type="text">{{$article->description}}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required" type="text" style="height: 200px;">{!! $article->body !!}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Tags</label>
-                                            <select name="tags[]" class="form-control custom-select select2-tokens" multiple>
-                                                @foreach($article->tags as $tag)
-                                                <option value="{{$tag}}" selected="selected">{{$tag}}</option>
+                                            <label class="form-label">Language</label>
+                                            <select name="lang" class="form-control custom-select select2">
+                                                @foreach($language as $lng)
+                                                <option value="{{$lng->abv}}" @if($lng->abv == $article->lang) selected="selected"@endif>{{$lng->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Rank</label>
-                                            <input name="rank" class="form-control  mb-4"  type="text" value="{{$article->rank}}">
+                                    @endif
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input name="title" class="form-control  mb-4" placeholder="Title" required="required" type="text" value="{{$article->title}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea name="description" class="form-control  mb-4" placeholder="Description" required="required" type="text">{{$article->description}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select class="form-control" id="files"></select>
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-sm btn-primary" id="filesbutton"><i class="fe fe-link"></i><i class="fe fe-plus"></i></button>
+                                            </span>
                                         </div>
-                                        @if(!empty($categories))
-                                            <div class="form-group">
-                                                <label class="form-label">Category</label>
-                                                <select name="category_id" class="form-control custom-select select2">
-                                                    <option value="">--</option>
-                                                    @foreach($categories as $ct)
-                                                    <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="body" id="tinymce" class="form-control  mb-4" placeholder="Body" required="required" type="text" style="height: 200px;">{!! $article->body !!}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tags</label>
+                                        <select name="tags[]" class="form-control custom-select select2-tokens" multiple>
+                                            @foreach($article->tags as $tag)
+                                            <option value="{{$tag}}" selected="selected">{{$tag}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Rank</label>
+                                        <input name="rank" class="form-control  mb-4"  type="text" value="{{$article->rank}}">
+                                    </div>
+                                    @if(!empty($categories))
                                         <div class="form-group">
-                                            <label class="form-label">Lang parent id</label>
-                                            <select name="lang_parent_id" class="form-control">
-                                                @if(!empty($article_lang))
-                                                <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>
-                                                @endif
+                                            <label class="form-label">Category</label>
+                                            <select name="category_id" class="form-control custom-select select2">
+                                                <option value="">--</option>
+                                                @foreach($categories as $ct)
+                                                <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                        @if(!empty($user_groups))
-                                            <div class="form-group">
-                                                <label class="form-label">User Groups</label>
-                                                <select name="user_groups[]" class="form-control custom-select select2" multiple>
-                                                    <option value="">--</option>
-                                                    @foreach($user_groups as $ug)
-                                                        <option value="{{$ug->id}}" @if(isset($article->user_groups) && in_array($ug->id, $article->user_groups)) selected="selected" @endif>{{$ug->name}}</option>
-                                                    @endforeach
+                                    @endif
+                                    <div class="form-group">
+                                        <label class="form-label">Lang parent id</label>
+                                        <select name="lang_parent_id" class="form-control">
+                                            @if(!empty($article_lang))
+                                            <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    @if(!empty($user_groups))
+                                        <div class="form-group">
+                                            <label class="form-label">User Groups</label>
+                                            <select name="user_groups[]" class="form-control custom-select select2" multiple>
+                                                <option value="">--</option>
+                                                @foreach($user_groups as $ug)
+                                                    <option value="{{$ug->id}}" @if(isset($article->user_groups) && in_array($ug->id, $article->user_groups)) selected="selected" @endif>{{$ug->name}}</option>
+                                                @endforeach
 
-                                                </select>
-                                            </div>
-                                        @endif
-                                        <div class="form-group">
-                                            <label class="form-label">Right column</label>
-                                            <select name="in_right_col" class="form-control custom-select select2">
-                                                <option value="1" @if($article->in_right_col == 1) selected="selected" @endif>Yes</option>
-                                                <option value="0" @if($article->in_right_col == 0) selected="selected" @endif>No</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Status</label>
-                                            <select name="status" class="form-control custom-select select2">
-                                                <option value="1" @if($article->status == 1) selected="selected" @endif>Active</option>
-                                                <option value="0" @if($article->status == 0) selected="selected" @endif>Inactive</option>
-                                            </select>
-                                        </div>
-                                        <input type="submit" class="btn btn-info" value="Submit" onclick="tinyMCE.triggerSave();" />
+                                    @endif
+                                    <div class="form-group">
+                                        <label class="form-label">Right column</label>
+                                        <select name="in_right_col" class="form-control custom-select select2">
+                                            <option value="1" @if($article->in_right_col == 1) selected="selected" @endif>Yes</option>
+                                            <option value="0" @if($article->in_right_col == 0) selected="selected" @endif>No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Status</label>
+                                        <select name="status" class="form-control custom-select select2">
+                                            <option value="1" @if($article->status == 1) selected="selected" @endif>Active</option>
+                                            <option value="0" @if($article->status == 0) selected="selected" @endif>Inactive</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </form>
-                                @endif
+                            </div>
                         </div>
+                        <div class="card-footer text-right">
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='<?php echo URL::to('/admin/article'); ?>'">{{ __('labels.back') }}</button>
+                            <button type="submit" class="btn btn-info" onclick="tinyMCE.triggerSave();">{{ __('labels.submit') }}</button>
+                        </div>
+                        </form>
                     </div>
-
                     <!--/div-->
                 </div>
             </div>
@@ -225,6 +238,39 @@
         });
     }
     $(document).ready(function () {
+        var selectFiles = $('select#files');
+        selectFiles.select2({
+            placeholder: '{{ __('labels.select_a_file') }}',
+            allowClear: true,
+            ajax: {
+                url: '{{ route('api.files.list') }}',
+                method: 'GET',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data) {
+                    var items = [];
+                    $.each(data.files, function(idx, val) {
+                        items.push({id: val.path, text: val.name});
+                    });
+                    return {
+                        results: items
+                    };
+                }
+            }
+        });
+        $('#filesbutton').on('click', function (e) {
+            e.preventDefault();
+            var opt = $('option:selected', selectFiles);
+            if (opt.val()) {
+                var html = '<a href="' + opt.val() + '" target="_blank" class="file-link">' + opt.text() + '</a>';
+                tinymce.activeEditor.execCommand('mceInsertContent', false, html);
+                selectFiles.val(null).trigger('change');
+            }
+        });
         var selectLang = $('select[name="lang"]');
         selectLang.on('change', function () {
             populateLangParentId($(this).val());

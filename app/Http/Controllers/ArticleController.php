@@ -15,11 +15,9 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $article = Article::where('article_id', $request->id);
-        if (!$request->query('preview')) {
-            $article->active();
-        }
-        $article = $article->first();
+        $article = Article::where('article_id', $request->id)
+            ->where('status', $request->query('preview') ? 0 : 1)
+            ->first();
         if (empty($article->id)) {
             return abort(404);
         }
@@ -38,7 +36,7 @@ class ArticleController extends Controller
             }
         }
 
-        if (!empty($_POST)) {
+        if ($request->isMethod('post')) {
             $validator = Validator::make($request->post(), [
                 'comment_text' => 'required|max:1500',
                 'comment_name' => 'required|max:100',
@@ -64,15 +62,10 @@ class ArticleController extends Controller
             }
         }
 
-        $assocArt = ArticleFactoryClass::getArticleList('asoc', ['id' => $article->id, 'tags' => $article->tags]);
+        $assoc = ArticleFactoryClass::getArticleList('asoc', ['id' => $article->id, 'tags' => $article->tags]);
         $comments = Comment::active()->where('article_id', $article->id)->orderBy('created_at', 'desc')->get();
-        $data = [
-            'article' => $article,
-            'assoc' => $assocArt,
-            'comments' => $comments
-        ];
 
-        return view('front/article', $data);
+        return view('front/article', compact('article', 'assoc', 'comments'));
     }
 
     public function helpView(Request $request)

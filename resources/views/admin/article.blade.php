@@ -17,7 +17,7 @@
                 </div>
                 <div class="page-rightheader">
                     <div class="btn btn-list">
-                        <a href="<?php echo URL::to('/'); ?>/admin/article/add" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a>
+                        <a href="<?php echo URL::to('/admin/article/add'); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
                     </div>
                 </div>
             </div>

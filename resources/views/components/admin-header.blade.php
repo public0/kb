@@ -27,19 +27,7 @@
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown"><img src="<?php echo URL::to('/th/assets/images/users/account.png'); ?>" alt="img" class="avatar-md brround"></a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
-                        <div class="text-center">
-                            <a href="<?php echo URL::to('/admin/profile'); ?>" class="dropdown-item text-center user pb-0 font-weight-bold">{{$current_user_name}}</a>
-                            <span class="text-center user-semi-title">{{$current_user_email}}</span>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                        <a class="dropdown-item d-flex" href="<?php echo URL::to('/admin/profile'); ?>">
-                            <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-users"></i></span>
-                            Profile
-                        </a>
-                        <a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">
-                            <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-log-out"></i></span>
-                            Sign Out
-                        </a>
+                        <x-user-menu section="admin" />
                     </div>
                 </div>
             </div>

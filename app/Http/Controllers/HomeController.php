@@ -10,16 +10,12 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        if (Auth::check()) {
-            $articles = Article::userGroups(Auth::user()->my_groups);
-        } else {
-            $articles = Article::where('user_groups', null);
-        }
+        $articles = Article::active()
+            ->where('lang', $this->lang)
+            ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
 
-        $data = [
-            'articles' => $articles->active()->where('lang', $this->lang)->orderBy('created_at', 'desc')->paginate(20)
-        ];
-
-        return view('front/home', $data);
+        return view('front/home', compact('articles'));
     }
 }

@@ -75,6 +75,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/comments', [App\Http\Controllers\Admin\CommentsController::class, 'index']);
     Route::get('/admin/comments/status/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'status']);
     Route::get('/admin/comments/delete/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'delete']);
+    // Article Files
+    Route::get('/admin/files', [App\Http\Controllers\Admin\FilesController::class, 'index']);
+    Route::any('/admin/files/add', [App\Http\Controllers\Admin\FilesController::class, 'add']);
+    Route::get('/admin/files/delete/{file}', [App\Http\Controllers\Admin\FilesController::class, 'delete']);
     // Newsletter
     Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);

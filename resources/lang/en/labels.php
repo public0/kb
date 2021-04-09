@@ -34,5 +34,8 @@ return [
     'email'=>'Email',
     'password'=>'Password',
     'password_reset' => 'Password Reset',
-    'home'=> 'Home'
+    'home'=> 'Home',
+    'files' => 'Files',
+    'file' => 'File',
+    'select_a_file' => 'Select a file'
 ];

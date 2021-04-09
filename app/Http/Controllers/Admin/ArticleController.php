@@ -15,10 +15,20 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::orderBy('lang_parent_id', 'asc')->paginate(100);
-        $data = ['articles' => $articles];
+        $articles = Article::select(
+            'id',
+            'title',
+            'lang',
+            'tags',
+            'created_at',
+            'status',
+            'article_id',
+            'lang_parent_id'
+        )
+            ->orderBy('lang_parent_id', 'asc')
+            ->paginate(50);
 
-        return view('admin/article', $data);
+        return view('admin/article', compact('articles'));
     }
 
     public function status($id)
@@ -71,7 +81,7 @@ class ArticleController extends Controller
             ]);
 
             if (!empty($lang_parent_id)) {
-                $parent = Article::find($lang_parent_id);
+                $parent = Article::select('id', 'lang')->find($lang_parent_id);
                 if ($parent) {
                     $lang_parent_id = $parent->id;
                     if ($parent->lang == $lang) {
@@ -166,7 +176,7 @@ class ArticleController extends Controller
             }
 
             if (!empty($lang_parent_id)) {
-                $parent = Article::find($lang_parent_id);
+                $parent = Article::select('id', 'lang')->find($lang_parent_id);
                 if ($parent) {
                     $lang_parent_id = $parent->id;
                     if ($parent->lang == $lang) {

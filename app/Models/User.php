@@ -77,14 +77,10 @@ class User extends Authenticatable
     public function getMyGroupsAttribute()
     {
         $result = [];
-        if ($this->id) {
-            $groups = GroupsUsers::where('user_id', $this->id)
-                ->select('group_id')
-                ->get();
-            if ($groups) {
-                foreach ($groups as $group) {
-                    $result[] = $group->group_id;
-                }
+        $groups = $this->groups()->get();
+        if ($groups) {
+            foreach ($groups as $group) {
+                $result[] = $group->group_id;
             }
         }
 

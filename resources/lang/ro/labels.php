@@ -34,5 +34,8 @@ return [
     'email'=>'Email',
     'password'=>'Parola',
     'password_reset' => 'Reseteaza parola',
-    'home'=> 'Acasa'
+    'home'=> 'Acasa',
+    'files' => 'Fisiere',
+    'file' => 'Fisier',
+    'select_a_file' => 'Selecteaza un fisier'
 ];

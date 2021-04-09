@@ -61,7 +61,6 @@
             <header class="app-header header">
                 <div class="container-fluid">
                 <form class="form-inline" method="get" action="{{ route('help.articles.search', ['api_token' => request()->route('api_token')]) }}">
-                    @csrf
                     <div class="search-element">
                         <input type="search" class="form-control header-search" placeholder="{{ __('labels.search') }}..." aria-label="{{ __('labels.search') }}" tabindex="1" name="q" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{ request()->input('q') }}" />
                         <button class="btn btn-primary-color" type="submit">

@@ -121,12 +121,12 @@ class Article extends Model
      */
     public function scopeUserGroups($query, array $groups)
     {
-        $like = ['user_groups IS NULL'];
+        $like = ['[user_groups] IS NULL'];
         foreach ($groups as $group) {
             if (in_array($group, [1, 6])) {
-                $like[] = 'user_groups IS NOT NULL';
+                $like[] = '[user_groups] IS NOT NULL';
             } else {
-                $like[] = "user_groups LIKE '%,{$group},%'";
+                $like[] = "[user_groups] LIKE '%,{$group},%'";
             }
         }
         $like = array_unique($like);
@@ -142,6 +142,8 @@ class Article extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query
+            ->select('id', 'title', 'description', 'created_at', 'updated_at', 'article_id')
+            ->where('status', 1);
     }
 }

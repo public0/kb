@@ -11,7 +11,6 @@
             </a>
             <div class="mt-1">
                 <form class="form-inline" method="get" action="{{ route('front.search') }}">
-                    @csrf
                     <div class="search-element">
                         <input type="search" class="form-control header-search" placeholder="{{ __('labels.search') }}..." aria-label="{{ __('labels.search') }}" tabindex="1" name="q" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{ request()->input('q') }}" />
                         <button class="btn btn-primary-color" type="submit">
@@ -27,7 +26,7 @@
                 @if(!empty($languages))
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"> <span> <img src="<?php echo URL::to('/th/assets/images/langs/' . strtolower($selectedLanguage) . '.png'); ?>" alt="img" class="avatar-md brround" style="background-position:cover"> </span> </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated" style="">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
                         @foreach($languages as $lng)
                         @if($selectedLanguage != $lng->abv)<a class="dropdown-item d-flex" href="javascript:void(0)" onclick="changeLang('{{ $lng->abv }}')">{{ $lng->name }}</a>@endif
                         @endforeach
@@ -36,32 +35,8 @@
                 @endif
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"><img src="<?php echo URL::to('/th/assets/images/users/account.png'); ?>" alt="img" class="avatar-md brround"></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated" style="">
-                        @if($user)
-                        <div class="text-center">
-                            <a href="#" class="dropdown-item text-center user pb-0 font-weight-bold">{{ $user->full_name }}</a><span class="text-center user-semi-title">{{ $user->email }}</span>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                        @if($admin)
-                        <a class="dropdown-item d-flex" href="{{ route('admin.home') }}">
-                            <span class="header-icon" style="display:inline-block;line-height:25px"><i class="fe fe-settings"></i></span>
-                            Admin
-                        </a>
-                        @endif
-                        <a class="dropdown-item d-flex" href="{{ route('ibd.home') }}">
-                            <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-aperture"></i></span>
-                            Configurator
-                        </a>
-                        <a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">
-                            <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-log-out"></i></span>
-                            Sign Out
-                        </a>
-                        @else
-                        <a class="dropdown-item d-flex" href="{{ route('auth.login') }}">
-                            <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-log-in"></i></span>
-                            Sign In
-                        </a>
-                        @endif
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
+                        <x-user-menu section="front" />
                     </div>
                 </div>
             </div>
