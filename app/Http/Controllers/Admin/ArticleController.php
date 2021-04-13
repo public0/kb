@@ -356,57 +356,6 @@ class ArticleController extends Controller
         }
     }
 
-    public function importImages()
-    {
-        $spath = storage_path(str_replace('/', DIRECTORY_SEPARATOR, 'app/public/articles/'));
-        $articles = Article::all();
-        foreach ($articles as $article) {
-            if (preg_match_all(
-                '/<img[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')/',
-                $article->body,
-                $matches,
-                PREG_SET_ORDER
-            )) {
-                foreach ($matches as $values) {
-                    if (strstr($values[0], '/storage/articles')) {
-                        continue;
-                    }
-                    if (strstr($values[0], 'http://www.ringhel.ro/GeFEEdesk')) {
-                        continue;
-                    }
-                    if (strstr($values[0], 'ftp://ftp.ringhel.ro/')) {
-                        continue;
-                    }
-
-                    if (strstr($values[0], ';base64')) {
-                        $parts = explode(',', $values[0]);
-                        preg_match('/image\/([a-z]+)/', $parts[0], $match);
-                        $name = md5(time()).'.'.$match[1];
-                        $path = '/storage/articles/' . $name;
-                        file_put_contents($spath . $name, base64_decode($parts[1]));
-                        $article->body = str_replace($values[0], $path, $article->body);
-                        $article->save();
-                    } else {
-                        $name = basename($values[0]);
-                        try {
-                            $result = file_get_contents($values[0]);
-                            if ($result) {
-                                file_put_contents($spath . $name, $result);
-                                $path = '/storage/articles/' . $name;
-                                $article->body = str_replace($values[0], $path, $article->body);
-                                $article->save();
-                            }
-                        } catch (\Exception $e) {
-                        }
-                    }
-
-                    echo $values[0];
-                    echo '<br>';
-                }
-            }
-        }
-    }
-
     public function delete($id)
     {
         try {

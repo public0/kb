@@ -8,7 +8,7 @@ $url = route('front.article', ['id' => $art->article_id]);
     <div class="card-body d-flex flex-column">
         {{-- <div class="item7-card-desc d-flex mb-5"> <a href="#" class="d-flex"><i class="fe fe-calendar fs-16 mr-1"></i> Jun-11-2020</a> <div class="ml-auto"> <a class="mr-0 d-flex" href="#"><i class="fe fe-message-square fs-16 mr-1"></i> 7 Comments</a> </div> </div> --}}
         <h4 style="height:38px; overflow:hidden"><a href="{{ $url }}" title="{{ $art->title }}">{{ $art->title }}</a></h4>
-        <div class="text-muted">{{ $art->description }}</div>
+        <div class="text-muted">{!! $art->description !!}</div>
     </div>
     <div class="card-body pt-3 pb-3">
         <div class="d-flex align-items-center mt-auto">

@@ -28,7 +28,7 @@
                     <a href="javascript:void(0)" class="d-flex"><i class="fe fe-info fs-16 mr-1"></i><div class="mt-0">{{ $article->article_id }}</div></a>
                     <div class="ml-auto"><a class="mr-0 d-flex" href="javascript:void(0)" onclick="scrollToElm('a[name=ArticleComments]')"><div class="mt-0">{{ count($comments) }}</div> <i class="fe fe-message-square fs-16 ml-1"></i></a></div>
                 </div>
-                <p>{!! $article->body !!}</p>
+                <div class="article-body">{!! $article->body !!}</div>
             </div>
             @if($article->tags)
             <div class="card-footer">
@@ -48,7 +48,7 @@
                 $url = route('front.article', ['id' => $art->article_id]);
                 @endphp
                     <h4><a href="{{ $url }}">{{ $art->title }}</a></h4>
-                    <div class="text-muted">{{ $art->description }}</div>
+                    <div class="text-muted">{!! $art->description !!}</div>
                     <div class="d-flex align-items-center pt-3 mt-auto">
                         <a href="{{ $url }}" class="d-flex"><i class="fe fe-calendar fs-16 mr-1"></i> @if($art->created_at > $art->updated_at){{ date('d.m.Y', strtotime($art->created_at)) }}@else{{ date('d.m.Y', strtotime($art->updated_at)) }}@endif</a>
                         <div class="ml-auto"><a class="mr-0 d-flex" href="{{ $url }}">{{ $art->comments_number }} <i class="fe fe-message-square fs-16 ml-1"></i></a></div>

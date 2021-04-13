@@ -18,7 +18,7 @@
             <div class="card overflow-hidden">
                 <div class="card-body d-flex flex-column">
                     <h4 style="height:38px; overflow:hidden"><a href="{{ $url }}" title="{{ $art->title }}">{{ $art->title }}</a></h4>
-                    <div class="text-muted">{{ $art->description }}</div>
+                    <div class="text-muted">{!! $art->description !!}</div>
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-center mt-auto">
