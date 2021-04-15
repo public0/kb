@@ -1,5 +1,5 @@
 @if($newsletterBox)
-<div class="card">
+<div class="card text-white bg-teal">
     <div class="card-header">
         <h4 class="card-title">Newsletter</h4>
     </div>

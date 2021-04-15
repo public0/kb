@@ -160,7 +160,7 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
-                                        <label class="form-label">Lang parent id</label>
+                                        <label class="form-label">Related language</label>
                                         <select name="lang_parent_id" class="form-control"></select>
                                     </div>
                                     @if(!empty($user_groups))

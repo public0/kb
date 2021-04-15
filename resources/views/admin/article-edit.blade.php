@@ -161,7 +161,7 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
-                                        <label class="form-label">Lang parent id</label>
+                                        <label class="form-label">Related language</label>
                                         <select name="lang_parent_id" class="form-control">
                                             @if(!empty($article_lang))
                                             <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>

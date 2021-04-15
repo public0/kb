@@ -53,7 +53,7 @@ class ArticleController extends Controller
                     $coment->name = $request->post('comment_name');
                     $coment->email = $request->post('comment_email');
                     $coment->comment = $request->post('comment_text');
-                    $coment->status = 1;
+                    $coment->status = 0;
                     $coment->article_id = $article->id;
                     $coment->save();
 
