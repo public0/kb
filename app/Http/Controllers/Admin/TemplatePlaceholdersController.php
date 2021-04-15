@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TemplatePlaceholder;
+use App\Models\TemplatePlaceholderCountry;
 use App\Models\TemplatePlaceholderGroup;
 use App\Models\TemplateType;
 use Exception;
@@ -25,7 +26,7 @@ class TemplatePlaceholdersController extends Controller
         return view('admin/templates-placeholders-groups', [
             'groups' => $groups,
             'filters' => $filters,
-            'types' => TemplateType::where('status', 1)->get()
+            'types' => TemplateType::active()->get()
         ]);
     }
 
@@ -52,7 +53,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-groups-form', [
             'group' => null,
-            'types' => TemplateType::where('status', 1)->get()
+            'types' => TemplateType::active()->get()
         ]);
     }
 
@@ -81,7 +82,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-groups-form', [
             'group' => $group->first(),
-            'types' => TemplateType::where('status', 1)->get()
+            'types' => TemplateType::active()->get()
         ]);
     }
 
@@ -137,6 +138,15 @@ class TemplatePlaceholdersController extends Controller
                 $fields = $request->only(['name', 'placeholder_group_id', 'description', 'status']);
                 $placeholder = TemplatePlaceholder::create($fields);
 
+                $deletedRows = TemplatePlaceholderCountry::where('placeholder_id', $placeholder->id);
+                $deletedRows->delete();
+                foreach ($request->input('countries', []) as $country) {
+                    TemplatePlaceholderCountry::create([
+                        'placeholder_id' => $placeholder->id,
+                        'country_code' => $country
+                    ]);
+                }
+
                 return redirect()->route('admin.tpl.places', ['gid' => $fields['placeholder_group_id']])
                     ->with('message', 'Placeholder added successfully!');
             } catch (Exception $e) {
@@ -147,6 +157,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-form', [
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
+            'countries' => TemplatePlaceholderCountry::$countries,
             'placeholder' => null
         ]);
     }
@@ -166,6 +177,15 @@ class TemplatePlaceholdersController extends Controller
                 $fields = $request->only(['name', 'placeholder_group_id', 'description', 'status']);
                 $placeholder->update($fields);
 
+                $deletedRows = TemplatePlaceholderCountry::where('placeholder_id', $id);
+                $deletedRows->delete();
+                foreach ($request->input('countries', []) as $country) {
+                    TemplatePlaceholderCountry::create([
+                        'placeholder_id' => $id,
+                        'country_code' => $country
+                    ]);
+                }
+
                 return redirect()->route('admin.tpl.places', ['gid' => $fields['placeholder_group_id']])
                     ->with('message', 'Placeholder updated successfully!');
             } catch (Exception $e) {
@@ -176,6 +196,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-form', [
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
+            'countries' => TemplatePlaceholderCountry::$countries,
             'placeholder' => $placeholder->first()
         ]);
     }

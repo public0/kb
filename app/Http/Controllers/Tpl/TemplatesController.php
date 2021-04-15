@@ -38,66 +38,76 @@ class TemplatesController extends Controller
             ]);
 
             $fields = $request->only(['name', 'subject', 'content']);
+            $fields['tpl_type'] = $template->tpl_type;
 
-            $images = [];
-            $headerPath = null;
-            $headerImage = $request->file('header');
-            if ($headerImage) {
-                $header = $headerImage->getClientOriginalName();
-                $fields['header_image'] = $header;
-                $images['header'] = url('storage/' . $header);
-                $headerPath = $headerImage->storeAs('public', $header);
-            }
-            $footerPath = null;
-            $footerImage = $request->file('footer');
-            if ($footerImage) {
-                $footer = $footerImage->getClientOriginalName();
-                $fields['footer_image'] = $footer;
-                $images['footer'] = url('storage/' . $footer);
-                $footerPath = $footerImage->storeAs('public', $footer);
-            }
-
-            $data = array_merge($fields, $images ? ['images' => json_encode($images)] : []);
-            $response = $this->createRequest($template->app_endpoint, 'update?id=' . $template->app_id, $data);
-            if ($response) {
-                $responseData = json_decode($response, true);
-                if (isset($responseData['error'])) {
-                    $request->session()->flash('error', $responseData['error']['message']);
-                }
-                if (isset($responseData['success'])) {
-                    $tpl->update([
-                        'name' => $responseData['success']['name'],
-                        'subject' => $responseData['success']['subject'],
-                        'content' => $responseData['success']['content'],
-                        'header_image' => $responseData['success']['header_image'],
-                        'footer_image' => $responseData['success']['footer_image']
-                    ]);
-                    $template = $tpl->first();
-                }
-                if ($headerPath) {
-                    Storage::delete($headerPath);
-                }
-                if ($footerPath) {
-                    Storage::delete($footerPath);
-                }
-                if (preg_match_all(
-                    '/<img[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')/',
-                    $fields['content'],
-                    $matches,
-                    PREG_SET_ORDER
-                )) {
-                    foreach ($matches as $values) {
-                        Storage::delete('public/' . basename($values[0]));
+            switch ($template->tpl_type) {
+                case 'email':
+                    $images = [];
+                    $headerPath = null;
+                    $headerImage = $request->file('header');
+                    if ($headerImage) {
+                        $header = $headerImage->getClientOriginalName();
+                        $fields['header_image'] = $header;
+                        $images['header'] = url('storage/' . $header);
+                        $headerPath = $headerImage->storeAs('public', $header);
                     }
-                }
+                    $footerPath = null;
+                    $footerImage = $request->file('footer');
+                    if ($footerImage) {
+                        $footer = $footerImage->getClientOriginalName();
+                        $fields['footer_image'] = $footer;
+                        $images['footer'] = url('storage/' . $footer);
+                        $footerPath = $footerImage->storeAs('public', $footer);
+                    }
+
+                    $data = array_merge($fields, $images ? ['images' => json_encode($images)] : []);
+                    $response = $this->createRequest($template->app_endpoint, 'update?id=' . $template->app_id, $data);
+                    if ($response) {
+                        $responseData = json_decode($response, true);
+                        if (isset($responseData['error'])) {
+                            $request->session()->flash('error', $responseData['error']['message']);
+                        }
+                        if (isset($responseData['success'])) {
+                            $tpl->update([
+                                'name' => $responseData['success']['name'],
+                                'subject' => $responseData['success']['subject'],
+                                'content' => $responseData['success']['content'],
+                                'header_image' => $responseData['success']['header_image'],
+                                'footer_image' => $responseData['success']['footer_image']
+                            ]);
+                            $template = $tpl->first();
+                        }
+                        if ($headerPath) {
+                            Storage::delete($headerPath);
+                        }
+                        if ($footerPath) {
+                            Storage::delete($footerPath);
+                        }
+                        if (preg_match_all(
+                            '/<img[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')/',
+                            $fields['content'],
+                            $matches,
+                            PREG_SET_ORDER
+                        )) {
+                            foreach ($matches as $values) {
+                                Storage::delete('public/' . basename($values[0]));
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
-        $placeholdersGroups = TemplatePlaceholderGroup::whereHas('placeholders', function ($query) {
-            $query->where('status', 1);
-        })
+        $placeholdersGroups = TemplatePlaceholderGroup::active()
+            ->with([
+                'placeholders' => function ($query) use ($template) {
+                    $query->active()
+                        ->whereHas('placeholderCountries', function ($query) use ($template) {
+                            $query->where('country_code', $template->country_code);
+                        });
+                }
+            ])
             ->where('type_id', $template->type_id)
-            ->where('status', 1)
             ->get();
 
         return view('tpl/open', [
@@ -130,7 +140,8 @@ class TemplatesController extends Controller
 
         $response = $this->createRequest($template->app_endpoint, 'deleteImage?id=' . $template->app_id, [
             'field' => $field,
-            'image' => $image
+            'image' => $image,
+            'tpl_type' => $template->tpl_type
         ]);
         if ($response) {
             $responseData = json_decode($response, true);
@@ -138,10 +149,14 @@ class TemplatesController extends Controller
                 $request->session()->flash('error', $responseData['error']['message']);
             }
             if (isset($responseData['success'])) {
-                $tpl->update([
-                    'header_image' => $responseData['success']['header_image'],
-                    'footer_image' => $responseData['success']['footer_image']
-                ]);
+                switch ($template->tpl_type) {
+                    case 'email':
+                        $tpl->update([
+                            'header_image' => $responseData['success']['header_image'],
+                            'footer_image' => $responseData['success']['footer_image']
+                        ]);
+                        break;
+                }
             }
         }
 

@@ -48,6 +48,7 @@
                                     <tr>
                                         <th class="wd-15p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Description</th>
+                                        <th class="wd-15p border-bottom-0">Countries</th>
                                         <th class="wd-15p border-bottom-0 text-center">Status</th>
                                         <th class="wd-15p border-bottom-0 text-center">Actions</th>
                                     </tr>
@@ -57,6 +58,11 @@
                                     <tr>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
+                                        <td>
+                                            @foreach($item->all_country_codes as $code)
+                                            <img src="<?php echo URL::to('/th/assets/images/flags/' . strtolower($code) . '.svg') ?>" alt="{{ $code }}" width="24" class="border-top border-right border-bottom border-left border-gray" />
+                                            @endforeach
+                                        </td>
                                         <td class="table-col-shrink text-center">
                                             <a href="<?php echo route('admin.tpl.places.status', ['gid' => $group->id, 'id' => $item->id]); ?>" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
                                         </td>

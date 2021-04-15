@@ -35,8 +35,56 @@ class TemplatePlaceholder extends Model
         return $this->status ? __('status.active') : __('status.inactive');
     }
 
+    /**
+     * Get country codes.
+     *
+     * @return array
+     */
+    public function getAllCountryCodesAttribute()
+    {
+        $result = [];
+        $items = $this->placeholderCountries()->get();
+        if ($items) {
+            foreach ($items as $item) {
+                $result[] = $item->country_code;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Scope a query to only include active placeholders.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where($this->table . '.status', 1);
+    }
+
     public function placeholderGroup()
     {
         return $this->belongsTo(TemplatePlaceholderGroup::class, 'placeholder_group_id');
+    }
+
+    public function placeholderCountries()
+    {
+        return $this->hasMany(TemplatePlaceholderCountry::class, 'placeholder_id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($placeholder) {
+            $placeholder->placeholderCountries()->each(function ($item) {
+                $item->delete();
+            });
+        });
     }
 }

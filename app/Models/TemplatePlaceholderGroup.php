@@ -34,6 +34,17 @@ class TemplatePlaceholderGroup extends Model
         return $this->status ? __('status.active') : __('status.inactive');
     }
 
+    /**
+     * Scope a query to only include active placeholder group.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where($this->table . '.status', 1);
+    }
+
     public function placeholders()
     {
         return $this->hasMany(TemplatePlaceholder::class, 'placeholder_group_id');

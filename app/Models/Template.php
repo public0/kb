@@ -35,4 +35,19 @@ class Template extends Model
     {
         return $this->belongsTo(TemplateType::class, 'type_id');
     }
+
+    /**
+     * Get template type.
+     *
+     * @return string
+     */
+    public function getTplTypeAttribute()
+    {
+        $type = null;
+        if (in_array($this->type_id, [1, 2, 3])) {
+            $type = 'email';
+        }
+
+        return $type;
+    }
 }

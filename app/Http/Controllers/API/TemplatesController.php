@@ -11,7 +11,9 @@ class TemplatesController extends Controller
 {
     public function __construct()
     {
-        if (!env('APP_DEBUG')) {
+        parent::__construct();
+
+        if (!config('app.debug')) {
             // Check client domain
         }
     }
@@ -47,10 +49,10 @@ class TemplatesController extends Controller
     {
         $placeholders = TemplatePlaceholderGroup::with([
             'placeholders' => function ($query) {
-                $query->where('status', 1);
+                $query->active()->with('placeholderCountries');
             }
         ])
-            ->where('status', 1)
+            ->active()
             ->where('type_id', $type_id)
             ->get();
 

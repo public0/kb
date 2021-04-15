@@ -44,6 +44,14 @@
                                         <input type="text" name="description" placeholder="Description" class="form-control" value="@if($placeholder){{ $placeholder->description }}@endif" />
                                     </div>
                                     <div class="form-group">
+                                        <label class="form-label">Countries</label>
+                                        <select name="countries[]" class="form-control custom-select select2" multiple>
+                                            @foreach($countries as $code => $name)
+                                            <option value="{{$code}}" @if($placeholder && in_array($code, $placeholder->all_country_codes)) selected @endif>{{$name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">
                                             <option value="1"@if($placeholder && $placeholder->status == 1) selected @endif>{{ __('status.active') }}</option>
