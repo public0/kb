@@ -149,12 +149,20 @@
                                         <input name="rank" class="form-control  mb-4"  type="text" value="{{old('rank')}}">
                                     </div>
                                     @if(!empty($categories))
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label class="form-label">Category</label>
                                             <select name="category_id" class="form-control custom-select select2">
                                                 <option value="">--</option>
                                                 @foreach($categories as $ct)
                                                 <option value="{{$ct->id}}" @if(!empty(old('category_id')) && $ct->id == old('category_id')) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> --}}
+                                        <div class="form-group">
+                                            <label class="form-label">Categories</label>
+                                            <select name="categories_ids[]" class="form-control custom-select select2" multiple>
+                                                @foreach($categories as $ct)
+                                                <option value="{{$ct->id}}" @if(!empty(old('categories_ids')) && in_array($ct->id, old('categories_ids'))) selected="selected" @endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -167,11 +175,9 @@
                                         <div class="form-group">
                                             <label class="form-label">User Groups</label>
                                             <select name="user_groups[]" class="form-control custom-select select2" multiple>
-                                                <option value="">--</option>
                                                 @foreach($user_groups as $ug)
-                                                    <option value="{{$ug->id}}" @if(!empty(old('user_groups')) && in_array($ug->id,old('user_groups'))) selected="selected" @endif>{{$ug->name}}</option>
+                                                <option value="{{$ug->id}}" @if(!empty(old('user_groups')) && in_array($ug->id, old('user_groups'))) selected="selected" @endif>{{$ug->name}}</option>
                                                 @endforeach
-
                                             </select>
                                         </div>
                                     @endif

@@ -62,8 +62,9 @@ class ArticleController extends Controller
             $title = $_POST['title'];
             $description = $_POST['description'];
             $body = trim($_POST['body']);
-            $category_id = $_POST['category_id'];
-            $tags = $_POST['tags'] ?? [];
+            $category_id = !empty($_POST['categories_ids']) ? $_POST['categories_ids'][0] : null;
+            $categories_ids = $_POST['categories_ids'] ?? null;
+            $tags = $_POST['tags'] ?? null;
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $rank = $_POST['rank'];
@@ -98,6 +99,7 @@ class ArticleController extends Controller
                 $art->description = $description;
                 $art->body = $body;
                 $art->category_id = $category_id;
+                $art->categories_ids = $categories_ids ? ',' . implode(',', $categories_ids) . ',' : null;
                 $art->tags = $tags ? ',' . implode(',', $tags) . ',' : null;
                 $art->lang = $lang;
                 $art->status = $status;
@@ -129,8 +131,9 @@ class ArticleController extends Controller
         $categories = Category::active()->get();
         $language = Language::all();
         $article = Article::find($id);
-        $article->user_groups = array_filter(explode(',', $article->user_groups));
+        $article->categories_ids = array_filter(explode(',', $article->categories_ids));
         $article->tags = array_filter(explode(',', $article->tags));
+        $article->user_groups = array_filter(explode(',', $article->user_groups));
 
         $data = [
             'article' => $article,
@@ -146,8 +149,9 @@ class ArticleController extends Controller
             $title = $_POST['title'];
             $description = $_POST['description'];
             $body = trim($_POST['body']);
-            $category_id = $_POST['category_id'];
-            $tags = $_POST['tags'] ?? [];
+            $category_id = !empty($_POST['categories_ids']) ? $_POST['categories_ids'][0] : null;
+            $categories_ids = $_POST['categories_ids'] ?? null;
+            $tags = $_POST['tags'] ?? null;
             $status = $_POST['status'];
             $lang = $_POST['lang'];
             $lang_parent_id = $_POST['lang_parent_id'] ?? null;
@@ -193,6 +197,7 @@ class ArticleController extends Controller
                     'description' => $description,
                     'body' => $body,
                     'category_id' => $category_id,
+                    'categories_ids' => $categories_ids ? ',' . implode(',', $categories_ids) . ',' : null,
                     'tags' => $tags ? ',' . implode(',', $tags) . ',' : null,
                     'lang' => $lang,
                     'status' => $status,

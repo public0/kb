@@ -100,7 +100,13 @@
                         <div class="card-header">
                             <h3 class="card-title">Article Edit</h3>
                             <div class="card-options">
-                                <a href="{{ route('front.article', ['id' => $article->article_id]) }}" target="_blank" class="btn btn-sm btn-primary"><i class="fe fe-book-open"></i></a>
+                                @php
+                                $viewParams = ['id' => $article->article_id];
+                                if (!$article->status) {
+                                    $viewParams['preview'] = 'true';
+                                }
+                                @endphp
+                                <a href="{{ route('front.article', $viewParams) }}" target="_blank" class="btn btn-sm btn-primary"><i class="fe fe-book-open"></i></a>
                             </div>
                         </div>
                         <form class="needs-validation" method="post" action="{{ url()->current() }}">
@@ -150,12 +156,20 @@
                                         <input name="rank" class="form-control  mb-4"  type="text" value="{{$article->rank}}">
                                     </div>
                                     @if(!empty($categories))
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label class="form-label">Category</label>
                                             <select name="category_id" class="form-control custom-select select2">
                                                 <option value="">--</option>
                                                 @foreach($categories as $ct)
                                                 <option value="{{$ct->id}}" @if(isset($article->category) && in_array($ct->id, $article->category)) selected="selected"@endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> --}}
+                                        <div class="form-group">
+                                            <label class="form-label">Categories</label>
+                                            <select name="categories_ids[]" class="form-control custom-select select2" multiple>
+                                                @foreach($categories as $ct)
+                                                <option value="{{$ct->id}}" @if(!empty($article->categories_ids) && in_array($ct->id, $article->categories_ids)) selected="selected" @endif>@for($i = 0; $i < substr_count($ct->tree, ','); $i++)&raquo;@endfor {{$ct->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -172,11 +186,9 @@
                                         <div class="form-group">
                                             <label class="form-label">User Groups</label>
                                             <select name="user_groups[]" class="form-control custom-select select2" multiple>
-                                                <option value="">--</option>
                                                 @foreach($user_groups as $ug)
-                                                    <option value="{{$ug->id}}" @if(isset($article->user_groups) && in_array($ug->id, $article->user_groups)) selected="selected" @endif>{{$ug->name}}</option>
+                                                <option value="{{$ug->id}}" @if(!empty($article->user_groups) && in_array($ug->id, $article->user_groups)) selected="selected" @endif>{{$ug->name}}</option>
                                                 @endforeach
-
                                             </select>
                                         </div>
                                     @endif

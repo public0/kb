@@ -22,15 +22,11 @@ class CategoryController extends Controller
 
             $articles = Article::active()
                 ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
-                ->where(['category_id' => $id, 'lang' => $this->lang])
+                ->where('lang', $this->lang)
+                ->whereRaw("[categories_ids] LIKE '%,{$id},%'")
                 ->paginate(20);
-            $data = [
-                'articles' => $articles,
-                'parents' => $parents,
-                'category' => $category
-            ];
 
-            return view('front/category', $data);
+            return view('front/category', compact('category', 'parents', 'articles'));
         } else {
             abort(404);
         }
