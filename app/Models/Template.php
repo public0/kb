@@ -24,6 +24,7 @@ class Template extends Model
         'subject',
         'header_image',
         'footer_image',
+        'country_code',
         'app_id',
         'app_images_url',
         'app_url',
