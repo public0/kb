@@ -77,7 +77,7 @@
         </div>
     </div>
 </div>
-<!-- inject:js -->
+{{-- <!-- inject:js -->
 <!-- Back to top -->
 <a href="#top" id="back-to-top"><i class="fe fe-chevrons-up"></i></a>
 <!-- Jquery js-->
@@ -86,6 +86,6 @@
 <script src="<?php echo URL::to('/th/assets/plugins/bootstrap/popper.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/th/assets/plugins/bootstrap/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/script.js'); ?>"></script>
-<!-- endinject -->
+<!-- endinject --> --}}
 </body>
 </html>
