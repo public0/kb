@@ -93,21 +93,42 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\Admin\TemplatesTypesController::class, 'index']
     )->name('admin.tpl.types');
     Route::any(
-        '/admin/templates-types/add',
-        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'add']
+        '/admin/templates-types/add-type',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'addType']
     )->name('admin.tpl.types.add');
     Route::any(
-        '/admin/templates-types/edit/{id}',
-        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'edit']
+        '/admin/templates-types/edit-type/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'editType']
     )->name('admin.tpl.types.edit');
+    /* Route::get(
+        '/admin/templates-types/delete-type/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'deleteType']
+    )->name('admin.tpl.types.delete'); */
     Route::get(
-        '/admin/templates-types/delete/{id}',
-        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'delete']
-    )->name('admin.tpl.types.delete');
-    Route::get(
-        '/admin/templates-types/status/{id}',
-        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'status']
+        '/admin/templates-types/status-type/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'statusType']
     )->name('admin.tpl.types.status');
+
+    Route::get(
+        '/admin/templates-types/subtypes/{tid}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'subtypes']
+    )->name('admin.tpl.subtypes');
+    Route::any(
+        '/admin/templates-types/subtypes/{tid}/add-subtype',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'addSubtype']
+    )->name('admin.tpl.subtypes.add');
+    Route::any(
+        '/admin/templates-types/subtypes/{tid}/edit-subtype/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'editSubtype']
+    )->name('admin.tpl.subtypes.edit');
+    /* Route::get(
+        '/admin/templates-types/subtypes/{tid}/delete-subtype/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'deleteSubtype']
+    )->name('admin.tpl.subtypes.delete'); */
+    Route::get(
+        '/admin/templates-types/subtypes/{tid}/status-subtype/{id}',
+        [App\Http\Controllers\Admin\TemplatesTypesController::class, 'statusSubtype']
+    )->name('admin.tpl.subtypes.status');
 
     Route::get(
         '/admin/templates-placeholders',

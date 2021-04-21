@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\TemplatePlaceholder;
 use App\Models\TemplatePlaceholderCountry;
 use App\Models\TemplatePlaceholderGroup;
+use App\Models\TemplatePlaceholderGroupSubtype;
+use App\Models\TemplateSubtype;
 use App\Models\TemplateType;
 use Exception;
 use Illuminate\Http\Request;
@@ -43,6 +45,15 @@ class TemplatePlaceholdersController extends Controller
                 $fields = $request->only(['name', 'type_id', 'status']);
                 $group = TemplatePlaceholderGroup::create($fields);
 
+                $deletedRows = TemplatePlaceholderGroupSubtype::where('placeholder_group_id', $group->id);
+                $deletedRows->delete();
+                foreach ($request->input('subtypes_ids', []) as $subtype_id) {
+                    TemplatePlaceholderGroupSubtype::create([
+                        'placeholder_group_id' => $group->id,
+                        'subtype_id' => $subtype_id
+                    ]);
+                }
+
                 return redirect()->route('admin.tpl.place.group')
                     ->with('message', 'Placeholder group added successfully!');
             } catch (Exception $e) {
@@ -53,7 +64,8 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-groups-form', [
             'group' => null,
-            'types' => TemplateType::active()->get()
+            'types' => TemplateType::active()->get(),
+            'subtypes' => []
         ]);
     }
 
@@ -72,6 +84,15 @@ class TemplatePlaceholdersController extends Controller
                 $fields = $request->only(['name', 'type_id', 'status']);
                 $group->update($fields);
 
+                $deletedRows = TemplatePlaceholderGroupSubtype::where('placeholder_group_id', $id);
+                $deletedRows->delete();
+                foreach ($request->input('subtypes_ids', []) as $subtype_id) {
+                    TemplatePlaceholderGroupSubtype::create([
+                        'placeholder_group_id' => $id,
+                        'subtype_id' => $subtype_id
+                    ]);
+                }
+
                 return redirect()->route('admin.tpl.place.group')
                     ->with('message', 'Placeholder group updated successfully!');
             } catch (Exception $e) {
@@ -80,9 +101,18 @@ class TemplatePlaceholdersController extends Controller
             }
         }
 
+        $group = $group->first();
+        $subtypes = TemplateSubtype::active()
+            ->where('type_id', $group->type_id)
+            ->whereHas('placeholderGroups', function ($query) use ($group) {
+                $query->where('placeholder_group_id', $group->id);
+            })
+            ->get();
+
         return view('admin/templates-placeholders-groups-form', [
-            'group' => $group->first(),
-            'types' => TemplateType::active()->get()
+            'group' => $group,
+            'types' => TemplateType::active()->get(),
+            'subtypes' => $subtypes
         ]);
     }
 

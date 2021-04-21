@@ -40,6 +40,11 @@ Route::post(
     [App\Http\Controllers\API\TemplatesController::class, 'open']
 );
 Route::get(
-    '/templates/get-placeholders/{type_id}',
+    '/templates/get-placeholders/{type_id}/{subtype_id?}',
     [App\Http\Controllers\API\TemplatesController::class, 'getPlaceholders']
 );
+// Templates
+Route::get(
+    '/templates/get-subtypes/{type_id?}',
+    [App\Http\Controllers\API\TemplatesController::class, 'getSubtypes']
+)->name('api.templates.getsubtypes');

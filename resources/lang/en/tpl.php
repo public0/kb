@@ -7,7 +7,9 @@ return [
     'header' => 'Header',
     'footer' => 'Footer',
     'content' => 'Content',
+    'sms_content' => 'SMS Content',
     'delete_image_title' => 'Delete image',
     'notice' => 'Notice',
-    'delete_image_message' => 'Are you sure you want to delete the image?'
+    'delete_image_message' => 'Are you sure you want to delete the image?',
+    'copy' => 'Copy'
 ];

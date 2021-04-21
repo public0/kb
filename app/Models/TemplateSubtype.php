@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TemplateType extends Model
+class TemplateSubtype extends Model
 {
     use HasFactory;
 
-    protected $table = 'tpl.types';
+    protected $table = 'tpl.subtypes';
 
     public $timestamps = false;
 
@@ -19,6 +19,7 @@ class TemplateType extends Model
      * @var array
      */
     protected $fillable = [
+        'type_id',
         'name',
         'status'
     ];
@@ -44,22 +45,13 @@ class TemplateType extends Model
         return $query->where($this->table . '.status', 1);
     }
 
-    public function subtypes()
+    public function type()
     {
-        return $this->hasMany(TemplateSubtype::class, 'type_id');
+        return $this->belongsTo(TemplateType::class, 'type_id');
     }
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
+    public function placeholderGroups()
     {
-        static::deleting(function ($type) {
-            $type->subtypes()->each(function ($subtype) {
-                $subtype->delete();
-            });
-        });
+        return $this->hasMany(TemplatePlaceholderGroupSubtype::class, 'subtype_id');
     }
 }

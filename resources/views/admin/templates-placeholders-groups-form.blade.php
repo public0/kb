@@ -48,6 +48,14 @@
                                     </div>
                                     @endif
                                     <div class="form-group">
+                                        <label class="form-label">Subtypes</label>
+                                        <select name="subtypes_ids[]" id="subtypesIds" class="form-control" multiple>
+                                            @foreach($subtypes as $subtype)
+                                            <option value="{{ $subtype->id }}"@if($group && in_array($subtype->id, $group->all_subtypes)) selected @endif>{{ $subtype->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">
                                             <option value="1"@if($group && $group->status == 1) selected @endif>{{ __('status.active') }}</option>
@@ -70,3 +78,39 @@
         </div>
     </div>
 @endsection
+
+@push('body-scripts')
+<script>
+    function populateSubtypes(id) {
+        $('select#subtypesIds').select2({
+            ajax: {
+                method: 'GET',
+                url: '{{ route('api.templates.getsubtypes') }}' + '/' + id,
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        term: params.term,
+                        select: 'id,name'
+                    };
+                },
+                processResults: function (data) {
+                    var items = [];
+                    $.each(data.subtypes, function(idx, val) {
+                        items.push({id: val.id, text: val.name});
+                    });
+                    return {
+                        results: items
+                    };
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        var selectTypeID = $('select[name="type_id"]');
+        selectTypeID.on('change', function () {
+            populateSubtypes($(this).val());
+        });
+        populateSubtypes(selectTypeID.val());
+    });
+</script>
+@endpush

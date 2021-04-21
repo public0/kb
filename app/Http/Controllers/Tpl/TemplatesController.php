@@ -24,7 +24,7 @@ class TemplatesController extends Controller
 
     public function open(Request $request, $uid)
     {
-        $tpl = Template::with('type')->where('uid', $uid);
+        $tpl = Template::with(['type', 'subtype'])->where('uid', $uid);
         $template = $tpl->first();
         if (!$template) {
             return redirect('/');
@@ -95,10 +95,39 @@ class TemplatesController extends Controller
                         }
                     }
                     break;
+                case 'notification':
+                    $data = array_merge($fields, ['sms' => trim($request->input('sms'))]);
+                    $response = $this->createRequest($template->app_endpoint, 'update?id=' . $template->app_id, $data);
+                    if ($response) {
+                        $responseData = json_decode($response, true);
+                        if (isset($responseData['error'])) {
+                            $request->session()->flash('error', $responseData['error']['message']);
+                        }
+                        if (isset($responseData['success'])) {
+                            $tpl->update([
+                                'name' => $responseData['success']['name'],
+                                'subject' => $responseData['success']['subject'],
+                                'content' => $responseData['success']['content'],
+                                'sms' => $responseData['success']['sms']
+                            ]);
+                            $template = $tpl->first();
+                        }
+                        if (preg_match_all(
+                            '/<img[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')/',
+                            $fields['content'],
+                            $matches,
+                            PREG_SET_ORDER
+                        )) {
+                            foreach ($matches as $values) {
+                                Storage::delete('public/' . basename($values[0]));
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
-        $placeholdersGroups = TemplatePlaceholderGroup::active()
+        $placeholdersGroupsWithoutSubtypes = TemplatePlaceholderGroup::active()
             ->with([
                 'placeholders' => function ($query) use ($template) {
                     $query->active()
@@ -108,7 +137,26 @@ class TemplatesController extends Controller
                 }
             ])
             ->where('type_id', $template->type_id)
+            ->whereDoesntHave('subtypes')
             ->get();
+
+        $placeholdersGroupsWithSubtypes = TemplatePlaceholderGroup::active()
+            ->with([
+                'placeholders' => function ($query) use ($template) {
+                    $query->active()
+                        ->whereHas('placeholderCountries', function ($query) use ($template) {
+                            $query->where('country_code', $template->country_code);
+                        });
+                }
+            ])
+            ->where('type_id', $template->type_id)
+            ->whereHas('subtypes', function ($query) use ($template) {
+                $query->where('subtype_id', $template->subtype_id);
+            })
+            ->get();
+
+        $placeholdersGroups = $placeholdersGroupsWithoutSubtypes->merge($placeholdersGroupsWithSubtypes)
+            ->sortBy('id');
 
         return view('tpl/open', [
             'pageTitle' => sprintf('Edit %s Template', $template->type->name),

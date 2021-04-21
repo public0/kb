@@ -19,7 +19,8 @@
     <link href="<?php echo URL::to('/th/assets/css/icons.css'); ?>" rel="stylesheet" />
     <!-- Color Skin css -->
     <link id="theme" href="<?php echo URL::to('/th/assets/colors/color1.css'); ?>" rel="stylesheet" type="text/css" />
-    <style>
+    <link href="<?php echo URL::to('/admin.css'); ?>" rel="stylesheet" type="text/css" />
+    <style type="text/css">
         .alert {
             position: fixed;
             top: 10px;
@@ -71,6 +72,16 @@
                 display: block !important;
             }
         }
+        .slide-item {
+            padding: 8px 14px 8px 45px;
+        }
+        .btn-copy {
+            padding: 0 5px;
+        }
+        .btn-copy:hover {
+            color: #705ec8;
+            background-color: #ebeef1;
+        }
     </style>
 </head>
 <body class="app sidebar-mini">
@@ -84,13 +95,13 @@
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">
-                <li class="side-item side-item-category mt-4">{{ __('tpl.placeholders') }}</li>
+                <li class="side-item side-item-category mt-4">{{ __('tpl.placeholders') }}@if(!empty($template->subtype)) - {{ $template->subtype->name }}@endif</li>
                 @foreach($placeholdersGroups as $group)
-                <li class="slide">
+                <li class="slide @if(count($placeholdersGroups) == 1){{'is-expanded'}}@endif">
                     <a class="side-menu__item" data-toggle="slide" href="javascript:void(0)"><svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"></path></svg> <span class="side-menu__label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ $group->name }}">{{ $group->name }}</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
                         @foreach($group->placeholders as $placeholder)
-                        <li><a href="javascript:void(0)" class="slide-item" onclick="insertPlaceholder('{{ $placeholder->name }}')">{{ $placeholder->name }}</a></li>
+                        <li><span class="slide-item"><button class="btn btn-copy mr-1" title="{{ __('tpl.copy') }}" onclick="copyPlaceholder('{{ $placeholder->name }}')"><i class="fe fe-copy"></i></button><a href="javascript:void(0)" onclick="insertPlaceholder('{{ $placeholder->name }}')">{{ $placeholder->name }}</a></span></li>
                         @endforeach
                     </ul>
                 </li>
@@ -127,14 +138,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">{{ __('tpl.subject') }}</label>
-                                        <input type="text" name="subject" placeholder="{{ __('tpl.subject') }}" class="form-control" required="required" value="{{ $template->subject }}" maxlength="255" />
+                                        <input type="text" name="subject" id="subject" placeholder="{{ __('tpl.subject') }}" class="form-control" required="required" value="{{ $template->subject }}" maxlength="255" />
                                     </div>
+                                    @if($template->tpl_type == 'email')
                                     <div class="form-group">
                                         <label class="form-label">{{ __('tpl.header') }}</label>
                                         <input type="file" name="header" class="form-control-file" />
                                         @if($template->header_image)
                                         <div class="imgs mt-4 position-relative">
-                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'header', 'image' => $template->header_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return confirmModal(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
+                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'header', 'image' => $template->header_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return modals.confirm(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
                                         <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->header_image }}" alt="header" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
@@ -144,13 +156,20 @@
                                         <input type="file" name="footer" class="form-control-file" />
                                         @if($template->footer_image)
                                         <div class="imgs mt-4 position-relative">
-                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'footer', 'image' => $template->footer_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return confirmModal(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
+                                        <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'footer', 'image' => $template->footer_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return modals.confirm(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
                                         <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->footer_image }}" alt="footer" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
                                     </div>
+                                    @endif
+                                    @if($template->tpl_type == 'notification')
                                     <div class="form-group">
-                                        <textarea name="content" id="tinymce" placeholder="{{ __('tpl.content') }}" class="form-control" required="required" style="height:300px;">{{ $template->content }}</textarea>
+                                        <label class="form-label">{{ __('tpl.sms_content') }}</label>
+                                        <textarea name="sms" id="sms" placeholder="{{ __('tpl.sms_content') }}" class="form-control" style="height:100px">{{ $template->sms }}</textarea>
+                                    </div>
+                                    @endif
+                                    <div class="form-group">
+                                        <textarea name="content" id="tinymce" placeholder="{{ __('tpl.content') }}" class="form-control" required="required" style="height:300px">{{ $template->content }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -177,22 +196,28 @@
 <script src="<?php echo URL::to('/th/assets/plugins/sidemenu/sidemenu.js'); ?>"></script>
 <!-- P-scroll js-->
 <script src="<?php echo URL::to('/th/assets/plugins/p-scrollbar/p-scrollbar.js'); ?>"></script>
+<script src="<?php echo URL::to('/th/modals.js'); ?>"></script>
 <script src="https://cdn.tiny.cloud/1/9n1b0elpd20obpyx38wu9ffiokuiqd1ldwot2t8g0pl0lys9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
+<script type="text/javascript">
     var uploadURL = '{{ route('tpl.uploadimage') }}';
     var csrf = '{{ @csrf_token() }}';
     tinymce.init({
         selector: '#tinymce',
         height: 700,
+        setup: function (ed) {
+            ed.on('click', function () {
+                $('.side-menu').attr('data-insert', ed.id);
+            });
+        },
 
         image_advtab: true,
         image_caption: true,
-        images_dataimg_filter: function(img) {
+        images_dataimg_filter: function (img) {
             return !img.hasAttribute('internal-blob');
         },
         images_upload_url: uploadURL,
         images_file_types: 'jpg,jpeg,png,gif',
-        images_upload_handler: function(blobInfo, success, failure, progress) {
+        images_upload_handler: function (blobInfo, success, failure, progress) {
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = false;
             xhr.open('POST', uploadURL);
@@ -200,7 +225,7 @@
             xhr.upload.onprogress = function (e) {
                 progress(e.loaded / e.total * 100);
             };
-            xhr.onload = function() {
+            xhr.onload = function () {
                 if (xhr.status === 403) {
                     failure('HTTP Error: ' + xhr.status, { remove: true });
                     return;
@@ -238,30 +263,7 @@
         autosave_prefix: "{path}{query}-{id}-",
         autosave_restore_when_empty: false,
         autosave_retention: "20m",
-        // content_css: '//www.tiny.cloud/css/codepen.min.css',
-        /* link_list: [
-        ],
-        image_list: [
-        ],
-        image_class_list: [
-        ], */
         importcss_append: true,
-        // file_picker_callback: function (callback, value, meta) {
-        //     /* Provide file and text for the link dialog */
-        //     if (meta.filetype === 'file') {
-        //         callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
-        //     }
-        //
-        //     /* Provide image and alt text for the image dialog */
-        //     if (meta.filetype === 'image') {
-        //         callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
-        //     }
-        //
-        //     /* Provide alternative source and posted for the media dialog */
-        //     if (meta.filetype === 'media') {
-        //         callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
-        //     }
-        // },
         templates: [
             { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
             { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
@@ -277,51 +279,34 @@
 
     function insertPlaceholder(placeholder) {
         event.preventDefault();
-        tinymce.activeEditor.execCommand('mceInsertContent', false, placeholder);
+        var dataInsert = $('.side-menu').attr('data-insert');
+        if (typeof dataInsert !== 'undefined') {
+            if (dataInsert == 'tinymce') {
+                tinymce.activeEditor.execCommand('mceInsertContent', false, placeholder);
+            } else {
+                var obj = $('#' + dataInsert);
+                if (obj.length) {
+                    var pos = obj.prop('selectionStart');
+                    var val = obj.val();
+                    obj.val(val.slice(0, pos) + placeholder + val.slice(pos));
+                }
+            }
+        }
     }
 
-    function confirmModal(self, title, message, ok, cancel) {
-        $('.modal').remove();
-        if (typeof ok === 'undefined') {
-            ok = 'OK';
-        }
-        if (typeof cancel === 'undefined') {
-            cancel = 'Cancel';
-        }
-        var html = '<div class="modal show" aria-modal="true">';
-        html += '<div class="modal-dialog modal-sm" role="document">';
-        html += '<div class="modal-content">';
-        html += '<div class="modal-header">';
-        html += '<h6 class="modal-title">' + title + '</h6>';
-        html += '<button aria-label="' + cancel + '" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>';
-        html += '</div>';
-        html += '<div class="modal-body">';
-        html += '<p>' + message + '</p>';
-        html += '</div>';
-        html += '<div class="modal-footer justify-content-center">';
-        html += '<button class="btn btn-indigo" type="button">' + ok + '</button>';
-        html += '<button class="btn btn-secondary" data-dismiss="modal" type="button">' + cancel + '</button>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-
-        $('body').append(html);
-        $('.modal').modal();
-
-        $('.modal .btn-indigo').on('click', function () {
-            var href = $(self).attr('href');
-            if (href) {
-                window.location = href;
-            }
-        });
-
-        return false;
+    function copyPlaceholder(placeholder) {
+        event.preventDefault();
+        var el = document.createElement('textarea');
+        el.value = placeholder;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     }
 
     (function($) {
         "use strict";
-        //P-scrolling - pscroll1.js
+        /* P-scrolling - pscroll1.js */
         var ps = new PerfectScrollbar('.app-sidebar', {
             useBothWheelAxes: true,
             suppressScrollX: true
@@ -333,6 +318,13 @@
         }).on('mouseout', function (e) {
             e.preventDefault();
             $('.btn', this).addClass('d-none');
+        });
+
+        $('#sms,#subject').on('click', function () {
+            $('.side-menu').attr('data-insert', $(this).attr('id'));
+        });
+        $('input:not([id]),button').on('click', function () {
+            $('.side-menu').removeAttr('data-insert');
         });
     })(jQuery);
 </script>

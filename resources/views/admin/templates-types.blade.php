@@ -51,7 +51,9 @@
                                     <tbody>
                                     @foreach($types as $item)
                                     <tr>
-                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            <a href="<?php echo route('admin.tpl.subtypes', ['tid' => $item->id]) ?>" class="text-primary">{{ $item->name }}</a>
+                                        </td>
                                         <td class="table-col-shrink text-center">
                                             <a href="<?php echo route('admin.tpl.types.status', ['id' => $item->id]); ?>" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
                                         </td>
