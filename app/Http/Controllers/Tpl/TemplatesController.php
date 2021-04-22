@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Tpl;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use App\Models\Template;
 use App\Models\TemplatePlaceholderGroup;
 use App\Models\TemplatePlaceholder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class TemplatesController extends Controller
@@ -159,6 +161,8 @@ class TemplatesController extends Controller
             ->sortBy('id');
 
         return view('tpl/open', [
+            'languages' => Language::all(),
+            'selectedLanguage' => App::currentLocale(),
             'pageTitle' => sprintf('Edit %s Template', $template->type->name),
             'template' => $template,
             'placeholdersGroups' => $placeholdersGroups
