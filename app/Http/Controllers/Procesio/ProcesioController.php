@@ -45,7 +45,7 @@ class ProcesioController extends Controller
 
     private function refreshToken()
     {
-        $data = $this->requester('post', 'https://api.procesio.app:4532/auth/refreshToken', [
+        $data = $this->requester('post', config('procesio.auth_url') . '/refreshToken', [
             'client_id' => 'procesio-ui',
             'refresh_token' => session()->get('rt')
         ]);
@@ -59,7 +59,7 @@ class ProcesioController extends Controller
     {
         $run = $this->requester(
             'post',
-            'https://api.procesio.app:4321/api/Projects/' . $processID . '/run',
+            config('procesio.projects_url') . '/' . $processID . '/run',
             $data,
             true
         );
@@ -68,7 +68,7 @@ class ProcesioController extends Controller
             while (true) {
                 $instance = $this->requester(
                     'get',
-                    'https://api.procesio.app:4321/api/Projects/instances/' . $run->data->instanceId . '/output',
+                    config('procesio.projects_url') . '/instances/' . $run->data->instanceId . '/output',
                     null,
                     true
                 );
@@ -106,11 +106,11 @@ class ProcesioController extends Controller
     public function index()
     {
         if (!session()->has('at')) {
-            $data = $this->requester('post', 'https://api.procesio.app:4532/auth/authenticate', [
-                'realm' => 'procesio01',
+            $data = $this->requester('post', config('procesio.auth_url'), [
+                'realm' => config('procesio.auth_realm'),
                 'grant_type' => 'password',
-                'username' => 'ciprian.duduiala@procesio.com',
-                'password' => 'testpass',
+                'username' => config('procesio.auth_user'),
+                'password' => config('procesio.auth_password'),
                 'client_id' => 'procesio-ui',
                 'client_secret' => ''
             ]);
