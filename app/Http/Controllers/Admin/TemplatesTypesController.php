@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TemplatePlaceholderGroup;
 use App\Models\TemplateSubtype;
 use App\Models\TemplateType;
 use Exception;
@@ -129,13 +130,14 @@ class TemplatesTypesController extends Controller
 
         return view('admin/templates-subtypes-form', [
             'type' => TemplateType::where('id', $tid)->first(),
+            'types' => TemplateType::all(),
             'subtype' => null
         ]);
     }
 
     public function editSubtype(Request $request, $tid, $id)
     {
-        $subtype = TemplateSubtype::where('id', $id);
+        $subtype = TemplateSubtype::with('placeholderGroups')->where('id', $id);
 
         if ($request->isMethod('post')) {
             $validated = $request->validate([
@@ -148,6 +150,14 @@ class TemplatesTypesController extends Controller
                 $fields = $request->only(['name', 'type_id', 'status']);
                 $subtype->update($fields);
 
+                $updatePlaceholderGroups = $request->input('update-placeholder-groups', 0);
+                if ($updatePlaceholderGroups) {
+                    foreach ($subtype->first()->placeholderGroups as $item) {
+                        $group = TemplatePlaceholderGroup::where('id', $item->placeholder_group_id);
+                        $group->update(['type_id' => $fields['type_id']]);
+                    }
+                }
+
                 return redirect()->route('admin.tpl.subtypes', ['tid' => $fields['type_id']])
                     ->with('message', 'Subtype update successfully!');
             } catch (Exception $e) {
@@ -158,6 +168,7 @@ class TemplatesTypesController extends Controller
 
         return view('admin/templates-subtypes-form', [
             'type' => TemplateType::where('id', $tid)->first(),
+            'types' => TemplateType::all(),
             'subtype' => $subtype->first()
         ]);
     }

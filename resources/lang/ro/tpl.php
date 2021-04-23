@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'page_title' => 'Editeaza template-ul :name',
     'placeholders' => 'Balize',
     'name' => 'Nume',
     'subject' => 'Subiect',

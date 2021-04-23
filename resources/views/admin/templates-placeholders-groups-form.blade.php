@@ -37,7 +37,6 @@
                                         <label class="form-label">Name</label>
                                         <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="@if($group){{ $group->name }}@endif" maxlength="255" />
                                     </div>
-                                    @if(count($types))
                                     <div class="form-group">
                                         <label class="form-label">Type</label>
                                         <select name="type_id" class="form-control custom-select select2">
@@ -46,7 +45,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @endif
                                     <div class="form-group">
                                         <label class="form-label">Subtypes</label>
                                         <select name="subtypes_ids[]" id="subtypesIds" class="form-control" multiple>

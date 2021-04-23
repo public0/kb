@@ -30,7 +30,6 @@
                         </div>
                         <form class="needs-validation" method="post" action="<?php echo url()->current() ?>">
                         @csrf
-                        <input type="hidden" name="type_id" value="{{ $type->id }}" />
                         <div class="card-body">
                             <div class="row row-sm">
                                 <div class="col-lg-12">
@@ -38,6 +37,19 @@
                                         <label class="form-label">Name</label>
                                         <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="@if($subtype){{ $subtype->name }}@endif" maxlength="255" />
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Type</label>
+                                        <select name="type_id" class="form-control custom-select select2">
+                                            @foreach($types as $item)
+                                            <option value="{{ $item->id }}"@if($subtype && $subtype->type_id == $item->id) selected @endif>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @if($subtype && count($subtype->placeholderGroups))
+                                    <div class="form-group">
+                                        <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="update-placeholder-groups" value="1" /><span class="custom-control-label">Update also the type of ({{ count($subtype->placeholderGroups) }}) placeholder groups associated.</span></label>
+                                    </div>
+                                    @endif
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">

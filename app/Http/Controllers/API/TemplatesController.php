@@ -49,19 +49,19 @@ class TemplatesController extends Controller
      */
     public function getPlaceholders(Request $request, $type_id, $subtype_id = null)
     {
-        $placeholdersGroups = TemplatePlaceholderGroup::with([
-            'placeholders' => function ($query) {
-                $query->active()->with('placeholderCountries');
-            }
-        ])
-            ->active()
-            ->where('type_id', $type_id)
-            ->get();
+        $countryCode = $request->query('country_code');
 
         if ($subtype_id) {
             $placeholdersGroupsWithoutSubtypes = TemplatePlaceholderGroup::with([
-                'placeholders' => function ($query) {
-                    $query->active()->with('placeholderCountries');
+                'placeholders' => function ($query) use ($countryCode) {
+                    if ($countryCode) {
+                        $query->whereHas('placeholderCountries', function ($query) use ($countryCode) {
+                            $query->where('country_code', $countryCode);
+                        });
+                    } else {
+                        $query->with('placeholderCountries');
+                    }
+                    $query->active()->orderBy('id', 'ASC');
                 }
             ])
                 ->active()
@@ -70,8 +70,15 @@ class TemplatesController extends Controller
                 ->get();
 
             $placeholdersGroupsWithSubtypes = TemplatePlaceholderGroup::with([
-                'placeholders' => function ($query) {
-                    $query->active()->with('placeholderCountries');
+                'placeholders' => function ($query) use ($countryCode) {
+                    if ($countryCode) {
+                        $query->whereHas('placeholderCountries', function ($query) use ($countryCode) {
+                            $query->where('country_code', $countryCode);
+                        });
+                    } else {
+                        $query->with('placeholderCountries');
+                    }
+                    $query->active()->orderBy('id', 'ASC');
                 }
             ])
                 ->active()
@@ -83,6 +90,23 @@ class TemplatesController extends Controller
 
             $placeholdersGroups = $placeholdersGroupsWithoutSubtypes->merge($placeholdersGroupsWithSubtypes)
                 ->sortBy('id');
+        } else {
+            $placeholdersGroups = TemplatePlaceholderGroup::with([
+                'placeholders' => function ($query) use ($countryCode) {
+                    if ($countryCode) {
+                        $query->whereHas('placeholderCountries', function ($query) use ($countryCode) {
+                            $query->where('country_code', $countryCode);
+                        });
+                    } else {
+                        $query->with('placeholderCountries');
+                    }
+                    $query->active()->orderBy('id', 'ASC');
+                }
+            ])
+                ->active()
+                ->where('type_id', $type_id)
+                ->orderBy('id', 'ASC')
+                ->get();
         }
 
         return response()->json($placeholdersGroups);

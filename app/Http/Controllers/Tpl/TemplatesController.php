@@ -135,7 +135,8 @@ class TemplatesController extends Controller
                     $query->active()
                         ->whereHas('placeholderCountries', function ($query) use ($template) {
                             $query->where('country_code', $template->country_code);
-                        });
+                        })
+                        ->orderBy('id', 'ASC');
                 }
             ])
             ->where('type_id', $template->type_id)
@@ -148,7 +149,8 @@ class TemplatesController extends Controller
                     $query->active()
                         ->whereHas('placeholderCountries', function ($query) use ($template) {
                             $query->where('country_code', $template->country_code);
-                        });
+                        })
+                        ->orderBy('id', 'ASC');
                 }
             ])
             ->where('type_id', $template->type_id)
@@ -163,7 +165,7 @@ class TemplatesController extends Controller
         return view('tpl/open', [
             'languages' => Language::all(),
             'selectedLanguage' => App::currentLocale(),
-            'pageTitle' => sprintf('Edit %s Template', $template->type->name),
+            'pageTitle' => __('tpl.page_title', ['name' => $template->type->name]),
             'template' => $template,
             'placeholdersGroups' => $placeholdersGroups
         ]);

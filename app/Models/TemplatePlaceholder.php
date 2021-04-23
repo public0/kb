@@ -43,7 +43,7 @@ class TemplatePlaceholder extends Model
     public function getAllCountryCodesAttribute()
     {
         $result = [];
-        $items = $this->placeholderCountries()->get();
+        $items = $this->placeholderCountries()->orderBy('country_code', 'ASC')->get();
         if ($items) {
             foreach ($items as $item) {
                 $result[] = $item->country_code;

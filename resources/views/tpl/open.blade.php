@@ -40,19 +40,16 @@
         .app-sidebar, .app-sidebar__logo {
             width: 300px;
         }
-        .app-sidebar__toggle {
+        .card-buttons {
             position: absolute;
             top: 8px;
             right: 10px;
             z-index: 9997;
         }
-        .app-sidebar__toggle a {
-            color: #1a1630;
-        }
-        .app-sidebar__toggle .dropdown {
+        .card-buttons .dropdown {
             display: inline-block;
         }
-        .app-sidebar__toggle .dropdown .nav-link img {
+        .card-buttons .dropdown .nav-link img {
             width: 35px;
             height: 35px;
             box-shadow: 0px 2px 3px rgb(4 4 7 / 10%);
@@ -60,7 +57,7 @@
             margin-right: 5px;
             background-position: cover;
         }
-        .app-sidebar__toggle .dropdown .dropdown-item img {
+        .card-buttons .dropdown .dropdown-item img {
             width: 22px;
             height: 22px;
             margin-right: 10px;
@@ -69,6 +66,7 @@
         }
         .card-title {
             padding-right: 70px;
+            text-transform: none;
         }
         footer.footer {
             padding: 1.25rem 1.25rem 1.25rem 300px;
@@ -142,8 +140,8 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">{{ $pageTitle }}</div>
-                            <div class="app-sidebar__toggle m-0 p-0" data-toggle="sidebar">
-                                @if(!empty($languages))
+                            <div class="card-buttons">
+                                @if($languages->isNotEmpty())
                                 <div class="dropdown">
                                     <a href="#" class="nav-link pl-0 pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"><span><img src="<?php echo URL::to('/th/assets/images/langs/' . strtolower($selectedLanguage) . '.png'); ?>" alt="{{ $selectedLanguage }}" class="brround" /></span></a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
@@ -153,9 +151,11 @@
                                     </div>
                                 </div>
                                 @endif
-                                <a class="open-toggle" href="javascript:void(0)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-left header-icon"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>
-                                </a>
+                                <span class="app-sidebar__toggle m-0 p-0" data-toggle="sidebar">
+                                    <a class="open-toggle" href="javascript:void(0)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-left header-icon"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>
+                                    </a>
+                                </span>
                             </div>
                         </div>
                         <form class="needs-validation" method="post" action="{{ url()->current() }}" enctype="multipart/form-data">

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'page_title' => 'Edit :name Template',
     'placeholders' => 'Placeholders',
     'name' => 'Name',
     'subject' => 'Subject',

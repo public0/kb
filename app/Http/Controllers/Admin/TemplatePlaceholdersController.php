@@ -64,7 +64,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-groups-form', [
             'group' => null,
-            'types' => TemplateType::active()->get(),
+            'types' => TemplateType::all(),
             'subtypes' => []
         ]);
     }
@@ -111,7 +111,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-groups-form', [
             'group' => $group,
-            'types' => TemplateType::active()->get(),
+            'types' => TemplateType::all(),
             'subtypes' => $subtypes
         ]);
     }
