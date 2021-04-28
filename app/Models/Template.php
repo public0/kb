@@ -52,7 +52,7 @@ class Template extends Model
     public function getTplTypeAttribute()
     {
         $type = null;
-        if (in_array($this->type_id, [1, 2, 3])) {
+        if (in_array($this->type_id, [1, 2, 3, 7, 8])) {
             $type = 'email';
         }
         if (in_array($this->type_id, [4, 5, 6])) {
