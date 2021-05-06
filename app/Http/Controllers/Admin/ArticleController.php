@@ -25,8 +25,9 @@ class ArticleController extends Controller
             'article_id',
             'lang_parent_id'
         )
+            ->commentsNumber()
             ->orderBy('lang_parent_id', 'asc')
-            ->paginate(50);
+            ->get();
 
         return view('admin/article', compact('articles'));
     }
@@ -160,7 +161,7 @@ class ArticleController extends Controller
             $in_right_col = $_POST['in_right_col'];
             $article_id = UtileClass::generateId(new Article, 'article_id');
 
-            if ($title != $article->title) {
+            if (strtolower($title) != strtolower($article->title)) {
                 $validated = $request->validate([
                     'lang' => 'required|max:255',
                     'title' => 'required|max:255|unique:' . Article::class,
@@ -172,6 +173,7 @@ class ArticleController extends Controller
             } else {
                 $validated = $request->validate([
                     'lang' => 'required|max:255',
+                    'title' => 'required|max:255',
                     'description' => 'required|max:255',
                     'body' => 'required',
                     'tags' => 'max:255',
@@ -223,17 +225,35 @@ class ArticleController extends Controller
         for ($i = 0; $i < count($categories); $i++) {
             $categories[$i]->ind = substr_count($categories[$i]->tree, ',');
         }
-        $data = ['categories' => $categories];
 
-        return view('admin/art-categories', $data);
+        return view('admin/art-categories', compact('categories'));
+    }
+
+    public function categoryStatus($id)
+    {
+        try {
+            $category = Category::where('id', $id);
+            $data = $category->first();
+            $category->update([
+                'status' => 1 - $data->status
+            ]);
+
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function categoryAdd(Request $request)
     {
         $language = Language::all();
-        $categ = Category::all();
-        $data = ['language' => $language, 'categ' => $categ];
-        $parent_tree = null;
+        $categs = Category::all();
+        $data = [
+            'language' => $language,
+            'categs' => $categs
+        ];
+
         if (!empty($_POST)) {
             $name = $_POST['name'];
             $lang = $_POST['lang'];
@@ -249,15 +269,6 @@ class ArticleController extends Controller
             ]);
 
             try {
-                if (!empty($parent_id)) {
-                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
-                }
-            } catch (\Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            try {
                 $cat = new Category;
                 $cat->name = $name;
                 $cat->lang = $lang;
@@ -267,11 +278,15 @@ class ArticleController extends Controller
                 $cat->save();
                 $my_id = $cat->id;
 
+                $parent_tree = null;
+                if (!empty($parent_id)) {
+                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
+                }
                 if (!empty($my_id)) {
                     $myTree = (!empty($parent_tree)) ? $parent_tree.','.$my_id : $my_id;
                     Category::where('id', $my_id)->update(['tree' => $myTree]);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
             }
@@ -286,13 +301,16 @@ class ArticleController extends Controller
     {
         $id = $request->id;
         $language = Language::all();
-        $categ = Category::all();
-        $my_categ = Category::where('id', $id)->first();
-        if (empty($my_categ)) {
+        $categs = Category::all();
+        $category = Category::where('id', $id)->first();
+        if (empty($category)) {
             return redirect()->back()->with('error', 'No category!');
         }
-        $data = ['language' => $language, 'categ' => $categ, 'my_data' => $my_categ];
-        $parent_tree = null;
+        $data = [
+            'language' => $language,
+            'categs' => $categs,
+            'category' => $category
+        ];
         if (!empty($_POST)) {
             $name = $_POST['name'];
             $lang = $_POST['lang'];
@@ -300,29 +318,20 @@ class ArticleController extends Controller
             $status = $_POST['status'];
             $categ_id = UtileClass::generateId(new Category, 'categ_id');
 
-            if ($name == $my_categ->Name) {
-                $validated = $request->validate([
-                    'name' => 'required|max:255',
-                    'lang' => 'required|max:255',
-                    'status' => 'required|integer|max:1',
-                    'parent_id' => 'integer'
-                ]);
-            } else {
+            if (strtolower($name) != strtolower($category->name)) {
                 $validated = $request->validate([
                     'name' => 'required|max:255|unique:' . Category::class,
                     'lang' => 'required|max:255',
                     'status' => 'required|integer|max:1',
                     'parent_id' => 'integer'
                 ]);
-            }
-
-            try {
-                if (!empty($parent_id)) {
-                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
-                }
-            } catch (\Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
+            } else {
+                $validated = $request->validate([
+                    'name' => 'required|max:255',
+                    'lang' => 'required|max:255',
+                    'status' => 'required|integer|max:1',
+                    'parent_id' => 'integer'
+                ]);
             }
 
             try {
@@ -333,11 +342,16 @@ class ArticleController extends Controller
                     'status' => $status,
                     'categ_id' => $categ_id
                 ]);
+
+                $parent_tree = null;
+                if (!empty($parent_id)) {
+                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
+                }
                 if (!empty($id)) {
                     $myTree = (!empty($parent_tree)) ? $parent_tree.','.$id : $id;
                     Category::where('id', $id)->update(['tree' => $myTree]);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
             }
@@ -378,20 +392,25 @@ class ArticleController extends Controller
 
     public function categoryDelete($id)
     {
-        $my_categ = Category::where('Id', $id)->first();
-        $articles_count = (new Article)->where('category_id', $id)->count();
-        $subcateg_count = (new Categories)->where('Tree', 'like', $my_categ->Tree.',%')->count();
-        if ($articles_count > 0) {
-            return redirect()->back()->with('error', 'There are articles associated with this category!');
-        }
-        if ($subcateg_count > 0) {
-            return redirect()->back()->with('error', 'There are subcategories to this category!');
-        }
-
         try {
-            $art = Category::where('id', $id);
-            $art->delete();
-            return redirect('/admin/categories')->with('message', 'Operation Successful !');
+            $cat = Category::where('id', $id);
+            $data = $cat->first();
+
+            $articles_count = Article::where('categories_ids', 'like', ',' . $id . ',')->count();
+            if ($articles_count > 0) {
+                return redirect()->back()
+                    ->with('error', 'There are articles associated with this category!');
+            }
+            $subcateg_count = Category::where('tree', 'like', $data->tree.',%')->count();
+            if ($subcateg_count > 0) {
+                return redirect()->back()
+                    ->with('error', 'There are subcategories to this category!');
+            }
+
+            $cat->delete();
+
+            return redirect('/admin/categories')
+                ->with('message', 'Category "' . $data->name . '" was deleted!');
         } catch (Exception $e) {
             return redirect()->back()
                 ->with('error', $e->getMessage());

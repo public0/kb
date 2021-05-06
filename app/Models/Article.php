@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 //use Laravel\Scout\Searchable;
@@ -43,6 +44,10 @@ class Article extends Model
             ],
             'category_id' => [
                 'type' => 'integer'
+            ],
+            'categories_ids' => [
+                'type' => 'keyword',
+                'null_value' => 'NULL'
             ],
             'article_id' => [
                 'type' => 'text'
@@ -88,16 +93,6 @@ class Article extends Model
         return $this->status ? __('status.active') : __('status.inactive');
     }
 
-    /**
-     * Get comments number for article.
-     *
-     * @return string
-     */
-    public function getCommentsNumberAttribute()
-    {
-        return $this->comments()->count();
-    }
-
     public function toSearchableArray()
     {
         return [
@@ -107,6 +102,7 @@ class Article extends Model
             'status' => $this->status,
             'lang' => $this->lang,
             'category_id' => $this->category_id,
+            'categories_ids' => $this->categories_ids,
             'article_id' => $this->article_id,
             'user_groups' => $this->user_groups
         ];
@@ -135,6 +131,24 @@ class Article extends Model
     }
 
     /**
+     * Scope a query to only get comments number by status (if needed).
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int|null $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCommentsNumber($query, $status = null)
+    {
+        $q = 'SELECT COUNT(*) FROM ' . (new Comment)->getTable() . ' AS t';
+        $q .= ' WHERE t.article_id=' . $this->table . '.id';
+        if ($status !== null) {
+            $q .= ' AND t.status=' . (int)$status;
+        }
+
+        return $query->selectRaw('(' . $q . ') AS comments_number');
+    }
+
+    /**
      * Scope a query to only include active acticles.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -144,6 +158,7 @@ class Article extends Model
     {
         return $query
             ->select('id', 'title', 'description', 'created_at', 'updated_at', 'article_id')
+            ->commentsNumber(1)
             ->where('status', 1);
     }
 }

@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
     Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
     Route::any('/admin/category/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryDelete']);
+    Route::get('/admin/category/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryStatus']);
     Route::any('/admin/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
 
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
@@ -79,8 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/files/add', [App\Http\Controllers\Admin\FilesController::class, 'add']);
     Route::get('/admin/files/delete/{file}', [App\Http\Controllers\Admin\FilesController::class, 'delete']);
     // Import
-    Route::any('/admin/import/images', [App\Http\Controllers\Admin\ImportController::class, 'images']);
-    Route::any('/admin/import/files', [App\Http\Controllers\Admin\ImportController::class, 'files']);
+    Route::any('/admin/import/{type}', [App\Http\Controllers\Admin\ImportController::class, 'index']);
     // Newsletter
     Route::get('/admin/newsletter', [App\Http\Controllers\Admin\NewsletterController::class, 'index']);
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
