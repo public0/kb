@@ -61,4 +61,20 @@ class Template extends Model
 
         return $type;
     }
+
+    /**
+     * Get back to app url.
+     *
+     * @return string
+     */
+    public function getBackURLAttribute()
+    {
+        $url = $this->app_url;
+        $uploadPos = strpos($this->app_images_url, 'upload');
+        if ($uploadPos !== false) {
+            $url .= substr($this->app_images_url, 0, $uploadPos);
+        }
+
+        return $url;
+    }
 }

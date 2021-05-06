@@ -206,7 +206,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ $template->app_url }}'">{{ __('labels.back') }}</button>
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ $template->backURL }}'">{{ __('labels.back') }}</button>
                             <button type="submit" class="btn btn-info">{{ __('labels.save') }}</button>
                         </div>
                         </form>
