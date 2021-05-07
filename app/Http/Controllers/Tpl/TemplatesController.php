@@ -165,7 +165,7 @@ class TemplatesController extends Controller
         return view('tpl/open', [
             'languages' => Language::all(),
             'selectedLanguage' => App::currentLocale(),
-            'pageTitle' => __('tpl.page_title', ['name' => $template->type->name]),
+            'pageTitle' => __('tpl.page_title', ['name' => __($template->type->name)]),
             'template' => $template,
             'placeholdersGroups' => $placeholdersGroups
         ]);

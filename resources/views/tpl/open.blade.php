@@ -114,10 +114,10 @@
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">
-                <li class="side-item side-item-category mt-4">{{ __('tpl.placeholders') }}@if(!empty($template->subtype)) - {{ $template->subtype->name }}@endif</li>
+                <li class="side-item side-item-category mt-4">{{ __('tpl.placeholders') }}@if(!empty($template->subtype)) - {{ __($template->subtype->name) }}@endif</li>
                 @foreach($placeholdersGroups as $group)
                 <li class="slide @if(count($placeholdersGroups) == 1){{'is-expanded'}}@endif">
-                    <a class="side-menu__item" data-toggle="slide" href="javascript:void(0)"><svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"></path></svg> <span class="side-menu__label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ $group->name }}">{{ $group->name }}</span><i class="angle fa fa-angle-right"></i></a>
+                    <a class="side-menu__item" data-toggle="slide" href="javascript:void(0)"><svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"></path></svg> <span class="side-menu__label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ __($group->name) }}">{{ __($group->name) }}</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
                         @foreach($group->placeholders as $placeholder)
                         <li><span class="slide-item"><button class="btn btn-copy mr-1" title="{{ __('tpl.copy') }}" onclick="copyPlaceholder('{{ $placeholder->name }}')"><i class="fe fe-copy"></i></button><a href="javascript:void(0)" onclick="insertPlaceholder('{{ $placeholder->name }}')">{{ $placeholder->name }}</a></span></li>
