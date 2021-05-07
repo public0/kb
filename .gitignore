@@ -4,6 +4,7 @@
 /public/storage
 /public/vendor/*
 /public/mix-manifest.json
+/resources/lang/*.json
 /storage/*.key
 /vendor
 /.idea
@@ -11,8 +12,6 @@
 .env.backup
 .phpunit.result.cache
 composer.phar
-composer.lock
-package-lock.json
 Homestead.json
 Homestead.yaml
 npm-debug.log

@@ -87,6 +87,27 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
     // User Profile
     Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
+    // Localization
+    Route::get(
+        '/admin/localization',
+        [App\Http\Controllers\Admin\LocalizationController::class, 'index']
+    )->name('admin.localization');
+    Route::any(
+        '/admin/localization/generate',
+        [App\Http\Controllers\Admin\LocalizationController::class, 'generate']
+    )->name('admin.localization.generate');
+    Route::any(
+        '/admin/localization/add',
+        [App\Http\Controllers\Admin\LocalizationController::class, 'add']
+    )->name('admin.localization.add');
+    Route::any(
+        '/admin/localization/edit/{id}',
+        [App\Http\Controllers\Admin\LocalizationController::class, 'edit']
+    )->name('admin.localization.edit');
+    Route::get(
+        '/admin/localization/delete/{id}',
+        [App\Http\Controllers\Admin\LocalizationController::class, 'delete']
+    )->name('admin.localization.delete');
     // Templates Admin Interface
     Route::get(
         '/admin/templates-types',

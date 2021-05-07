@@ -34,6 +34,12 @@ Route::get(
     [App\Http\Controllers\API\FilesController::class, 'list']
 )->name('api.files.list');
 
+// Localization
+Route::get(
+    '/localization/translation',
+    [App\Http\Controllers\API\LocalizationController::class, 'translation']
+)->name('api.localization.translation');
+
 // Templates
 Route::post(
     '/templates/open',

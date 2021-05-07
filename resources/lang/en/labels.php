@@ -37,5 +37,7 @@ return [
     'home'=> 'Home',
     'files' => 'Files',
     'file' => 'File',
-    'select_a_file' => 'Select a file'
+    'select_a_file' => 'Select a file',
+    'localization' => 'Localization',
+    'generate' => 'Generate'
 ];

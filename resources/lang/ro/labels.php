@@ -37,5 +37,7 @@ return [
     'home'=> 'Acasa',
     'files' => 'Fisiere',
     'file' => 'Fisier',
-    'select_a_file' => 'Selecteaza un fisier'
+    'select_a_file' => 'Selecteaza un fisier',
+    'localization' => 'Localizare',
+    'generate' => 'Genereaza'
 ];
