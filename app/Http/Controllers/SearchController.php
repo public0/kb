@@ -9,12 +9,49 @@ use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
+    private function term($q)
+    {
+        $q = str_replace('?', ' ', $q);
+        $q = str_replace('/', ' ', $q);
+        $q = str_replace('!', ' ', $q);
+        $q = str_replace('@', ' ', $q);
+        $q = str_replace('#', ' ', $q);
+        $q = str_replace('$', ' ', $q);
+        $q = str_replace('%', ' ', $q);
+        $q = str_replace('^', ' ', $q);
+        $q = str_replace('&', ' ', $q);
+        $q = str_replace('*', ' ', $q);
+        $q = str_replace('(', ' ', $q);
+        $q = str_replace(')', ' ', $q);
+        $q = str_replace('-', ' ', $q);
+        $q = str_replace('_', ' ', $q);
+        $q = str_replace('=', ' ', $q);
+        $q = str_replace('+', ' ', $q);
+        $q = str_replace('<', ' ', $q);
+        $q = str_replace('>', ' ', $q);
+        $q = str_replace(';', ' ', $q);
+        $q = str_replace(':', ' ', $q);
+        $q = str_replace('|', ' ', $q);
+        $q = str_replace('\\', ' ', $q);
+        $q = str_replace('[', ' ', $q);
+        $q = str_replace(']', ' ', $q);
+        $q = str_replace('{', ' ', $q);
+        $q = str_replace('}', ' ', $q);
+        $q = str_replace('–', ' ', $q);
+        $q = preg_replace('/\s+/', ' ', $q);
+        $q = trim($q);
+
+        $q = str_replace(' ', ' +', $q);
+
+        return $q;
+    }
+
     public function index(Request $request)
     {
         $articles = [];
         $q = trim($request->input('q'));
-        if ($q && strlen($q) > 2 && strlen($q) < 50) {
-            $items = Article::search($q)
+        if ($q && strlen($q) > 2) {
+            $items = Article::search($this->term($q))
                 ->where('status', 1)
                 ->get();
 
@@ -44,8 +81,8 @@ class SearchController extends Controller
     {
         $articles = [];
         $q = trim($request->input('q'));
-        if ($q && strlen($q) > 2 && strlen($q) < 50) {
-            $articles = Article::search($q)
+        if ($q && strlen($q) > 2) {
+            $articles = Article::search($this->term($q))
                 ->where('status', 1)
                 ->where('user_groups', 'NULL')
                 ->get();
