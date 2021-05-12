@@ -8,7 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
 {
-    public function images()
+    public function index($type)
+    {
+        if (method_exists($this, $type)) {
+            $this->{$type}();
+            echo 'DONE!';
+        } else {
+            abort(404);
+        }
+    }
+
+    private function images()
     {
         $spath = storage_path(str_replace('/', DIRECTORY_SEPARATOR, 'app/public/articles/'));
         $articles = Article::all();
@@ -59,7 +69,7 @@ class ImportController extends Controller
         }
     }
 
-    public function files()
+    private function files()
     {
         $articles = Article::all();
         foreach ($articles as $article) {
