@@ -179,7 +179,7 @@
                                         @if($template->header_image)
                                         <div class="imgs mt-4 position-relative">
                                         <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'header', 'image' => $template->header_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return modals.confirm(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
-                                        <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->header_image }}" alt="header" class="img-fluid mx-auto d-block" />
+                                        <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->header_image }}?v={{ time() }}" alt="header" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
                                     </div>
@@ -189,7 +189,7 @@
                                         @if($template->footer_image)
                                         <div class="imgs mt-4 position-relative">
                                         <a href="{{ route('tpl.deleteimage', ['uid' => $template->uid, 'field' => 'footer', 'image' => $template->footer_image]) }}" class="btn btn-sm btn-danger position-absolute d-none" style="top:0; right:0" title="{{ __('tpl.delete_image_title') }}" onclick="return modals.confirm(this, '{{ __('tpl.notice') }}', '{{ __('tpl.delete_image_message') }}', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2"></i></a>
-                                        <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->footer_image }}" alt="footer" class="img-fluid mx-auto d-block" />
+                                        <img src="{{ $template->app_url }}{{ $template->app_images_url }}/{{ $template->footer_image }}?v={{ time() }}" alt="footer" class="img-fluid mx-auto d-block" />
                                         </div>
                                         @endif
                                     </div>
