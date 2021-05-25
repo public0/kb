@@ -201,7 +201,7 @@
                                     </div>
                                     @endif
                                     <div class="form-group">
-                                        <textarea name="content" id="tinymce" placeholder="{{ __('tpl.content') }}" class="form-control" required="required" style="height:300px">{{ $template->content }}</textarea>
+                                        <textarea name="content" id="tinymce" placeholder="{{ __('tpl.content') }}" class="form-control" required="required" style="height:300px">{{ $template->content ?? ' ' }}</textarea>
                                     </div>
                                 </div>
                             </div>
