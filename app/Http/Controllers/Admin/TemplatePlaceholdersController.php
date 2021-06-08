@@ -16,17 +16,21 @@ class TemplatePlaceholdersController extends Controller
 {
     public function index(Request $request)
     {
-        $groups = TemplatePlaceholderGroup::all();
-        $filters = ['type' => null];
+        $groups = new TemplatePlaceholderGroup();
+        $filters = ['type' => null, 'status' => null];
         if ($request->isMethod('get')) {
             if ($request->filled('type')) {
                 $filters['type'] = $request->input('type');
-                $groups = TemplatePlaceholderGroup::where('type_id', $filters['type'])->get();
+                $groups->where('type_id', $filters['type']);
+            }
+            if ($request->filled('status')) {
+                $filters['status'] = $request->input('status');
+                $groups->where('status', $filters['status']);
             }
         }
 
         return view('admin/templates-placeholders-groups', [
-            'groups' => $groups,
+            'groups' => $groups->get(),
             'filters' => $filters,
             'types' => TemplateType::active()->get()
         ]);
@@ -147,11 +151,28 @@ class TemplatePlaceholdersController extends Controller
         }
     }
 
-    public function placeholders($gid)
+    public function placeholders(Request $request, $gid)
     {
+        $placeholders = TemplatePlaceholder::where('placeholder_group_id', $gid);
+        $filters = ['country' => null, 'status' => null];
+        if ($request->isMethod('get')) {
+            if ($request->filled('country')) {
+                $filters['country'] = $request->input('country');
+                $placeholders->whereHas('placeholderCountries', function ($query) use ($filters) {
+                    return $query->where('country_code', $filters['country']);
+                });
+            }
+            if ($request->filled('status')) {
+                $filters['status'] = $request->input('status');
+                $placeholders->where('status', $filters['status']);
+            }
+        }
+
         return view('admin/templates-placeholders', [
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
-            'items' => TemplatePlaceholder::where('placeholder_group_id', $gid)->get()
+            'items' => $placeholders->get(),
+            'filters' => $filters,
+            'countries' => TemplatePlaceholderCountry::$countries
         ]);
     }
 

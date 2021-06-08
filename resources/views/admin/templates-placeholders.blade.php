@@ -41,6 +41,28 @@
                     <!--div-->
                     <div class="card">
                         <div class="card-body">
+                            <!-- Filters -->
+                            <form method="get" action="" class="form-inline">
+                                <div class="form-group">
+                                    <select name="country" class="form-control">
+                                        <option value="">Select Country</option>
+                                        @foreach($countries as $code => $country)
+                                        <option value="{{ $code }}"@if($filters['country'] && $filters['country'] == $code) selected="selected"@endif>{{ $country }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mx-sm-3">
+                                    <select name="status" class="form-control">
+                                        <option value="">Select Status</option>
+                                        <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
+                                        <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.inactive') }}</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mx-sm-3">{{ __('labels.filter') }}</button>
+                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='<?php echo url()->current() ?>'">{{ __('labels.reset') }}</button>@endif
+                            </form>
+                            <hr>
+                            <!-- // Filters -->
                             @if(!empty($items))
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap" id="example2">
