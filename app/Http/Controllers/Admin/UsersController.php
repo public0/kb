@@ -17,13 +17,27 @@ class UsersController extends Controller
 {
     use PasswordReseter;
 
-    public function index()
+    public function index(Request $request)
     {
         $users = User::with([
             'groups' => function ($query) {
                 return $query->with('group');
             }
-        ])->get();
+        ]);
+        $filters = ['group' => null, 'status' => null];
+        if ($request->isMethod('get')) {
+            if ($request->filled('group')) {
+                $filters['group'] = $request->input('group');
+                $users->whereHas('groups', function ($query) use ($filters) {
+                    return $query->where('group_id', $filters['group']);
+                });
+            }
+            if ($request->filled('status')) {
+                $filters['status'] = $request->input('status');
+                $users->where('status', $filters['status']);
+            }
+        }
+        $users = $users->get();
         foreach ($users as $user) {
             $groups = [];
             foreach ($user->groups as $group) {
@@ -32,9 +46,11 @@ class UsersController extends Controller
             $user->groups = implode(', ', $groups);
         }
 
-        $data = ['users'=> $users];
-
-        return view('admin/users', $data);
+        return view('admin/users', [
+            'users' => $users,
+            'groups' => UserGroups::active()->get(),
+            'filters' => $filters
+        ]);
     }
 
     public function status($id)
