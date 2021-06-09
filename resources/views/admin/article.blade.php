@@ -40,19 +40,50 @@
                             <h3 class="card-title">Articles List</h3>
                         </div>
                         <div class="card-body">
+                            <!-- Filters -->
+                            <form method="get" action="" class="form-inline">
+                                <div class="form-group mr-sm-3">
+                                    <select name="category" class="form-control">
+                                        <option value="">Select Category</option>
+                                        @foreach($categories as $cat)
+                                        <option value="{{$cat->id}}" @if($filters['category'] && $filters['category'] == $cat->id) selected="selected" @endif>@for($i = 0; $i < substr_count($cat->tree, ','); $i++)&raquo;@endfor {{$cat->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mr-sm-3">
+                                    <select name="language" class="form-control">
+                                        <option value="">Select Language</option>
+                                        @foreach($languages as $lang)
+                                        <option value="{{ $lang->abv }}"@if($filters['language'] && $filters['language'] == $lang->abv) selected="selected"@endif>{{ $lang->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mr-sm-3">
+                                    <select name="status" class="form-control">
+                                        <option value="">Select Status</option>
+                                        <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
+                                        <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.inactive') }}</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
+                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='<?php echo url()->current() ?>'">{{ __('labels.reset') }}</button>@endif
+                            </form>
+                            <hr>
+                            <!-- // Filters -->
                             @if(!empty($articles))
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="example2">
+                                <table class="table table-bordered" id="example1">
                                     <thead>
                                     <tr role="row">
                                         <th class="wd-15p border-bottom-0">ID</th>
                                         <th class="wd-15p border-bottom-0">Title</th>
                                         <th class="wd-15p border-bottom-0">Language</th>
-                                        <th class="wd-15p border-bottom-0">Tags</th>
+                                        <th class="wd-15p border-bottom-0 no-sort">Tags</th>
                                         <th class="wd-15p border-bottom-0">Created AT</th>
+                                        <th class="wd-15p border-bottom-0">Right Col</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
                                         <th class="wd-15p border-bottom-0">Comments</th>
-                                        <th class="wd-10p border-bottom-0">Actions</th>
+                                        <th class="wd-10p border-bottom-0 no-sort">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -71,6 +102,9 @@
                                         </td>
                                         <td class="text-nowrap">
                                             @if($art->created_at)<span title="{{ $art->created_at }}">{{ \Carbon\Carbon::parse($art->created_at)->format('d.m.Y') }}</span>@endif
+                                        </td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="<?php echo URL::to('/admin/article/right-col/' . $art->id); ?>" class="btn btn-sm btn-link">{{ $art->in_right_col_name }}</a>
                                         </td>
                                         <td class="table-col-shrink text-center">
                                             <a href="<?php echo URL::to('/admin/article/status/' . $art->id); ?>" class="btn btn-sm btn-link">{{ $art->status_name }}</a>

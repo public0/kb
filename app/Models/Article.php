@@ -93,6 +93,16 @@ class Article extends Model
         return $this->status ? __('status.active') : __('status.inactive');
     }
 
+    /**
+     * Get in_right_col name.
+     *
+     * @return string
+     */
+    public function getInRightColNameAttribute()
+    {
+        return $this->in_right_col ? __('labels.yes') : __('labels.no');
+    }
+
     public function toSearchableArray()
     {
         return [

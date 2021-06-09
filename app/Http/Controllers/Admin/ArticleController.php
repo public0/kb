@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $articles = Article::select(
             'id',
@@ -23,13 +23,33 @@ class ArticleController extends Controller
             'created_at',
             'status',
             'article_id',
+            'in_right_col',
             'lang_parent_id'
         )
             ->commentsNumber()
-            ->orderBy('lang_parent_id', 'asc')
-            ->get();
+            ->orderBy('lang_parent_id', 'asc');
 
-        return view('admin/article', compact('articles'));
+        $filters = ['category' => null, 'language' => null, 'status' => null];
+        if ($request->isMethod('get')) {
+            if ($request->filled('category')) {
+                $filters['category'] = $request->input('category');
+                $articles->where('categories_ids', 'LIKE', ',' . $filters['category'] . ',');
+            }
+            if ($request->filled('language')) {
+                $filters['language'] = $request->input('language');
+                $articles->where('lang', $filters['language']);
+            }
+            if ($request->filled('status')) {
+                $filters['status'] = $request->input('status');
+                $articles->where('status', $filters['status']);
+            }
+        }
+
+        $articles = $articles->get();
+        $categories = Category::active()->get();
+        $languages = Language::all();
+
+        return view('admin/article', compact('articles', 'categories', 'languages', 'filters'));
     }
 
     public function status($id)
@@ -39,6 +59,22 @@ class ArticleController extends Controller
             $data = $article->first();
             $article->update([
                 'status' => 1 - $data->status
+            ]);
+
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function rightCol($id)
+    {
+        try {
+            $article = Article::where('id', $id);
+            $data = $article->first();
+            $article->update([
+                'in_right_col' => 1 - $data->in_right_col
             ]);
 
             return redirect()->back();

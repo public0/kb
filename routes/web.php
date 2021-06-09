@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
     Route::any('/admin/article/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'delete']);
     Route::get('/admin/article/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'status']);
+    Route::get('/admin/article/right-col/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'rightCol']);
     // Comments
     Route::get('/admin/comments', [App\Http\Controllers\Admin\CommentsController::class, 'index']);
     Route::get('/admin/comments/status/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'status']);
