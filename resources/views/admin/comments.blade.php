@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <!-- Filters -->
                             <form method="get" action="" class="form-inline">
-                                <div class="form-group">
+                                <div class="form-group mr-sm-3">
                                     <select name="article" class="form-control filter-select2" style="max-width:500px">
                                         <option value="">Select Article</option>
                                         @foreach($articles as $article)
@@ -43,7 +43,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary mx-sm-3">{{ __('labels.filter') }}</button>
+                                <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
                                 @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='<?php echo url()->current() ?>'">{{ __('labels.reset') }}</button>@endif
                             </form>
                             <hr>
