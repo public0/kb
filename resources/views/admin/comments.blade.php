@@ -50,7 +50,7 @@
                             <!-- // Filters -->
                             @if(!empty($comments))
                             <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example2">
+                                <table class="table table-bordered text-nowrap" id="example1">
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">Name</th>
@@ -58,7 +58,7 @@
                                         <th class="wd-15p border-bottom-0">Comment</th>
                                         <th class="wd-15p border-bottom-0">Date</th>
                                         <th class="wd-15p border-bottom-0 text-center">Status</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Actions</th>
+                                        <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>

@@ -34,13 +34,13 @@
                         <div class="card-body">
                             @if(!empty($files))
                             <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example2">
+                                <table class="table table-bordered text-nowrap" id="example1">
                                     <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Ext</th>
                                         <th class="wd-15p border-bottom-0">URL</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Actions</th>
+                                        <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
