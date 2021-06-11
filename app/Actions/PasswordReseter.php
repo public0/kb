@@ -26,6 +26,18 @@ trait PasswordReseter
     }
 
     /**
+     * Check if hash is valid
+     *
+     * @param string $text
+     * @param string $hash
+     * @return bool
+     */
+    protected function prCheckHash($text, $hash)
+    {
+        return Hash::check($text, $hash);
+    }
+
+    /**
      * Check if token exists for user
      *
      * @param string $token
@@ -81,6 +93,6 @@ trait PasswordReseter
      */
     protected function prCompareHash($token, $user)
     {
-        return Hash::check($user->email, $token);
+        return $this->prCheckHash($user->email, $token);
     }
 }

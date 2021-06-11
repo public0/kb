@@ -2,52 +2,51 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\PasswordReseter;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function index(Request $request){
-        $data= [];
+    use PasswordReseter;
+
+    public function index(Request $request)
+    {
         $id = Auth::id();
-        if(!empty($_POST)){
-            $oldpass = $request->input('CurrentPassword');
-            $pass = $request->input('Password');
-            $repass = $request->input('RetypePassword');
-            $validated = $request->validate([
-                'Password' => 'required|regex:/^\S*(?=\S{10,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/i',
-                'RetypePassword' => 'required|regex:/^\S*(?=\S*['.$pass.'])\S*$/i',
-            ]);
+        if (empty($id)) {
+            return redirect()->back()->with('error', 'Auth Error !');
+        }
+        if ($request->isMethod('post')) {
+            // Change password form
+            if ($request->has('ChangePassword')) {
+                $oldpass = $request->input('CurrentPassword');
+                $pass = $request->input('Password');
+                $repass = $request->input('RetypePassword');
+                $passRegex = '/^\S*(?=\S{10,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/i';
+                $validated = $request->validate([
+                    'CurrentPassword' => 'required|regex:' . $passRegex,
+                    'Password' => 'required|required_with:RetypePassword|regex:' . $passRegex . '|same:RetypePassword',
+                    'RetypePassword' => 'required|regex:' . $passRegex
+                ]);
 
-            $currentpass = DB::table('users')->where('id', $id)->select('password')->first();
-            if(!empty($currentpass)){
-                if(!Hash::check($oldpass, $currentpass->password)){
-                    return Redirect::back()->with('error','Invalid current password!');
-                }
-
-                $password = Hash::make($pass);
-                if(!empty($id)){
-                    try{
-                        DB::table('users')->where('id', $id)->update(
-                            ['password' => $password]
-                        );
-                    } catch (\Exception $e){
-                        return Redirect::back()->with('error','DB Error !');
+                if ($this->prCheckHash($oldpass, Auth::user()->password)) {
+                    try {
+                        User::find($id)->update(['password' => $this->prGenerateHash($pass)]);
+                    } catch (Exception $e) {
+                        return redirect()->back()
+                            ->with('error', $e->getMessage());
                     }
                 } else {
-                    return Redirect::back()->with('error','Auth Error !');
+                    return redirect()->back()->with('error', 'Invalid current password!');
                 }
 
-            } else {
-                return Redirect::back()->with('error','Invalid current password!');
+                return redirect()->back()->with('message', 'Operation Successful !');
             }
-
-            return Redirect::back()->with('message','Operation Successful !');
         }
-        return view('admin/profile', $data);
+
+        return view('admin/profile');
     }
 }
