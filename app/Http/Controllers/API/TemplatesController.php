@@ -126,7 +126,7 @@ class TemplatesController extends Controller
 
         $term = $request->query('term');
         if ($term) {
-            $subtypes->whereRaw("[name] LIKE '%{$term}%'");
+            $subtypes->where('name', 'LIKE', "%{$term}%");
         }
 
         return response()->json([

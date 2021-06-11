@@ -252,10 +252,10 @@ class TemplatePlaceholdersController extends Controller
         ]);
     }
 
-    public function deletePlaceholder($gid, $id)
+    public function deletePlaceholder(Request $request)
     {
         try {
-            $placeholder = TemplatePlaceholder::where('id', $id);
+            $placeholder = TemplatePlaceholder::where('id', $request->id);
             $data = $placeholder->first();
             $placeholder->delete();
 
@@ -267,10 +267,10 @@ class TemplatePlaceholdersController extends Controller
         }
     }
 
-    public function statusPlaceholder($gid, $id)
+    public function statusPlaceholder(Request $request)
     {
         try {
-            $placeholder = TemplatePlaceholder::where('id', $id);
+            $placeholder = TemplatePlaceholder::where('id', $request->id);
             $data = $placeholder->first();
             $placeholder->update([
                 'status' => 1 - $data->status

@@ -173,10 +173,10 @@ class TemplatesTypesController extends Controller
         ]);
     }
 
-    public function deleteSubtype($id)
+    public function deleteSubtype(Request $request)
     {
         try {
-            $subtype = TemplateSubtype::where('id', $id);
+            $subtype = TemplateSubtype::where('id', $request->id);
             $data = $subtype->first();
             $subtype->delete();
 
@@ -188,10 +188,10 @@ class TemplatesTypesController extends Controller
         }
     }
 
-    public function statusSubtype($id)
+    public function statusSubtype(Request $request)
     {
         try {
-            $subtype = TemplateSubtype::where('id', $id);
+            $subtype = TemplateSubtype::where('id', $request->id);
             $data = $subtype->first();
             $subtype->update([
                 'status' => 1 - $data->status
