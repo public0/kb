@@ -11,7 +11,7 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Newsletter Subscribers</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo URL::to('/admin'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Newsletter</li>
                         <li class="breadcrumb-item active" aria-current="page">Subscribers</li>
                     </ol>
@@ -52,10 +52,10 @@
                                             @if($new->created_at)<span title="{{ $new->created_at }}">{{ \Carbon\Carbon::parse($new->created_at)->format('d.m.Y') }}</span>@endif
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/newsletter/status', ['id' => $new->id]); ?>" class="btn btn-sm btn-link">{{ $new->status_name }}</a>
+                                            <a href="{{ url('/admin/newsletter/status', ['id' => $new->id]) }}" class="btn btn-sm btn-link">{{ $new->status_name }}</a>
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/newsletter/delete', ['id' => $new->id]); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
+                                            <a href="{{ url('/admin/newsletter/delete', ['id' => $new->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
                                         </td>
                                     </tr>
                                     @endforeach

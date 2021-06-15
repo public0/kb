@@ -13,7 +13,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Articles</li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('/admin/files') }}">{{ __('labels.files') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/files') }}">{{ __('labels.files') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ __('labels.add') }}</li>
                     </ol>
                 </div>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ URL::to('/admin/files') }}'">{{ __('labels.back') }}</button>
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/files') }}'">{{ __('labels.back') }}</button>
                             <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
                         </div>
                         </form>

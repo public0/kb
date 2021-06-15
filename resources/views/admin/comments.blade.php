@@ -11,8 +11,8 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Comments</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?php echo URL::to('/admin/article'); ?>">Articles</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/article') }}">Articles</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Comments</li>
                     </ol>
                 </div>
@@ -44,7 +44,7 @@
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
-                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='<?php echo url()->current() ?>'">{{ __('labels.reset') }}</button>@endif
+                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='{{ url()->current() }}'">{{ __('labels.reset') }}</button>@endif
                             </form>
                             <hr>
                             <!-- // Filters -->
@@ -71,10 +71,10 @@
                                             @if($comment->created_at)<span title="{{ $comment->created_at }}">{{ \Carbon\Carbon::parse($comment->created_at)->format('d.m.Y') }}</span>@endif
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/comments/status', ['id' => $comment->id]); ?>" class="btn btn-sm btn-link">{{ $comment->status_name }}</a>
+                                            <a href="{{ url('/admin/comments/status', ['id' => $comment->id]) }}" class="btn btn-sm btn-link">{{ $comment->status_name }}</a>
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/comments/delete', ['id' => $comment->id]); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
+                                            <a href="{{ url('/admin/comments/delete', ['id' => $comment->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
                                         </td>
                                     </tr>
                                     @endforeach
