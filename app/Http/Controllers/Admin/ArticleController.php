@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Countries;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\ArticleCountry;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\UserGroups;
@@ -13,6 +15,8 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    use Countries;
+
     public function index(Request $request)
     {
         $articles = Article::select(
@@ -92,6 +96,7 @@ class ArticleController extends Controller
         $data = [
             'categories' => $categories,
             'language' => $language,
+            'countries' => $this->getAllCountries(),
             'user_groups' => $user_groups
         ];
 
@@ -110,6 +115,7 @@ class ArticleController extends Controller
             $in_right_col = $_POST['in_right_col'];
 
             $validated = $request->validate([
+                'countries' => 'required',
                 'lang' => 'required|max:255',
                 'title' => 'required|max:255|unique:' . Article::class,
                 'description' => 'required|max:255',
@@ -118,10 +124,12 @@ class ArticleController extends Controller
                 'status' => 'required|integer|max:1'
             ]);
 
+            $articleID = null;
             if (!empty($lang_parent_id)) {
-                $parent = Article::select('id', 'lang')->find($lang_parent_id);
+                $parent = Article::select('id', 'lang', 'article_id')->find($lang_parent_id);
                 if ($parent) {
                     $lang_parent_id = $parent->id;
+                    $articleID = $parent->article_id;
                     if ($parent->lang == $lang) {
                         return redirect()->back()->with('error', 'It is the same language as the parent!');
                     }
@@ -148,8 +156,17 @@ class ArticleController extends Controller
                 $last_id = $art->id;
 
                 if (!empty($last_id)) {
-                    $art->article_id = 'AT' . strtoupper(dechex($last_id));
+                    $art->article_id = $articleID ?? 'AT' . strtoupper(dechex($last_id));
                     $art->save();
+                }
+
+                $deletedRows = ArticleCountry::where('article_id', $last_id);
+                $deletedRows->delete();
+                foreach ($request->input('countries', []) as $country) {
+                    ArticleCountry::create([
+                        'article_id' => $last_id,
+                        'country_code' => $country
+                    ]);
                 }
             } catch (\Exception $e) {
                 return redirect()->back()
@@ -176,6 +193,7 @@ class ArticleController extends Controller
             'article' => $article,
             'categories' => $categories,
             'language' => $language,
+            'countries' => $this->getAllCountries(),
             'user_groups' => $user_groups
         ];
         if ($article->lang_parent_id) {
@@ -199,6 +217,7 @@ class ArticleController extends Controller
 
             if (strtolower($title) != strtolower($article->title)) {
                 $validated = $request->validate([
+                    'countries' => 'required',
                     'lang' => 'required|max:255',
                     'title' => 'required|max:255|unique:' . Article::class,
                     'description' => 'required|max:255',
@@ -208,6 +227,7 @@ class ArticleController extends Controller
                 ]);
             } else {
                 $validated = $request->validate([
+                    'countries' => 'required',
                     'lang' => 'required|max:255',
                     'title' => 'required|max:255',
                     'description' => 'required|max:255',
@@ -217,10 +237,12 @@ class ArticleController extends Controller
                 ]);
             }
 
+            $articleID = $article->article_id;
             if (!empty($lang_parent_id)) {
-                $parent = Article::select('id', 'lang')->find($lang_parent_id);
+                $parent = Article::select('id', 'lang', 'article_id')->find($lang_parent_id);
                 if ($parent) {
                     $lang_parent_id = $parent->id;
+                    $articleID = $parent->article_id;
                     if ($parent->lang == $lang) {
                         return redirect()->back()->with('error', 'It is the same language as the parent!');
                     }
@@ -242,8 +264,18 @@ class ArticleController extends Controller
                     'rank' => $rank,
                     'user_groups' => $u_groups ? ',' . implode(',', $u_groups) . ',' : null,
                     'lang_parent_id' => $lang_parent_id,
+                    'article_id' => $articleID,
                     'in_right_col' => $in_right_col
                 ]);
+
+                $deletedRows = ArticleCountry::where('article_id', $article->id);
+                $deletedRows->delete();
+                foreach ($request->input('countries', []) as $country) {
+                    ArticleCountry::create([
+                        'article_id' => $article->id,
+                        'country_code' => $country
+                    ]);
+                }
             } catch (\Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());

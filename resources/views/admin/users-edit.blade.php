@@ -11,8 +11,8 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Users</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?php echo URL::to('/admin/users'); ?>">Users</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin/users') }}">Users</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ __('labels.edit') }}</li>
                     </ol>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="col-12">
                     <!--div-->
                     <div class="card">
-                        <form class="needs-validation" method="post" action="<?php echo url()->current() ?>">
+                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
                         @csrf
                         <div class="card-body pb-2">
                             <div class="row row-sm">
@@ -49,6 +49,14 @@
                                     <div class="form-group">
                                         <label class="form-label">E-Mail</label>
                                         <input name="email" class="form-control mb-4" placeholder="E-Mail" required="required" type="text" value="@if(!empty(old('email'))) {{old('email')}} @else {{$users->email}} @endif">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Country</label>
+                                        <select name="country_code" class="form-control">
+                                            @foreach($countries as $code => $name)
+                                            <option value="{{$code}}" @if($users && $users->country_code == $code) selected="selected" @endif>{{$name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
@@ -71,7 +79,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='<?php echo URL::to('/admin/users'); ?>'">{{ __('labels.back') }}</button>
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/users') }}'">{{ __('labels.back') }}</button>
                             <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
                         </div>
                         </form>

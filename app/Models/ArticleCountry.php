@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TemplatePlaceholderCountry extends Model
+class ArticleCountry extends Model
 {
     use HasFactory;
 
-    protected $table = 'tpl.placeholder_countries';
+    protected $table = 'kb.article_countries';
 
     public $timestamps = false;
 
@@ -19,7 +19,7 @@ class TemplatePlaceholderCountry extends Model
      * @var array
      */
     protected $fillable = [
-        'placeholder_id',
+        'article_id',
         'country_code'
     ];
 }

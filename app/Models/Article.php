@@ -69,6 +69,11 @@ class Article extends Model
         return $this->hasMany(Comment::class, 'article_id');
     }
 
+    public function articleCountries()
+    {
+        return $this->hasMany(ArticleCountry::class, 'article_id');
+    }
+
     /**
      * The "booted" method of the model.
      *
@@ -79,6 +84,9 @@ class Article extends Model
         static::deleting(function ($article) {
             $article->comments()->each(function ($comment) {
                 $comment->delete();
+            });
+            $article->articleCountries()->each(function ($item) {
+                $item->delete();
             });
         });
     }
@@ -101,6 +109,24 @@ class Article extends Model
     public function getInRightColNameAttribute()
     {
         return $this->in_right_col ? __('labels.yes') : __('labels.no');
+    }
+
+    /**
+     * Get country codes.
+     *
+     * @return array
+     */
+    public function getAllCountryCodesAttribute()
+    {
+        $result = [];
+        $items = $this->articleCountries()->orderBy('country_code', 'ASC')->get();
+        if ($items) {
+            foreach ($items as $item) {
+                $result[] = $item->country_code;
+            }
+        }
+
+        return $result;
     }
 
     public function toSearchableArray()

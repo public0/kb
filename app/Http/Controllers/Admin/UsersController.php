@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Countries;
 use App\Actions\PasswordReseter;
 use App\Http\Controllers\Controller;
 use App\Mail\PasswordMail;
@@ -15,6 +16,7 @@ use Exception;
 
 class UsersController extends Controller
 {
+    use Countries;
     use PasswordReseter;
 
     public function index(Request $request)
@@ -24,13 +26,17 @@ class UsersController extends Controller
                 return $query->with('group');
             }
         ]);
-        $filters = ['group' => null, 'status' => null];
+        $filters = ['group' => null, 'status' => null, 'country' => null];
         if ($request->isMethod('get')) {
             if ($request->filled('group')) {
                 $filters['group'] = $request->input('group');
                 $users->whereHas('groups', function ($query) use ($filters) {
                     return $query->where('group_id', $filters['group']);
                 });
+            }
+            if ($request->filled('country')) {
+                $filters['country'] = $request->input('country');
+                $users->where('country_code', $filters['country']);
             }
             if ($request->filled('status')) {
                 $filters['status'] = $request->input('status');
@@ -49,6 +55,7 @@ class UsersController extends Controller
         return view('admin/users', [
             'users' => $users,
             'groups' => UserGroups::active()->get(),
+            'countries' => $this->getAllCountries(),
             'filters' => $filters
         ]);
     }
@@ -72,12 +79,16 @@ class UsersController extends Controller
     public function add(Request $request)
     {
         $groups = UserGroups::active()->get();
-        $data = ['groups' => $groups];
+        $data = [
+            'groups' => $groups,
+            'countries' => $this->getAllCountries()
+        ];
 
         if (!empty($_POST)) {
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
             $email = trim($_POST['email']);
+            $country_code = $_POST['country_code'];
             $status = $_POST['status'];
             //$password = $_POST['password'];
 
@@ -85,6 +96,7 @@ class UsersController extends Controller
                 'name' => 'required|max:255',
                 'surname' => 'required|max:255',
                 'email' => 'required|email:rfc,dns|max:255|unique:' . User::class,
+                'country_code' => 'required|max:2',
                 'status' => 'required|integer|max:1',
                 'groups' => 'required'
             ]);
@@ -94,6 +106,7 @@ class UsersController extends Controller
                 $user->name = $name;
                 $user->surname = $surname;
                 $user->email = $email;
+                $user->country_code = $country_code;
                 $user->status = $status;
                 $user->password = $this->prGenerateHash('xoxoxo34*xox');
                 $user->save();
@@ -135,12 +148,17 @@ class UsersController extends Controller
         $id = $request->id;
         $groups = UserGroups::active()->get();
         $users = User::with('groups')->where('id', $id)->get();
-        $data = ['users'=> $users[0], 'groups' => $groups];
+        $data = [
+            'users' => $users[0],
+            'groups' => $groups,
+            'countries' => $this->getAllCountries()
+        ];
 
         if (!empty($_POST)) {
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
             $email = trim($_POST['email']);
+            $country_code = $_POST['country_code'];
             $status = $_POST['status'];
 
             if ($email != $users[0]->email) {
@@ -148,6 +166,7 @@ class UsersController extends Controller
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
                     'email' => 'required|email:rfc,dns|max:255|unique:' . User::class,
+                    'country_code' => 'required|max:2',
                     'status' => 'required|integer|max:1',
                     'groups' => 'required'
                 ]);
@@ -155,6 +174,7 @@ class UsersController extends Controller
                 $validated = $request->validate([
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
+                    'country_code' => 'required|max:2',
                     'status' => 'required|integer|max:1',
                     'groups' => 'required'
                 ]);
@@ -163,6 +183,7 @@ class UsersController extends Controller
             User::where('id', $id)->update([
                 'name' => $name,
                 'surname' => $surname,
+                'country_code' => $country_code,
                 'email' => $email,
                 'status' => $status
             ]);

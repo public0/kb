@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Countries;
 use App\Http\Controllers\Controller;
 use App\Models\TemplatePlaceholder;
 use App\Models\TemplatePlaceholderCountry;
@@ -14,6 +15,8 @@ use Illuminate\Http\Request;
 
 class TemplatePlaceholdersController extends Controller
 {
+    use Countries;
+
     public function index(Request $request)
     {
         $groups = new TemplatePlaceholderGroup();
@@ -172,7 +175,7 @@ class TemplatePlaceholdersController extends Controller
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
             'items' => $placeholders->get(),
             'filters' => $filters,
-            'countries' => TemplatePlaceholderCountry::$countries
+            'countries' => $this->getAllCountries()
         ]);
     }
 
@@ -180,8 +183,9 @@ class TemplatePlaceholdersController extends Controller
     {
         if ($request->isMethod('post')) {
             $validated = $request->validate([
-                'name' => 'required|max:255',
                 'placeholder_group_id' => 'required|integer',
+                'name' => 'required|max:255',
+                'countries' => 'required',
                 'status' => 'required|integer|max:1'
             ]);
 
@@ -208,7 +212,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-form', [
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
-            'countries' => TemplatePlaceholderCountry::$countries,
+            'countries' => $this->getAllCountries(),
             'placeholder' => null
         ]);
     }
@@ -219,8 +223,9 @@ class TemplatePlaceholdersController extends Controller
 
         if ($request->isMethod('post')) {
             $validated = $request->validate([
-                'name' => 'required|max:255',
                 'placeholder_group_id' => 'required|integer',
+                'name' => 'required|max:255',
+                'countries' => 'required',
                 'status' => 'required|integer|max:1'
             ]);
 
@@ -247,7 +252,7 @@ class TemplatePlaceholdersController extends Controller
 
         return view('admin/templates-placeholders-form', [
             'group' => TemplatePlaceholderGroup::where('id', $gid)->first(),
-            'countries' => TemplatePlaceholderCountry::$countries,
+            'countries' => $this->getAllCountries(),
             'placeholder' => $placeholder->first()
         ]);
     }

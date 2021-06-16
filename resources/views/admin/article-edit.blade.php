@@ -2,7 +2,7 @@
 
 @section('content')
     <script>
-        var site_url = '{{ URL::to('/') }}';
+        var site_url = '{{ url('/') }}';
         tinymce.init({
             selector: '#tinymce',
             images_dataimg_filter: function(img) {
@@ -66,18 +66,16 @@
     </script>
     <div class="app-content main-content">
         <div class="side-app">
-
             <!--app header-->
             <x-AdminHeader/>
             <!--/app header-->
-
             <!--Page header-->
             <div class="page-header">
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Articles Edit</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="<?php echo URL::to('/'); ?>/admin/article">Articles</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="{{ url('/admin/article') }}">Articles</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </div>
@@ -114,16 +112,32 @@
                         <div class="card-body pb-2">
                             <div class="row row-sm">
                                 <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Countries</label>
+                                        <select name="countries[]" class="form-control custom-select select2" multiple>
+                                            @foreach($countries as $code => $name)
+                                            <option value="{{$code}}" @if($article && in_array($code, $article->all_country_codes)) selected="selected" @endif>{{$name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     @if(!empty($language))
-                                        <div class="form-group">
-                                            <label class="form-label">Language</label>
-                                            <select name="lang" class="form-control custom-select select2">
-                                                @foreach($language as $lng)
-                                                <option value="{{$lng->abv}}" @if($lng->abv == $article->lang) selected="selected"@endif>{{$lng->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Language</label>
+                                        <select name="lang" class="form-control custom-select select2">
+                                            @foreach($language as $lng)
+                                            <option value="{{$lng->abv}}" @if($lng->abv == $article->lang) selected="selected"@endif>{{$lng->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     @endif
+                                    <div class="form-group">
+                                        <label class="form-label">Related language</label>
+                                        <select name="lang_parent_id" class="form-control">
+                                            @if(!empty($article_lang))
+                                            <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>
+                                            @endif
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label class="form-label">Title</label>
                                         <input name="title" class="form-control  mb-4" placeholder="Title" required="required" type="text" value="{{$article->title}}">
@@ -174,14 +188,6 @@
                                             </select>
                                         </div>
                                     @endif
-                                    <div class="form-group">
-                                        <label class="form-label">Related language</label>
-                                        <select name="lang_parent_id" class="form-control">
-                                            @if(!empty($article_lang))
-                                            <option value="{{ $article_lang->id }}" selected="selected">{{ $article_lang->title }}</option>
-                                            @endif
-                                        </select>
-                                    </div>
                                     @if(!empty($user_groups))
                                         <div class="form-group">
                                             <label class="form-label">User Groups</label>
@@ -210,7 +216,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='<?php echo URL::to('/admin/article'); ?>'">{{ __('labels.back') }}</button>
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/article') }}'">{{ __('labels.back') }}</button>
                             <button type="submit" class="btn btn-info" onclick="tinyMCE.triggerSave();">{{ __('labels.submit') }}</button>
                         </div>
                         </form>
@@ -282,6 +288,44 @@
                 tinymce.activeEditor.execCommand('mceInsertContent', false, html);
                 selectFiles.val(null).trigger('change');
             }
+        });
+        $('select[name="lang_parent_id"]').on('change', function () {
+            var id = $(this).val();
+            $.ajax('{{ route('api.articles.item', ['id' => 0]) }}'.replace('0', id), {
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    select: 'categories_ids,tags,user_groups,status,in_right_col'
+                },
+                success: function (data) {
+                    function prepareIds(val) {
+                        var result = [];
+                        $.each(val.split(','), function (i,v) {
+                            if (v) {
+                                result.push(v);
+                            }
+                        });
+                        return result;
+                    }
+                    $('select[name="categories_ids[]"]').val(null).trigger('change');
+                    if (data.article.categories_ids) {
+                        var categs = prepareIds(data.article.categories_ids);
+                        $('select[name="categories_ids[]"]').val(categs).trigger('change');
+                    }
+                    $('select[name="tags[]"]').val(null).trigger('change');
+                    if (data.article.tags) {
+                        var tags = prepareIds(data.article.tags);
+                        $('select[name="tags[]"]').val(tags).trigger('change');
+                    }
+                    $('select[name="user_groups[]"]').val(null).trigger('change');
+                    if (data.article.user_groups) {
+                        var groups = prepareIds(data.article.user_groups);
+                        $('select[name="user_groups[]"]').val(groups).trigger('change');
+                    }
+                    $('select[name="status"]').val(data.article.status).trigger('change');
+                    $('select[name="in_right_col"]').val(data.article.in_right_col).trigger('change');
+                }
+            });
         });
         var selectLang = $('select[name="lang"]');
         selectLang.on('change', function () {

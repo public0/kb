@@ -11,13 +11,13 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Users</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Users</li>
                     </ol>
                 </div>
                 <div class="page-rightheader">
                     <div class="btn btn-list">
-                        <a href="<?php echo URL::to('/admin/users/add'); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
+                        <a href="{{ url('/admin/users/add') }}" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
                     </div>
                 </div>
             </div>
@@ -48,6 +48,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group mr-sm-3">
+                                    <select name="country" class="form-control">
+                                        <option value="">Select Country</option>
+                                        @foreach($countries as $code => $country)
+                                        <option value="{{ $code }}"@if($filters['country'] && $filters['country'] == $code) selected="selected"@endif>{{ $country }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mr-sm-3">
                                     <select name="status" class="form-control">
                                         <option value="">Select Status</option>
                                         <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
@@ -55,7 +63,7 @@
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
-                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='<?php echo url()->current() ?>'">{{ __('labels.reset') }}</button>@endif
+                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='{{ url()->current() }}'">{{ __('labels.reset') }}</button>@endif
                             </form>
                             <hr>
                             <!-- // Filters -->
@@ -69,6 +77,7 @@
                                         <th class="wd-25p border-bottom-0">E-mail</th>
                                         <th class="wd-15p border-bottom-0">Created AT</th>
                                         <th class="wd-20p border-bottom-0">Groups</th>
+                                        <th class="wd-20p border-bottom-0">Country</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
                                         <th class="wd-10p border-bottom-0 no-sort">Actions</th>
                                     </tr>
@@ -81,12 +90,15 @@
                                         <td>{{ $usr->email }}</td>
                                         <td>{{ $usr->created_at }}</td>
                                         <td>{{ $usr->groups }}</td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/users/status/' . $usr->id); ?>" class="btn btn-sm btn-link">{{ $usr->status_name }}</a>
+                                        <td>
+                                            <img src="{{ url('/th/assets/images/flags/' . strtolower($usr->country_code) . '.svg') }}" alt="{{ $usr->country_code }}" width="24" class="border-top border-right border-bottom border-left border-gray" />
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo URL::to('/admin/users/edit/' . $usr->id); ?>" class="btn btn-sm btn-success"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                            <button type="button" data-href="<?php echo URL::to('/admin/users/password-reset/' . $usr->id); ?>" class="btn btn-sm btn-primary btn-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('labels.password_reset') }}</button>
+                                            <a href="{{ url('/admin/users/status/' . $usr->id) }}" class="btn btn-sm btn-link">{{ $usr->status_name }}</a>
+                                        </td>
+                                        <td class="table-col-shrink text-center">
+                                            <a href="{{ url('/admin/users/edit/' . $usr->id) }}" class="btn btn-sm btn-success"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                            <button type="button" data-href="{{ url('/admin/users/password-reset/' . $usr->id) }}" class="btn btn-sm btn-primary btn-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('labels.password_reset') }}</button>
                                         </td>
                                     </tr>
                                     @endforeach
