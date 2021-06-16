@@ -15,7 +15,7 @@ class TemplatesController extends Controller
 {
     private function createRequest($url, $action, array $data)
     {
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client(['verify' => false]);
         $response = $client->post(rtrim($url, '/') . '/' . $action, [
             'form_params' => $data,
             'headers' => ['Accept' => 'application/json']
