@@ -11,7 +11,7 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Template Placeholders Groups</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Templates</li>
                         <li class="breadcrumb-item">Placeholders</li>
                         <li class="breadcrumb-item active" aria-current="page">Groups</li>

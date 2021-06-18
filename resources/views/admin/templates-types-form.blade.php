@@ -11,9 +11,9 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Template Types</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Templates</li>
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.tpl.types'); ?>">Types</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.tpl.types') }}">Types</a></li>
                         <li class="breadcrumb-item active" aria-current="page">@if($type){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</li>
                     </ol>
                 </div>
@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <div class="card-title">@if($type){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
                         </div>
-                        <form class="needs-validation" method="post" action="<?php echo url()->current() ?>">
+                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
                         @csrf
                         <div class="card-body">
                             <div class="row row-sm">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='<?php echo route('admin.tpl.types'); ?>'">{{ __('labels.back') }}</button>
+                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.types') }}'">{{ __('labels.back') }}</button>
                             <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
                         </div>
                         </form>

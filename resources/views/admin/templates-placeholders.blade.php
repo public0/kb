@@ -11,17 +11,17 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Template Placeholders</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Templates</li>
                         <li class="breadcrumb-item">Placeholders</li>
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.tpl.place.group') ?>">Groups</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.tpl.place.group') }}">Groups</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $group->name }}</li>
                     </ol>
                 </div>
                 <div class="page-rightheader">
                     <div class="btn btn-list">
                         <a href="<?php echo route('admin.tpl.place.group'); ?>" class="btn btn-sm btn-primary mr-3"><i class="fe fe-arrow-left mr-1"></i> {{ __('labels.back') }}</a>
-                            <a href="<?php echo route('admin.tpl.places.add', ['gid' => $group->id]); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
+                        <a href="<?php echo route('admin.tpl.places.add', ['gid' => $group->id]); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
                     </div>
                 </div>
             </div>

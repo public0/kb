@@ -11,15 +11,16 @@
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Template Subtypes</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.home'); ?>"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
                         <li class="breadcrumb-item">Templates</li>
-                        <li class="breadcrumb-item"><a href="<?php echo route('admin.tpl.types') ?>">Types</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.tpl.types') }}">Types</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $type->name }}</li>
                     </ol>
                 </div>
                 <div class="page-rightheader">
                     <div class="btn btn-list">
-                        <a href="<?php echo route('admin.tpl.subtypes.add', ['tid' => $type->id]); ?>" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
+                        <a href="{{ route('admin.tpl.types') }}" class="btn btn-sm btn-primary mr-3"><i class="fe fe-arrow-left mr-1"></i> {{ __('labels.back') }}</a>
+                        <a href="{{ route('admin.tpl.subtypes.add', ['tid' => $type->id]) }}" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
                     </div>
                 </div>
             </div>
@@ -54,10 +55,10 @@
                                     <tr>
                                         <td>{{ $item->name }}</td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo route('admin.tpl.subtypes.status', ['tid' => $type->id, 'id' => $item->id]); ?>" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
+                                            <a href="{{ route('admin.tpl.subtypes.status', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
                                         </td>
                                         <td class="table-col-shrink text-center">
-                                            <a href="<?php echo route('admin.tpl.subtypes.edit', ['tid' => $type->id, 'id' => $item->id]); ?>" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                            <a href="{{ route('admin.tpl.subtypes.edit', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
                                         </td>
                                     </tr>
                                     @endforeach
