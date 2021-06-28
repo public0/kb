@@ -37,7 +37,7 @@
                                     @foreach($fields as $field)
                                     <div class="form-group">
                                         <label class="form-label"><img src="{{ url('/th/assets/images/langs/' . strtolower($field) . '.png') }}" alt="{{ $field }}" width="24" class="border-top border-right border-bottom border-left border-gray" style="border-radius:50%" /> {{ strtoupper($field) }}</label>
-                                        <input type="text" name="{{ $field }}" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" class="form-control" value="@if($localization){{ $localization->{$field} }}@else{{ old($field) }}@endif" />
+                                        <input type="text" name="{{ $field }}" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" class="form-control" value="@if(old($field)){{ old($field) }}@elseif($localization){{ $localization->{$field} }}@endif" />
                                     </div>
                                     @endforeach
                                 </div>
