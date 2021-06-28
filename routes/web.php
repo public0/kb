@@ -193,6 +193,71 @@ Route::middleware(['auth'])->group(function () {
         '/admin/templates-placeholders/placeholders/{gid}/status-placeholder/{id}',
         [App\Http\Controllers\Admin\TemplatePlaceholdersController::class, 'statusPlaceholder']
     )->name('admin.tpl.places.status');
+    // Swag Admin Interface
+    Route::get(
+        '/admin/swag-documents',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'index']
+    )->name('admin.swag.documents');
+    Route::any(
+        '/admin/swag-documents/add-document',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'addDocument']
+    )->name('admin.swag.documents.add');
+    Route::any(
+        '/admin/swag-documents/edit-document/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'editDocument']
+    )->name('admin.swag.documents.edit');
+    Route::get(
+        '/admin/swag-documents/delete-document/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'deleteDocument']
+    )->name('admin.swag.documents.delete');
+    Route::post(
+        '/admin/swag-documents/upload-image',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'uploadImage']
+    )->name('admin.swag.documents.uploadimage');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'groups']
+    )->name('admin.swag.groups');
+    Route::any(
+        '/admin/swag-documents/groups/{docid}/add-group',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'addGroup']
+    )->name('admin.swag.groups.add');
+    Route::any(
+        '/admin/swag-documents/groups/{docid}/edit-group/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'editGroup']
+    )->name('admin.swag.groups.edit');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}/delete-group/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'deleteGroup']
+    )->name('admin.swag.groups.delete');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}/status-group/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'statusGroup']
+    )->name('admin.swag.groups.status');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'methods']
+    )->name('admin.swag.methods');
+    Route::any(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}/add-method',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'addMethod']
+    )->name('admin.swag.methods.add');
+    Route::any(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}/edit-method/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'editMethod']
+    )->name('admin.swag.methods.edit');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}/delete-method/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'deleteMethod']
+    )->name('admin.swag.methods.delete');
+    Route::get(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}/status-method/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'statusMethod']
+    )->name('admin.swag.methods.status');
+    Route::any(
+        '/admin/swag-documents/groups/{docid}/methods/{gid}/move-method/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'moveMethod']
+    )->name('admin.swag.methods.move');
 });
 
 // Template (no auth)
@@ -222,6 +287,18 @@ Route::any(
     '/procesio/partners/edit/{id}',
     [App\Http\Controllers\Procesio\ProcesioController::class, 'partnersEdit']
 )->name('procesio.partners.edit');
+
+// Swag
+Route::name('swag.')->group(function () {
+    Route::get(
+        '/swag',
+        [App\Http\Controllers\Swag\DocumentsController::class, 'index']
+    )->name('home');
+    Route::get(
+        '/swag/{slug}',
+        [App\Http\Controllers\Swag\DocumentsController::class, 'document']
+    )->name('document');
+});
 
 // Articles
 Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'index'])->name('front.category');

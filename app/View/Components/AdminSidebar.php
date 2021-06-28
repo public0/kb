@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Newsletter;
+use App\Models\SwagDocument;
 use App\Models\TemplatePlaceholderGroup;
 use App\Models\TemplateType;
 use App\Models\User;
@@ -42,6 +43,7 @@ class AdminSidebar extends Component
             'subscribers' => Newsletter::count(),
             'tpl_types' => TemplateType::count(),
             'tpl_placeholders' => TemplatePlaceholderGroup::count(),
+            'swag_docs' => SwagDocument::count(),
             'current_user_name' => Auth::user()->full_name
         ];
 

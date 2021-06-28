@@ -26,6 +26,10 @@
     <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-aperture"></i></span>
     Configurator
 </a>
+<a class="dropdown-item d-flex" href="{{ route('swag.home') }}">
+    <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-book"></i></span>
+    Swag Documents
+</a>
 <a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">
     <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-log-out"></i></span>
     Sign Out
