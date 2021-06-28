@@ -261,32 +261,36 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Template (no auth)
-Route::any(
-    '/templates/open/{uid}',
-    [App\Http\Controllers\Tpl\TemplatesController::class, 'open']
-)->name('tpl.open');
-Route::post(
-    '/templates/upload-image',
-    [App\Http\Controllers\Tpl\TemplatesController::class, 'uploadImage']
-)->name('tpl.uploadimage');
-Route::get(
-    '/templates/delete-image/{uid}/{field}/{image}',
-    [App\Http\Controllers\Tpl\TemplatesController::class, 'deleteImage']
-)->name('tpl.deleteimage');
+Route::name('tpl.')->group(function () {
+    Route::any(
+        '/templates/open/{uid}',
+        [App\Http\Controllers\Tpl\TemplatesController::class, 'open']
+    )->name('open');
+    Route::post(
+        '/templates/upload-image',
+        [App\Http\Controllers\Tpl\TemplatesController::class, 'uploadImage']
+    )->name('uploadimage');
+    Route::get(
+        '/templates/delete-image/{uid}/{field}/{image}',
+        [App\Http\Controllers\Tpl\TemplatesController::class, 'deleteImage']
+    )->name('deleteimage');
+});
 
 // Procesio (req key)
-Route::any(
-    '/procesio',
-    [App\Http\Controllers\Procesio\ProcesioController::class, 'index']
-)->name('procesio.home');
-Route::any(
-    '/procesio/search',
-    [App\Http\Controllers\Procesio\ProcesioController::class, 'search']
-)->name('procesio.search');
-Route::any(
-    '/procesio/partners/edit/{id}',
-    [App\Http\Controllers\Procesio\ProcesioController::class, 'partnersEdit']
-)->name('procesio.partners.edit');
+Route::name('procesio.')->group(function () {
+    Route::any(
+        '/procesio',
+        [App\Http\Controllers\Procesio\ProcesioController::class, 'index']
+    )->name('home');
+    Route::any(
+        '/procesio/search',
+        [App\Http\Controllers\Procesio\ProcesioController::class, 'search']
+    )->name('search');
+    Route::any(
+        '/procesio/partners/edit/{id}',
+        [App\Http\Controllers\Procesio\ProcesioController::class, 'partnersEdit']
+    )->name('partners.edit');
+});
 
 // Swag
 Route::name('swag.')->group(function () {
@@ -300,16 +304,27 @@ Route::name('swag.')->group(function () {
     )->name('document');
 });
 
-// Articles
-Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'index'])->name('front.category');
-Route::any('/article/{id}', [App\Http\Controllers\ArticleController::class, 'index'])->name('front.article');
-Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('front.search');
-
-// Newsletter
-Route::any(
-    '/newsletter',
-    [App\Http\Controllers\NewsletterController::class, 'index']
-)->name('front.newsletter');
+// Frontend
+Route::name('front.')->group(function () {
+    // Articles
+    Route::get(
+        '/category/{id}',
+        [App\Http\Controllers\CategoryController::class, 'index']
+    )->name('category');
+    Route::any(
+        '/article/{id}',
+        [App\Http\Controllers\ArticleController::class, 'index']
+    )->name('article');
+    Route::get(
+        '/search',
+        [App\Http\Controllers\SearchController::class, 'index']
+    )->name('search');
+    // Newsletter
+    Route::any(
+        '/newsletter',
+        [App\Http\Controllers\NewsletterController::class, 'index']
+    )->name('newsletter');
+});
 
 // Auth
 Route::name('auth.')->group(function () {
@@ -329,12 +344,14 @@ Route::name('auth.')->group(function () {
 
 // API Token
 Route::middleware(['api_token'])->group(function () {
-    Route::get(
-        '/help/{api_token}/article/view/{id}',
-        [App\Http\Controllers\ArticleController::class, 'helpView']
-    )->name('help.articles.view');
-    Route::get(
-        '/help/{api_token}/search',
-        [App\Http\Controllers\SearchController::class, 'helpSearch']
-    )->name('help.articles.search');
+    Route::name('help.')->group(function () {
+        Route::get(
+            '/help/{api_token}/article/view/{id}',
+            [App\Http\Controllers\ArticleController::class, 'helpView']
+        )->name('articles.view');
+        Route::get(
+            '/help/{api_token}/search',
+            [App\Http\Controllers\SearchController::class, 'helpSearch']
+        )->name('articles.search');
+    });
 });
