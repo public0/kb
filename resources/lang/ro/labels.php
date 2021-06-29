@@ -32,6 +32,7 @@ return [
     'edit' => 'Editeaza',
     'delete' => 'Sterge',
     'move' => 'Muta',
+    'view' => 'Vezi',
     'email' => 'Email',
     'password' => 'Parola',
     'password_reset' => 'Reseteaza parola',

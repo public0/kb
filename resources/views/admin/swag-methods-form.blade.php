@@ -39,17 +39,17 @@
                                         <label class="form-label">Type</label>
                                         <select name="type" class="form-control">
                                             @foreach($types as $item)
-                                            <option value="{{ $item }}"@if($method && $method->type == $item) selected="selected" @endif>{{ $item }}</option>
+                                            <option value="{{ $item }}"@if(old('type', $method ? $method->type : null) == $item) selected="selected" @endif>{{ $item }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">URL</label>
-                                        <input type="text" name="url" placeholder="URL" class="form-control"  value="@if($method){{ $method->url }}@else{{ old('url') }}@endif" maxlength="255" />
+                                        <input type="text" name="url" placeholder="URL" class="form-control"  value="{{ old('url', $method ? $method->url : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
-                                        <input type="text" name="description" placeholder="Description" class="form-control" value="@if($method){{ $method->description }}@else{{ old('description') }}@endif" />
+                                        <input type="text" name="description" placeholder="Description" class="form-control" value="{{ old('description', $method ? $method->description : null) }}" />
                                     </div>
                                     <div class="form-group">
                                         <div class="row mb-3">
@@ -93,10 +93,10 @@
                                         <label class="form-label text-success">Output Success</label>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <input type="text" name="output_success[code]" placeholder="Code" class="form-control" value="@if($method){{ $method->output_success_data['code'] }}@else{{ old('output_success.code') }}@endif" />
+                                                <input type="text" name="output_success[code]" placeholder="Code" class="form-control" value="{{ old('output_success.code', $method ? $method->output_success_data['code'] : null) }}" />
                                             </div>
                                             <div class="col-sm-9">
-                                                <textarea name="output_success[content]" placeholder="Content" class="form-control" style="height:150px">@if($method){{ $method->output_success_data['content'] }}@else{{ old('output_success.content') }}@endif</textarea>
+                                                <textarea name="output_success[content]" placeholder="Content" class="form-control" style="height:150px">{{ old('output_success.content', $method ? $method->output_success_data['content'] : null) }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -104,22 +104,22 @@
                                         <label class="form-label text-danger">Output Error</label>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <input type="text" name="output_error[code]" placeholder="Code" class="form-control" value="@if($method){{ $method->output_error_data['code'] }}@else{{ old('output_error.code') }}@endif" />
+                                                <input type="text" name="output_error[code]" placeholder="Code" class="form-control" value="{{ old('output_error.code', $method ? $method->output_error_data['code'] : null) }}" />
                                             </div>
                                             <div class="col-sm-9">
-                                                <textarea name="output_error[content]" placeholder="Content" class="form-control" style="height:150px">@if($method){{ $method->output_error_data['content'] }}@else{{ old('output_error.content') }}@endif</textarea>
+                                                <textarea name="output_error[content]" placeholder="Content" class="form-control" style="height:150px">{{ old('output_error.content', $method ? $method->output_error_data['content'] : null) }}</textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Notes</label>
-                                        <textarea name="notes" class="form-control mb-4" placeholder="Notes" style="height:150px">@if($method){{ $method->notes }}@else{{ old('notes') }}@endif</textarea>
+                                        <textarea name="notes" class="form-control mb-4" placeholder="Notes" style="height:150px">{{ old('notes', $method ? $method->notes : null) }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if($method && $method->status == 1) selected="selected" @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if($method && $method->status == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
+                                            <option value="1"@if(old('status', $method ? $method->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                            <option value="0"@if(old('status', $method ? $method->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
                                         </select>
                                     </div>
                                 </div>

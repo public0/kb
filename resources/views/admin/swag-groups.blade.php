@@ -54,8 +54,8 @@
                                     @foreach($groups as $item)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('admin.swag.methods', ['docid' => $document->id, 'gid' => $item->id]) }}">{{ $item->name }}</a>
-                                            <span class="badge badge-info pull-right" title="Methods">{{ $item->methods()->count() }}</span>
+                                            <a href="{{ route('admin.swag.methods', ['docid' => $document->id, 'gid' => $item->id]) }}" class="text-primary">{{ $item->name }}</a>
+                                            <span class="badge badge-danger pull-right" title="Methods">{{ $item->methods()->count() }}</span>
                                         </td>
                                         <td class="table-col-shrink text-center">
                                             <a href="{{ route('admin.swag.groups.status', ['docid' => $document->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>

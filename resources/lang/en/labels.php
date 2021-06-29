@@ -32,6 +32,7 @@ return [
     'edit' => 'Edit',
     'delete' => 'Delete',
     'move' => 'Move',
+    'view' => 'View',
     'email' => 'Email',
     'password' => 'Password',
     'password_reset' => 'Password Reset',

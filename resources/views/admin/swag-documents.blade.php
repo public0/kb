@@ -53,14 +53,15 @@
                                     @foreach($documents as $item)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('admin.swag.groups', ['docid' => $item->id]) }}">{{ $item->name }}</a>
+                                            <a href="{{ route('admin.swag.groups', ['docid' => $item->id]) }}" class="text-primary">{{ $item->name }}</a>
                                         </td>
                                         <td class="table-col-shrink text-center">{{ $item->version }}</td>
                                         <td>
-                                            <a href="{{ $item->url }}" target="_blank">{{ $item->url }}</a>
+                                            <a href="{{ $item->url }}@if($item->version_in_url)/{{ $item->version }}@endif" target="_blank">{{ $item->url }}@if($item->version_in_url)<span class="text-info">/{{ $item->version }}</span>@endif</a>
                                         </td>
                                         <td class="table-col-shrink text-center">
                                             <a href="{{ route('admin.swag.documents.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                            <a href="{{ route('swag.document', ['slug' => $item->slug]) }}" target="_blank" class="btn btn-sm btn-info mr-2"><i class="fe fe-book-open mr-1"></i> {{ __('labels.view') }}</a>
                                             <a href="{{ route('admin.swag.documents.delete', ['id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
                                         </td>
                                     </tr>

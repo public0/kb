@@ -38,7 +38,7 @@
                                         <label class="form-label">Group</label>
                                         <select name="group_id" class="form-control custom-select select2">
                                             @foreach($groups as $item)
-                                            <option value="{{ $item->id }}"@if($method && $method->group_id == $item->id) selected="selected" @endif>{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}"@if($method->group_id == $item->id) selected="selected" @endif>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

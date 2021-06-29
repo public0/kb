@@ -27,7 +27,7 @@
     Configurator
 </a>
 <a class="dropdown-item d-flex" href="{{ route('swag.home') }}">
-    <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-book"></i></span>
+    <span class="header-icon" style="display:inline-block; line-height:25px"><i class="fe fe-cloud"></i></span>
     Swag Documents
 </a>
 <a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">

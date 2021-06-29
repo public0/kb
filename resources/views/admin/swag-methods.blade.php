@@ -56,7 +56,9 @@
                                     <tbody>
                                     @foreach($methods as $item)
                                     <tr>
-                                        <td class="table-col-shrink text-center">{{ $item->type }}</td>
+                                        <td class="table-col-shrink text-center">
+                                            <span class="badge-type badge-type-{{ strtolower($item->type) }}">{{ $item->type }}</span>
+                                        </td>
                                         <td>{{ $item->url }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td class="table-col-shrink text-center">
@@ -82,3 +84,34 @@
         </div>
     </div>
 @endsection
+
+@push('head-styles')
+<style type="text/css">
+.badge-type {
+    color: #705ec8;
+    border: 1px solid #705ec8;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+.badge-type-get {
+    color: #5b7fff;
+    border-color: #5b7fff;
+}
+.badge-type-post {
+    color: #38cb89;
+    border-color: #38cb89;
+}
+.badge-type-put {
+    color: #fc7303;
+    border-color: #fc7303;
+}
+.badge-type-patch {
+    color: #06c0d9;
+    border-color: #06c0d9;
+}
+.badge-type-delete {
+    color: #ef4b4b;
+    border-color: #ef4b4b;
+}
+</style>
+@endpush

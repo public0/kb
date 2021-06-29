@@ -34,29 +34,28 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Name</label>
-                                        {{-- @if(old('name')){{ old('name') }}@elseif($document){{ $document->name }}@endif --}}
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="@if($document){{ $document->name }}@else{{ old('name') }}@endif" maxlength="255" />
+                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $document ? $document->name : null) }}" maxlength="255" />
                                     </div>
                                     @if($document)
                                     <div class="form-group">
-                                        <label class="form-label">Slug <i class="fe fe-info text-primary" title="If you want to generate this value leave blank!"></i></label>
-                                        <input type="text" name="slug" placeholder="Slug" class="form-control" value="@if(old('slug')){{ old('slug') }}@else{{ $document->slug }}@endif" maxlength="255" />
+                                        <label class="form-label">Slug <i class="fe fe-info text-primary" title="{{ __('If you want to generate this value leave blank!') }}"></i></label>
+                                        <input type="text" name="slug" placeholder="Slug" class="form-control" value="{{ old('slug', $document->slug) }}" maxlength="255" />
                                     </div>
                                     @endif
                                     <div class="form-group">
                                         <label class="form-label">URL</label>
-                                        <input type="text" name="url" placeholder="URL" class="form-control" required="required" value="@if($document){{ $document->url }}@else{{ old('url') }}@endif" maxlength="255" />
+                                        <input type="text" name="url" placeholder="URL" class="form-control" required="required" value="{{ old('url', $document ? $document->url : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Version</label>
-                                        <input type="text" name="version" placeholder="Version" class="form-control" required="required" value="@if($document){{ $document->version }}@else{{ old('version') }}@endif" maxlength="255" />
+                                        <input type="text" name="version" placeholder="Version" class="form-control" required="required" value="{{ old('version', $document ? $document->version : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="version_in_url" value="0" />
-                                        <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="version_in_url" value="1" @if($document && $document->version_in_url == 1) checked="checked" @endif /><span class="custom-control-label">Version in URL</span></label>
+                                        <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="version_in_url" value="1" @if(old('version_in_url') || ($document && $document->version_in_url == 1)) checked="checked" @endif /><span class="custom-control-label">Version in URL</span></label>
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="description" id="tinymce" class="form-control mb-4" placeholder="Description" style="height:200px">@if($document){{ $document->description }}@else{{ old('description') }}@endif</textarea>
+                                        <textarea name="description" id="tinymce" class="form-control mb-4" placeholder="Description" style="height:200px">{{ old('description', $document ? $document->description : null) }}</textarea>
                                     </div>
                                 </div>
                             </div>
