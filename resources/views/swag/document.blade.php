@@ -260,6 +260,9 @@
         margin-bottom: 0;
         background-color: #282d3c;
         color: #fff;
+        padding: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
     }
     pre .json-number {
         color: #06c0d9;
