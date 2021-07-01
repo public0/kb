@@ -96,7 +96,7 @@
                                                 <input type="text" name="output_success[code]" placeholder="Code" class="form-control" value="{{ old('output_success.code', $method ? $method->output_success_data['code'] : null) }}" />
                                             </div>
                                             <div class="col-sm-9">
-                                                <textarea name="output_success[content]" placeholder="Content" class="form-control" style="height:150px">{{ old('output_success.content', $method ? $method->output_success_data['content'] : null) }}</textarea>
+                                                <textarea name="output_success[content]" placeholder="Content" class="form-control text-monospace" style="height:150px">{{ old('output_success.content', $method ? $method->output_success_data['content'] : null) }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@
                                                 <input type="text" name="output_error[code]" placeholder="Code" class="form-control" value="{{ old('output_error.code', $method ? $method->output_error_data['code'] : null) }}" />
                                             </div>
                                             <div class="col-sm-9">
-                                                <textarea name="output_error[content]" placeholder="Content" class="form-control" style="height:150px">{{ old('output_error.content', $method ? $method->output_error_data['content'] : null) }}</textarea>
+                                                <textarea name="output_error[content]" placeholder="Content" class="form-control text-monospace" style="height:150px">{{ old('output_error.content', $method ? $method->output_error_data['content'] : null) }}</textarea>
                                             </div>
                                         </div>
                                     </div>

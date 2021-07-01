@@ -32,7 +32,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-12">
-            <textarea name="parameters[{{ $key }}][content]" placeholder="Content" class="form-control" style="height:150px">@if(isset($param)){{ $param['content'] }}@endif</textarea>
+            <textarea name="parameters[{{ $key }}][content]" placeholder="Content" class="form-control text-monospace" style="height:150px">@if(isset($param)){{ $param['content'] }}@endif</textarea>
         </div>
     </div>
 </div>

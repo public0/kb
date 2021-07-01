@@ -7,7 +7,8 @@
     <div class="page-leftheader">
         <h4 class="page-title mb-0">{{ $document->name }}</h4>
         <div class="text-muted">Version: <strong class="text-info">{{ $document->version }}</strong></div>
-        <div class="text-muted">Base URL: {{ $document->url }}</div>
+        <div class="text-muted">Schema: <select class="small-control" id="DocumentSchemaURL"><option value="http">HTTP</option><option value="https">HTTPS</option></select></div>
+        <div class="text-muted">Base URL: <input type="text" class="small-control" id="DocumentBaseURL" value="{{ $document->url }}" style="width:150px" /></div>
     </div>
 </div>
 @endsection
@@ -16,7 +17,7 @@
 <div class="card">
 <div class="panel panel-primary">
     <div class=" tab-menu-heading p-0 bg-light">
-        <div class="tabs-menu1 ">
+        <div class="tabs-menu1">
             <ul class="nav panel-tabs">
                 <li><a href="#tabIntro" data-toggle="tab" class="active">Intro</a></li>
                 @if(count($document->groups))<li><a href="#tabMethods" data-toggle="tab">Methods</a></li>@endif
@@ -32,7 +33,7 @@
             <div class="tab-pane" id="tabMethods">
                 <div class="panel-group accordion-panel" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-groups">
-                       @foreach($document->groups as $group)
+                        @foreach($document->groups as $group)
                         <div class="panel-heading" role="tab" id="g{{ $group->id }}">
                             <h4 class="panel-title">
                                 <p role="button" data-toggle="collapse" href="#gc{{ $group->id }}" aria-expanded="true" aria-controls="gc{{ $group->id }}" class="collapsed">
@@ -50,7 +51,7 @@
                                             <h4 class="panel-title">
                                                 <p role="button" data-toggle="collapse" href="#mc{{ $method->id }}" aria-expanded="true" aria-controls="mc{{ $method->id }}" class="collapsed">
                                                     <span class="badge-type mr-3">{{ $method->type }}</span>
-                                                    <span class="text-monospace">@if($document->version_in_url && $document->version)/{{ $document->version }}@endif{{ $method->url }}</span>
+                                                    <span class="text-monospace">@if($document->version_in_url)/{{ $document->version }}@endif{{ $method->url }}</span>
                                                     @if(isset($method->description))<span class="pull-right mt-1"><i class="fe fe-info fs-18" title="{{ $method->description }}" role="help"></i></span>@endif
                                                 </p>
                                             </h4>
@@ -88,6 +89,10 @@
                                                     </tbody>
                                                 </table>
                                                 @endif
+                                                <div class="document-full-url d-none">
+                                                <div class="section-title fs-14 mt-6">Request URL</div>
+                                                <div class="pre text-monospace"><span></span>@if($document->version_in_url)/{{ $document->version }}@endif{{ $method->url }}</div>
+                                                </div>
                                                 @if(!empty($method->output_success_data['code'])
                                                     || !empty($method->output_success_data['content'])
                                                     || !empty($method->output_error_data['code'])
@@ -126,7 +131,7 @@
                                                 </table>
                                                 @endif
                                                 @if($method->notes)
-                                                <div class="d-flex align-items-start mt-auto fs-14"><i class="fe fe-book-open fs-16 mt-1 mr-3 text-primary"></i>{{ $method->notes }}</div>
+                                                <div class="d-flex align-items-start mt-auto fs-14"><i class="fe fe-book-open fs-16 mt-1 mr-3 text-primary"></i>{!! nl2br($method->notes) !!}</div>
                                                 @endif
                                             </div>
                                         </div>
@@ -149,6 +154,18 @@
 
 @push('head-styles')
 <style type="text/css">
+    .small-control {
+        padding: 0 2px;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 1px solid #705ec8;
+        background: transparent;
+        font-size: 13px;
+    }
+    .small-control:focus {
+        outline: none;
+    }
     .panel-groups > .panel-heading {
         padding: 0;
         border-radius: 0;
@@ -255,7 +272,14 @@
     [role="help"] {
         cursor: help;
     }
-    pre {
+    .pre {
+        border-radius: 3px;
+        font-size: 85%;
+        line-height: 1.45;
+        tab-size: 4;
+        hyphens: none;
+    }
+    pre, .pre {
         border-left: 0;
         margin-bottom: 0;
         background-color: #282d3c;
@@ -278,6 +302,9 @@
     }
     pre .json-comments {
         color: #a9a9a9;
+    }
+    code {
+        font-size: 100%;
     }
 </style>
 @endpush
@@ -311,6 +338,33 @@ function commentHighlight(json) {
         return '<span class="json-comments">' + match + '</span>';
     });
 }
+function documentURLData() {
+    var fullObj = $('.document-full-url');
+    var schemaObj = $('#DocumentSchemaURL');
+    var schema = schemaObj.val();
+    var baseObj = $('#DocumentBaseURL');
+    var base = baseObj.val().toLowerCase();
+    fullObj.addClass('d-none');
+    if (schema && base) {
+        var schemaOptions = $.map($('option', schemaObj), function (option) {
+            return option.value;
+        });
+        if (!base.includes('://')) {
+            base = schema + '://' + base;
+        }
+        var parser = document.createElement('a');
+        parser.href = base;
+        var sch = parser.protocol.replace(':', '');
+        if (schemaOptions.includes(sch)) {
+            schema = sch;
+            schemaObj.val(schema);
+        }
+        base = parser.hostname;
+        baseObj.val(base);
+        $('.pre span', fullObj).text(schema + '://' + base);
+        fullObj.removeClass('d-none');
+    }
+}
 $(document).ready(function () {
     $('pre').each(function (k, v) {
         var txt = $(v).text();
@@ -322,6 +376,11 @@ $(document).ready(function () {
         txt = commentHighlight(txt);
         $(v).html(txt);
     });
+    $('#DocumentSchemaURL, #DocumentBaseURL').on('change', function (e) {
+        e.preventDefault();
+        documentURLData();
+    });
+    documentURLData();
 });
 </script>
 @endpush
