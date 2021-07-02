@@ -299,6 +299,10 @@ Route::name('swag.')->group(function () {
         [App\Http\Controllers\Swag\DocumentsController::class, 'index']
     )->name('home');
     Route::get(
+        '/swag/search',
+        [App\Http\Controllers\Swag\DocumentsController::class, 'search']
+    )->name('search');
+    Route::get(
         '/swag/{slug}',
         [App\Http\Controllers\Swag\DocumentsController::class, 'document']
     )->name('document');

@@ -10,7 +10,7 @@
                 <img src="{{ url('/th/assets/images/brand/favicon1.png') }}" class="header-brand-img darkmobile-logo" alt="{{ config('app.name') }}">
             </a>
             <div class="mt-1">
-                <form class="form-inline" method="get" action="{{ route('front.search') }}">
+                <form class="form-inline" method="get" action="{{ route('swag.search') }}">
                     <div class="search-element">
                         <input type="search" class="form-control header-search" placeholder="{{ __('labels.search') }}..." aria-label="{{ __('labels.search') }}" tabindex="1" name="q" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{ request()->input('q') }}" />
                         <button class="btn btn-primary-color" type="submit">
