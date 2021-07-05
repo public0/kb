@@ -35,13 +35,13 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="@if($subtype){{ $subtype->name }}@endif" maxlength="255" />
+                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $subtype ? $subtype->name : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Type</label>
                                         <select name="type_id" class="form-control custom-select select2">
                                             @foreach($types as $item)
-                                            <option value="{{ $item->id }}"@if($subtype && $subtype->type_id == $item->id) selected @endif>{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}"@if(old('type_id', $subtype ? $subtype->type_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -53,8 +53,8 @@
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if($subtype && $subtype->status == 1) selected @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if($subtype && $subtype->status == 0) selected @endif>{{ __('status.inactive') }}</option>
+                                            <option value="1"@if(old('status', $subtype ? $subtype->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                            <option value="0"@if(old('status', $subtype ? $subtype->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
                                         </select>
                                     </div>
                                 </div>

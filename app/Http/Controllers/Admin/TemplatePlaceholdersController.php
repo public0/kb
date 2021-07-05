@@ -19,7 +19,7 @@ class TemplatePlaceholdersController extends Controller
 
     public function index(Request $request)
     {
-        $groups = new TemplatePlaceholderGroup();
+        $groups = TemplatePlaceholderGroup::select();
         $filters = ['type' => null, 'status' => null];
         if ($request->isMethod('get')) {
             if ($request->filled('type')) {

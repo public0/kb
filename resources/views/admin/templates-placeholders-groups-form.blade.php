@@ -35,13 +35,13 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="@if($group){{ $group->name }}@endif" maxlength="255" />
+                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $group ? $group->name : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Type</label>
                                         <select name="type_id" class="form-control custom-select select2">
                                             @foreach($types as $type)
-                                            <option value="{{ $type->id }}"@if($group && $group->type_id == $type->id) selected @endif>{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}"@if(old('type_id', $group ? $group->type_id : null) == $type->id) selected="selected" @endif>{{ $type->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -49,15 +49,15 @@
                                         <label class="form-label">Subtypes</label>
                                         <select name="subtypes_ids[]" id="subtypesIds" class="form-control" multiple>
                                             @foreach($subtypes as $subtype)
-                                            <option value="{{ $subtype->id }}"@if($group && in_array($subtype->id, $group->all_subtypes)) selected @endif>{{ $subtype->name }}</option>
+                                            <option value="{{ $subtype->id }}"@if($group && in_array($subtype->id, $group->all_subtypes)) selected="selected" @endif>{{ $subtype->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if($group && $group->status == 1) selected @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if($group && $group->status == 0) selected @endif>{{ __('status.inactive') }}</option>
+                                            <option value="1"@if(old('status', $group ? $group->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                            <option value="0"@if(old('status', $group ? $group->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
                                         </select>
                                     </div>
                                 </div>
