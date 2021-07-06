@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <title>{{ $pageTitle }} - {{ config('app.name') }}</title>
     <meta name='viewport' content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="icon" href="<?php echo URL::to('/th/assets/images/brand/favicon.png'); ?>" type="image/x-icon" />
+    <link rel="icon" href="{{ url('/th/assets/images/brand/favicon.png') }}" type="image/x-icon" />
     <!--Bootstrap css -->
-    <link href="<?php echo URL::to('/th/assets/plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" />
+    <link href="{{ url('/th/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
     <!-- Style css -->
-    <link href="<?php echo URL::to('/th/assets/css/style.css'); ?>" rel="stylesheet" />
-    <link href="<?php echo URL::to('/th/assets/css/dark.css'); ?>" rel="stylesheet" />
-    <link href="<?php echo URL::to('/th/assets/css/skin-modes.css'); ?>" rel="stylesheet" />
+    <link href="{{ url('/th/assets/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ url('/th/assets/css/dark.css') }}" rel="stylesheet" />
+    <link href="{{ url('/th/assets/css/skin-modes.css') }}" rel="stylesheet" />
     <!--Sidemenu css -->
-    <link href="<?php echo URL::to('/th/assets/css/closed-sidemenu.css'); ?>" rel="stylesheet" />
+    <link href="{{ url('/th/assets/css/closed-sidemenu.css') }}" rel="stylesheet" />
     <!-- P-scroll bar css-->
-    <link href="<?php echo URL::to('/th/assets/plugins/p-scrollbar/p-scrollbar.css'); ?>" rel="stylesheet" />
+    <link href="{{ url('/th/assets/plugins/p-scrollbar/p-scrollbar.css') }}" rel="stylesheet" />
     <!---Icons css-->
-    <link href="<?php echo URL::to('/th/assets/css/icons.css'); ?>" rel="stylesheet" />
+    <link href="{{ url('/th/assets/css/icons.css') }}" rel="stylesheet" />
     <!-- Color Skin css -->
-    <link id="theme" href="<?php echo URL::to('/th/assets/colors/color1.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo URL::to('/admin.css'); ?>" rel="stylesheet" type="text/css" />
+    <link id="theme" href="{{ url('/th/assets/colors/color1.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('/admin.css') }}" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .alert {
             position: fixed;
@@ -109,8 +109,8 @@
         <aside class="app-sidebar ps ps--active-y">
             <div class="app-sidebar__logo">
                 <a class="header-brand" href="{{ route('front.home') }}">
-                    <img src="<?php echo URL::to('/th/assets/images/brand/logo.png'); ?>" class="header-brand-img desktop-lgo" alt="{{ config('app.name') }}">
-                    <img src="<?php echo URL::to('/th/assets/images/brand/logo1.png'); ?>" class="header-brand-img dark-logo" alt="{{ config('app.name') }}">
+                    <img src="{{ url('/th/assets/images/brand/logo.png') }}" class="header-brand-img desktop-lgo" alt="{{ config('app.name') }}">
+                    <img src="{{ url('/th/assets/images/brand/logo1.png') }}" class="header-brand-img dark-logo" alt="{{ config('app.name') }}">
                 </a>
             </div>
             <ul class="side-menu app-sidebar3">
@@ -144,10 +144,10 @@
                             <div class="card-buttons">
                                 @if($languages->isNotEmpty())
                                 <div class="dropdown">
-                                    <a href="#" class="nav-link pl-0 pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"><span><img src="<?php echo URL::to('/th/assets/images/langs/' . strtolower($selectedLanguage) . '.png'); ?>" alt="{{ $selectedLanguage }}" class="brround" /></span></a>
+                                    <a href="#" class="nav-link pl-0 pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"><span><img src="{{ url('/th/assets/images/langs/' . strtolower($selectedLanguage) . '.png') }}" alt="{{ $selectedLanguage }}" class="brround" /></span></a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
                                         @foreach($languages as $lng)
-                                        @if($selectedLanguage != $lng->abv)<a class="dropdown-item d-flex" href="javascript:void(0)" onclick="changeLang('{{ $lng->abv }}')"><img src="<?php echo URL::to('/th/assets/images/langs/' . $lng->abv . '.png'); ?>" alt="{{ $lng->name }}" class="brround" /> {{ $lng->name }}</a>@endif
+                                        @if($selectedLanguage != $lng->abv)<a class="dropdown-item d-flex" href="javascript:void(0)" onclick="changeLang('{{ $lng->abv }}')"><img src="{{ url('/th/assets/images/langs/' . $lng->abv . '.png') }}" alt="{{ $lng->name }}" class="brround" /> {{ $lng->name }}</a>@endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -220,16 +220,16 @@
     </div>
 </div>
 <!-- Jquery js-->
-<script src="<?php echo URL::to('/th/assets/js/jquery-3.5.1.min.js'); ?>"></script>
+<script src="{{ url('/th/assets/js/jquery-3.5.1.min.js') }}"></script>
 <!-- Bootstrap4 js-->
-<script src="<?php echo URL::to('/th/assets/plugins/bootstrap/popper.min.js'); ?>"></script>
-<script src="<?php echo URL::to('/th/assets/plugins/bootstrap/js/bootstrap.min.js'); ?>"></script>
+<script src="{{ url('/th/assets/plugins/bootstrap/popper.min.js') }}"></script>
+<script src="{{ url('/th/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 <!--Sidemenu js-->
-<script src="<?php echo URL::to('/th/assets/plugins/sidemenu/sidemenu.js'); ?>"></script>
+<script src="{{ url('/th/assets/plugins/sidemenu/sidemenu.js') }}"></script>
 <!-- P-scroll js-->
-<script src="<?php echo URL::to('/th/assets/plugins/p-scrollbar/p-scrollbar.js'); ?>"></script>
-<script src="<?php echo URL::to('/th/modals.js'); ?>"></script>
-<script src="<?php echo URL::to('/script.js'); ?>"></script>
+<script src="{{ url('/th/assets/plugins/p-scrollbar/p-scrollbar.js') }}"></script>
+<script src="{{ url('/th/modals.js') }}"></script>
+<script src="{{ url('/script.js') }}"></script>
 <script src="https://cdn.tiny.cloud/1/9n1b0elpd20obpyx38wu9ffiokuiqd1ldwot2t8g0pl0lys9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script type="text/javascript">
     var uploadURL = '{{ route('tpl.uploadimage') }}';
