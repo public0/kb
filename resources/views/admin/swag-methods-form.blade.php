@@ -57,8 +57,8 @@
                                                 <label class="form-label">Parameters</label>
                                             </div>
                                             <div class="col-4 text-right">
-                                                <button type="button" class="btn btn-sm btn-success btn-add-param"><i class="fe fe-plus"></i></button>
-                                                <button type="button" class="btn btn-sm btn-danger btn-delete-param"><i class="fe fe-minus"></i></button>
+                                                <button type="button" class="btn btn-sm btn-success btn-add-param" title="{{ __('Add parameter') }}"><i class="fe fe-plus"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger btn-delete-param" title="{{ __('Delete last parameter') }}"><i class="fe fe-minus"></i></button>
                                             </div>
                                         </div>
                                         <div id="TplParams">
@@ -139,22 +139,52 @@
 
 @push('body-scripts')
 <script>
+    function checkParamsNumber() {
+        if ($('.params-template').length > 1) {
+            $('.btn-delete-one-param').removeClass('invisible');
+        } else {
+            $('.btn-delete-one-param').addClass('invisible');
+        }
+    }
+    function renameParam(html, nr) {
+        return html.replace(/\[\d\]/g, '[' + nr + ']');
+    }
     $(document).ready(function() {
         var html = $('.params-template:first').html();
         html = '<div class="params-template">' + html + '</div>';
         $('.btn-add-param').on('click', function (e) {
             e.preventDefault();
             var nr = $('.params-template').length;
-            $('#TplParams').append(html.replace(/\[0\]/g, '[' + nr + ']'));
-            $('.params-template [name^="parameters[' + nr + ']"]').val('').prop('selected', false).prop('checked', false);
+            $('#TplParams').append(renameParam(html, nr));
+            var obj = $('.params-template [name^="parameters[' + nr + ']"]');
+            obj.val('').removeAttr('value').removeAttr('checked');
+            $('option', obj).removeAttr('selected');
+            checkParamsNumber();
         });
         $('.btn-delete-param').on('click', function (e) {
             e.preventDefault();
             var nr = $('.params-template').length;
             if (nr > 1) {
                 $('.params-template:last').remove();
+                checkParamsNumber();
             }
         });
+        $('#TplParams').on('click', '.btn-delete-one-param', function (e) {
+            e.preventDefault();
+            var nr = $('.params-template').length;
+            if (nr > 1) {
+                $(this).closest('.params-template').remove();
+                $('.params-template').each(function (k, pt) {
+                    var fl = $('.form-label', pt);
+                    fl.text(renameParam(fl.text(), k));
+                    $('input, select, textarea', pt).each(function (i, fc) {
+                        $(fc).attr('name', renameParam($(fc).attr('name'), k));
+                    });
+                });
+                checkParamsNumber();
+            }
+        });
+        checkParamsNumber();
     });
 </script>
 @endpush

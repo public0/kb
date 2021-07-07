@@ -27,7 +27,7 @@
     <!---Icons css-->
     <link href="{{ url('/th/assets/css/icons.css') }}" rel="stylesheet" />
     <!-- Simplebar css -->
-    <link rel="stylesheet" href="{{ url('/th/assets/plugins/simplebar/css/simplebar.css') }}">
+    {{-- <link rel="stylesheet" href="{{ url('/th/assets/plugins/simplebar/css/simplebar.css') }}"> --}}
     <!-- Color Skin css -->
     <link id="theme" href="{{ url('/th/assets/colors/color1.css') }}" rel="stylesheet" type="text/css" />
     <!-- endinject -->

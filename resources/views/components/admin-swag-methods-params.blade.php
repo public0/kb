@@ -1,5 +1,12 @@
 <div class="params-template">
-    <label class="form-label">Param [{{ $key }}]</label>
+    <div class="row mb-3">
+        <div class="col-8">
+            <label class="form-label">Param [{{ $key }}]</label>
+        </div>
+        <div class="col-4 text-right">
+            <button type="button" class="btn btn-sm btn-danger btn-delete-one-param" title="{{ __('Delete parameter') }}"><i class="fe fe-minus"></i></button>
+        </div>
+    </div>
     <div class="row mb-3">
         <div class="col-sm-5">
             <input type="text" name="parameters[{{ $key }}][name]" placeholder="Name" class="form-control" value="@if(isset($param)){{ $param['name'] }}@endif" />

@@ -1,4 +1,4 @@
-@extends('swag.index')
+@extends('layouts.swag')
 
 @section('title', __('labels.search_results'))
 
