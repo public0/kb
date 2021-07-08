@@ -35,7 +35,7 @@
                             <div class="row row-sm">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="form-label">Name</label>
+                                        <label class="form-label">Name <span class="text-danger">*</span></label>
                                         <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $group ? $group->name : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">

@@ -51,8 +51,9 @@
                                             <h4 class="panel-title">
                                                 <p role="button" data-toggle="collapse" href="#mc{{ $method->id }}" aria-expanded="true" aria-controls="mc{{ $method->id }}" class="collapsed">
                                                     <span class="badge-type mr-3">{{ $method->type }}</span>
-                                                    <span class="text-monospace">@if($document->version_in_url)/{{ $document->version }}@endif{{ $method->url }}</span>
+                                                    <span class="text-monospace desc">@if($document->version_in_url)/{{ $document->version }}@endif{{ $method->url }}</span>
                                                     @if(isset($method->description))<span class="pull-right mt-1"><i class="fe fe-info fs-18" title="{{ $method->description }}" role="help"></i></span>@endif
+                                                    @if($method->stage)<span class="badge-stage pull-right mr-3">{{ $method->stage_name }}</span>@endif
                                                 </p>
                                             </h4>
                                         </div>
@@ -230,6 +231,12 @@
         font-weight: bold;
         color: #fff;
     }
+    .panel-methods > .panel-heading .panel-title p:after {
+        display: block;
+        clear: both;
+        content: "";
+    }
+    .panel-methods > .panel-heading .panel-title .badge-stage,
     .panel-methods > .panel-heading .panel-title .badge-type {
         font-weight: bold;
         border: 1px solid #fff;
@@ -238,6 +245,9 @@
         width: 86px;
         padding: 4px;
         text-align: center;
+    }
+    .panel-methods > .panel-heading .panel-title .badge-stage {
+        width: 110px;
     }
     .panel-methods > .panel-heading + .panel-collapse > .panel-body {
         border: 1px solid #705ec8;
@@ -305,6 +315,14 @@
     }
     code {
         font-size: 100%;
+    }
+    /* Just for XS */
+    @media (max-width: 575px) {
+        .panel-methods > .panel-heading .panel-title .desc {
+            display: block;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
     }
 </style>
 @endpush

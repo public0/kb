@@ -50,6 +50,7 @@
                                         <th class="wd-15p border-bottom-0">URL</th>
                                         <th class="wd-15p border-bottom-0">Description</th>
                                         <th class="wd-15p border-bottom-0 text-center">Status</th>
+                                        <th class="wd-15p border-bottom-0 text-center">Stage</th>
                                         <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
                                     </tr>
                                     </thead>
@@ -64,6 +65,7 @@
                                         <td class="table-col-shrink text-center">
                                             <a href="{{ route('admin.swag.methods.status', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
                                         </td>
+                                        <td class="table-col-shrink">{{ $item->stage_name }}</td>
                                         <td class="table-col-shrink text-center">
                                             <a href="{{ route('admin.swag.methods.edit', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
                                             <a href="{{ route('admin.swag.methods.move', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-primary mr-2"><i class="fe fe-move mr-1"></i> {{ __('labels.move') }}</a>

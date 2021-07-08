@@ -263,7 +263,7 @@ class SwagDocumentsController extends Controller
 
     private $methodTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
     private $paramsLocations = ['header', 'body', 'query', 'path'];
-    private $paramsTypes = ['string', 'integer', 'object', 'base64'];
+    private $paramsTypes = ['string', 'integer', 'float', 'double', 'object', 'base64'];
 
     public function methods($docid, $gid)
     {
@@ -290,7 +290,8 @@ class SwagDocumentsController extends Controller
                     'description',
                     'url',
                     'notes',
-                    'status'
+                    'status',
+                    'stage'
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
@@ -312,6 +313,7 @@ class SwagDocumentsController extends Controller
             'document' => SwagDocument::where('id', $docid)->first(),
             'group' => SwagGroup::where('id', $gid)->first(),
             'types' => $this->methodTypes,
+            'stages' => (new SwagMethod)->stages,
             'paramsLocations' => $this->paramsLocations,
             'paramsTypes' => $this->paramsTypes,
             'method' => null
@@ -336,7 +338,8 @@ class SwagDocumentsController extends Controller
                     'description',
                     'url',
                     'notes',
-                    'status'
+                    'status',
+                    'stage'
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
@@ -358,6 +361,7 @@ class SwagDocumentsController extends Controller
             'document' => SwagDocument::where('id', $docid)->first(),
             'group' => SwagGroup::where('id', $gid)->first(),
             'types' => $this->methodTypes,
+            'stages' => (new SwagMethod)->stages,
             'paramsLocations' => $this->paramsLocations,
             'paramsTypes' => $this->paramsTypes,
             'method' => $method->first()

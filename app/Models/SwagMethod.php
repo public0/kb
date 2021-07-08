@@ -25,7 +25,14 @@ class SwagMethod extends Model
         'output_success',
         'output_error',
         'notes',
-        'status'
+        'status',
+        'stage'
+    ];
+
+    public $stages = [
+        1 => 'In defining',
+        2 => 'In development',
+        3 => 'In production'
     ];
 
     public function group()
@@ -52,6 +59,16 @@ class SwagMethod extends Model
     public function getStatusNameAttribute()
     {
         return $this->status ? __('status.active') : __('status.inactive');
+    }
+
+    /**
+     * Get stage name.
+     *
+     * @return string
+     */
+    public function getStageNameAttribute()
+    {
+        return $this->stage ? $this->stages[$this->stage] : null;
     }
 
     /**

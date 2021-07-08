@@ -44,8 +44,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">URL</label>
-                                        <input type="text" name="url" placeholder="URL" class="form-control"  value="{{ old('url', $method ? $method->url : null) }}" maxlength="255" />
+                                        <label class="form-label">URL <span class="text-danger">*</span></label>
+                                        <input type="text" name="url" placeholder="URL" class="form-control" required="required" value="{{ old('url', $method ? $method->url : null) }}" maxlength="255" />
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
@@ -120,6 +120,14 @@
                                         <select name="status" class="form-control custom-select select2">
                                             <option value="1"@if(old('status', $method ? $method->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
                                             <option value="0"@if(old('status', $method ? $method->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Stage</label>
+                                        <select name="stage" class="form-control custom-select select2">
+                                            @foreach ($stages as $stageID => $stage)
+                                            <option value="{{ $stageID }}"@if(old('stage', $method ? $method->stage : 0) == $stageID) selected="selected" @endif>{{ __($stage) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

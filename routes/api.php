@@ -49,8 +49,13 @@ Route::get(
     '/templates/get-placeholders/{type_id}/{subtype_id?}',
     [App\Http\Controllers\API\TemplatesController::class, 'getPlaceholders']
 );
-// Templates
 Route::get(
     '/templates/get-subtypes/{type_id?}',
     [App\Http\Controllers\API\TemplatesController::class, 'getSubtypes']
 )->name('api.templates.getsubtypes');
+
+// Swag
+Route::get(
+    '/swag/methods/{id}',
+    [App\Http\Controllers\API\SwagController::class, 'methods']
+)->name('api.swag.methods');

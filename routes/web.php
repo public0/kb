@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
     Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
     Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
+    // TODO: Delete all groups methods
     Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
     Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupAdd']);
     Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupEdit']);
@@ -258,6 +259,22 @@ Route::middleware(['auth'])->group(function () {
         '/admin/swag-documents/groups/{docid}/methods/{gid}/move-method/{id}',
         [App\Http\Controllers\Admin\SwagDocumentsController::class, 'moveMethod']
     )->name('admin.swag.methods.move');
+    Route::get(
+        '/admin/swag-clients',
+        [App\Http\Controllers\Admin\SwagClientsController::class, 'index']
+    )->name('admin.swag.clients');
+    Route::any(
+        '/admin/swag-clients/add',
+        [App\Http\Controllers\Admin\SwagClientsController::class, 'add']
+    )->name('admin.swag.clients.add');
+    Route::any(
+        '/admin/swag-clients/edit/{id}',
+        [App\Http\Controllers\Admin\SwagClientsController::class, 'edit']
+    )->name('admin.swag.clients.edit');
+    Route::get(
+        '/admin/swag-clients/delete/{id}',
+        [App\Http\Controllers\Admin\SwagClientsController::class, 'delete']
+    )->name('admin.swag.clients.delete');
 });
 
 // Template (no auth)
