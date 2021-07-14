@@ -28,7 +28,7 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
-        if (!empty($_POST)) {
+        if ($request->isMethod('post')) {
             if (Auth::attempt(['email' => $email, 'password' => $password, 'status' => 1])) {
                 $request->session()->regenerate();
 
