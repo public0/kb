@@ -2,5 +2,7 @@
 
 return [
     'active' => 'Active',
-    'inactive' => 'Inactive'
+    'inactive' => 'Inactive',
+    'draft' => 'Draft',
+    'published' => 'Published'
 ];
