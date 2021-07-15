@@ -21,9 +21,11 @@ class CategoryController extends Controller
             }
 
             $articles = Article::active()
-                ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
+                ->userRole(Auth::check() ? Auth::user()->role : null)
                 ->where('lang', $this->lang)
                 ->whereRaw("[categories_ids] LIKE '%,{$id},%'")
+                ->orderBy('rank', 'DESC')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(20);
 
             return view('front/category', compact('category', 'parents', 'articles'));
