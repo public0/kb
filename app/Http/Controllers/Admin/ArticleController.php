@@ -8,10 +8,12 @@ use App\Models\Article;
 use App\Models\ArticleCountry;
 use App\Models\Category;
 use App\Models\Language;
-use App\Models\UserGroups;
+use App\Models\User;
 use App\MyClasses\UtileClass;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -19,19 +21,24 @@ class ArticleController extends Controller
 
     public function index(Request $request)
     {
-        $articles = Article::select(
-            'id',
-            'title',
-            'lang',
-            'tags',
-            'created_at',
-            'status',
-            'article_id',
-            'in_right_col',
-            'lang_parent_id'
-        )
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
+        $articles = Article::with('updatedBy')
+            ->select(
+                'id',
+                'title',
+                'lang',
+                'tags',
+                'created_at',
+                'updated_at',
+                'updated_by',
+                'status',
+                'article_id',
+                'in_right_col',
+                'lang_parent_id'
+            )
             ->commentsNumber()
-            ->orderBy('lang_parent_id', 'asc');
+            ->orderBy('id', 'ASC');
 
         $filters = ['category' => null, 'language' => null, 'status' => null];
         if ($request->isMethod('get')) {
@@ -58,6 +65,8 @@ class ArticleController extends Controller
 
     public function status($id)
     {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
         try {
             $article = Article::where('id', $id);
             $data = $article->first();
@@ -74,6 +83,8 @@ class ArticleController extends Controller
 
     public function rightCol($id)
     {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
         try {
             $article = Article::where('id', $id);
             $data = $article->first();
@@ -90,29 +101,24 @@ class ArticleController extends Controller
 
     public function add(Request $request)
     {
-        $user_groups = UserGroups::active()->get();
-        $categories = Category::active()->get();
-        $language = Language::all();
-        $data = [
-            'categories' => $categories,
-            'language' => $language,
-            'countries' => $this->getAllCountries(),
-            'user_groups' => $user_groups
-        ];
+        $this->authorize('viewPerms', 'AdminKBArticles');
 
-        if (!empty($_POST)) {
-            $title = $_POST['title'];
-            $description = $_POST['description'];
-            $body = trim($_POST['body']);
-            $category_id = !empty($_POST['categories_ids']) ? $_POST['categories_ids'][0] : null;
-            $categories_ids = $_POST['categories_ids'] ?? null;
-            $tags = $_POST['tags'] ?? null;
-            $status = $_POST['status'];
-            $lang = $_POST['lang'];
-            $rank = $_POST['rank'];
-            $lang_parent_id = $_POST['lang_parent_id'] ?? null;
-            $u_groups = $_POST['user_groups'] ?? [];
-            $in_right_col = $_POST['in_right_col'];
+        if ($request->isMethod('post')) {
+            $title = trim($request->input('title'));
+            $description = trim($request->input('description'));
+            $body = trim($request->input('body'));
+            $category_id = $request->input('category_id');
+            $categories_ids = $request->input('categories_ids');
+            if ($categories_ids) {
+                $category_id = $categories_ids[0];
+            }
+            $tags = $request->input('tags');
+            $status = $request->input('status');
+            $lang = $request->input('lang');
+            $rank = $request->input('rank');
+            $lang_parent_id = $request->input('lang_parent_id');
+            $user_role = $request->input('user_role');
+            $in_right_col = $request->input('in_right_col');
 
             $validated = $request->validate([
                 'countries' => 'required',
@@ -120,6 +126,7 @@ class ArticleController extends Controller
                 'title' => 'required|max:255|unique:' . Article::class,
                 'description' => 'required|max:255',
                 'body' => 'required',
+                'rank' => 'unique:' . Article::class,
                 'tags' => 'max:255',
                 'status' => 'required|integer|max:1'
             ]);
@@ -150,8 +157,10 @@ class ArticleController extends Controller
                 $art->status = $status;
                 $art->lang_parent_id = $lang_parent_id;
                 $art->rank = $rank;
-                $art->user_groups = $u_groups ? ',' . implode(',', $u_groups) . ',' : null;
+                $art->user_role = $user_role;
                 $art->in_right_col = $in_right_col;
+                $art->updated_by = Auth::id();
+                dd($art);
                 $art->save();
                 $last_id = $art->id;
 
@@ -168,7 +177,7 @@ class ArticleController extends Controller
                         'country_code' => $country
                     ]);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
             }
@@ -176,43 +185,45 @@ class ArticleController extends Controller
             return redirect('/admin/article')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/article-add', $data);
+        return view('admin/article-form', [
+            'article' => null,
+            'article_lang' => null,
+            'categories' => Category::active()->get(),
+            'language' => Language::all(),
+            'countries' => $this->getAllCountries(),
+            'user_roles' => (new User)->roles,
+        ]);
     }
 
     public function edit(Request $request, $id)
     {
-        $user_groups = UserGroups::active()->get();
-        $categories = Category::active()->get();
-        $language = Language::all();
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
         $article = Article::find($id);
         $article->categories_ids = array_filter(explode(',', $article->categories_ids));
         $article->tags = array_filter(explode(',', $article->tags));
-        $article->user_groups = array_filter(explode(',', $article->user_groups));
 
-        $data = [
-            'article' => $article,
-            'categories' => $categories,
-            'language' => $language,
-            'countries' => $this->getAllCountries(),
-            'user_groups' => $user_groups
-        ];
+        $articleLang = null;
         if ($article->lang_parent_id) {
-            $data['article_lang'] = Article::select('id', 'title')->find($article->lang_parent_id);
+            $articleLang = Article::select('id', 'title')->find($article->lang_parent_id);
         }
 
-        if (!empty($_POST)) {
-            $title = $_POST['title'];
-            $description = $_POST['description'];
-            $body = trim($_POST['body']);
-            $category_id = !empty($_POST['categories_ids']) ? $_POST['categories_ids'][0] : null;
-            $categories_ids = $_POST['categories_ids'] ?? null;
-            $tags = $_POST['tags'] ?? null;
-            $status = $_POST['status'];
-            $lang = $_POST['lang'];
-            $lang_parent_id = $_POST['lang_parent_id'] ?? null;
-            $rank = $_POST['rank'];
-            $u_groups = $_POST['user_groups'] ?? [];
-            $in_right_col = $_POST['in_right_col'];
+        if ($request->isMethod('post')) {
+            $title = trim($request->input('title'));
+            $description = trim($request->input('description'));
+            $body = trim($request->input('body'));
+            $category_id = $request->input('category_id');
+            $categories_ids = $request->input('categories_ids');
+            if ($categories_ids) {
+                $category_id = $categories_ids[0];
+            }
+            $tags = $request->input('tags');
+            $status = $request->input('status');
+            $lang = $request->input('lang');
+            $rank = $request->input('rank');
+            $lang_parent_id = $request->input('lang_parent_id');
+            $user_role = $request->input('user_role');
+            $in_right_col = $request->input('in_right_col');
             $article_id = UtileClass::generateId(new Article, 'article_id');
 
             if (strtolower($title) != strtolower($article->title)) {
@@ -222,6 +233,7 @@ class ArticleController extends Controller
                     'title' => 'required|max:255|unique:' . Article::class,
                     'description' => 'required|max:255',
                     'body' => 'required',
+                    'rank' => 'unique:' . Article::class,
                     'tags' => 'max:255',
                     'status' => 'required|integer|max:1'
                 ]);
@@ -232,6 +244,7 @@ class ArticleController extends Controller
                     'title' => 'required|max:255',
                     'description' => 'required|max:255',
                     'body' => 'required',
+                    'rank' => 'unique:' . Article::class,
                     'tags' => 'max:255',
                     'status' => 'required|integer|max:1'
                 ]);
@@ -262,10 +275,11 @@ class ArticleController extends Controller
                     'lang' => $lang,
                     'status' => $status,
                     'rank' => $rank,
-                    'user_groups' => $u_groups ? ',' . implode(',', $u_groups) . ',' : null,
+                    'user_role' => $user_role,
                     'lang_parent_id' => $lang_parent_id,
                     'article_id' => $articleID,
-                    'in_right_col' => $in_right_col
+                    'in_right_col' => $in_right_col,
+                    'updated_by' => Auth::id()
                 ]);
 
                 $deletedRows = ArticleCountry::where('article_id', $article->id);
@@ -276,7 +290,7 @@ class ArticleController extends Controller
                         'country_code' => $country
                     ]);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
             }
@@ -284,154 +298,36 @@ class ArticleController extends Controller
             return redirect('/admin/article')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/article-edit', $data);
+        return view('admin/article-form', [
+            'article' => $article,
+            'article_lang' => $articleLang,
+            'categories' => Category::active()->get(),
+            'language' => Language::all(),
+            'countries' => $this->getAllCountries(),
+            'user_roles' => (new User)->roles
+        ]);
     }
 
-    public function categories()
-    {
-        $categories = Category::orderBy('tree', 'asc')->orderBy('name', 'asc')->get();
-        for ($i = 0; $i < count($categories); $i++) {
-            $categories[$i]->ind = substr_count($categories[$i]->tree, ',');
-        }
-
-        return view('admin/art-categories', compact('categories'));
-    }
-
-    public function categoryStatus($id)
+    public function clone($id)
     {
         try {
-            $category = Category::where('id', $id);
-            $data = $category->first();
-            $category->update([
-                'status' => 1 - $data->status
-            ]);
-
-            return redirect()->back();
+            $article = Article::find($id);
+            $article->replicate();
+            $article->created_at = Carbon::now();
+            $article->updated_at = Carbon::now();
+            $article->save();
         } catch (Exception $e) {
             return redirect()->back()
                 ->with('error', $e->getMessage());
         }
-    }
 
-    public function categoryAdd(Request $request)
-    {
-        $language = Language::all();
-        $categs = Category::all();
-        $data = [
-            'language' => $language,
-            'categs' => $categs
-        ];
-
-        if (!empty($_POST)) {
-            $name = $_POST['name'];
-            $lang = $_POST['lang'];
-            $parent_id = $_POST['parent_id'];
-            $status = $_POST['status'];
-            $categ_id = UtileClass::generateId(new Category, 'categ_id');
-
-            $validated = $request->validate([
-                'name' => 'required|max:255|unique:' . Category::class,
-                'lang' => 'required|max:255',
-                'status' => 'required|integer|max:1',
-                'parent_id' => 'integer'
-            ]);
-
-            try {
-                $cat = new Category;
-                $cat->name = $name;
-                $cat->lang = $lang;
-                $cat->parent_id = $parent_id;
-                $cat->status = $status;
-                $cat->categ_id = $categ_id;
-                $cat->save();
-                $my_id = $cat->id;
-
-                $parent_tree = null;
-                if (!empty($parent_id)) {
-                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
-                }
-                if (!empty($my_id)) {
-                    $myTree = (!empty($parent_tree)) ? $parent_tree.','.$my_id : $my_id;
-                    Category::where('id', $my_id)->update(['tree' => $myTree]);
-                }
-            } catch (Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            return redirect('/admin/categories')->with('message', 'Operation Successful !');
-        }
-
-        return view('admin/art-category-add', $data);
-    }
-
-    public function categoryEdit(Request $request)
-    {
-        $id = $request->id;
-        $language = Language::all();
-        $categs = Category::all();
-        $category = Category::where('id', $id)->first();
-        if (empty($category)) {
-            return redirect()->back()->with('error', 'No category!');
-        }
-        $data = [
-            'language' => $language,
-            'categs' => $categs,
-            'category' => $category
-        ];
-        if (!empty($_POST)) {
-            $name = $_POST['name'];
-            $lang = $_POST['lang'];
-            $parent_id = $_POST['parent_id'];
-            $status = $_POST['status'];
-            $categ_id = UtileClass::generateId(new Category, 'categ_id');
-
-            if (strtolower($name) != strtolower($category->name)) {
-                $validated = $request->validate([
-                    'name' => 'required|max:255|unique:' . Category::class,
-                    'lang' => 'required|max:255',
-                    'status' => 'required|integer|max:1',
-                    'parent_id' => 'integer'
-                ]);
-            } else {
-                $validated = $request->validate([
-                    'name' => 'required|max:255',
-                    'lang' => 'required|max:255',
-                    'status' => 'required|integer|max:1',
-                    'parent_id' => 'integer'
-                ]);
-            }
-
-            try {
-                Category::where('id', $id)->update([
-                    'name' => $name,
-                    'lang' => $lang,
-                    'parent_id' => $parent_id,
-                    'status' => $status,
-                    'categ_id' => $categ_id
-                ]);
-
-                $parent_tree = null;
-                if (!empty($parent_id)) {
-                    $parent_tree = Category::where('id', $parent_id)->first()->tree;
-                }
-                if (!empty($id)) {
-                    $myTree = (!empty($parent_tree)) ? $parent_tree.','.$id : $id;
-                    Category::where('id', $id)->update(['tree' => $myTree]);
-                }
-            } catch (Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            return redirect('/admin/categories')->with('message', 'Operation Successful !');
-        }
-
-        return view('admin/art-category-edit', $data);
+        return redirect('/admin/article')->with('message', 'Operation Successful !');
     }
 
     public function uploadImage(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
         $file = $request->file('file');
         if ($file) {
             $name = $file->getClientOriginalName();
@@ -445,6 +341,8 @@ class ArticleController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
         try {
             $article = Article::where('id', $id);
             $data = $article->first();
@@ -458,30 +356,61 @@ class ArticleController extends Controller
         }
     }
 
-    public function categoryDelete($id)
+    /**
+     * AJAX
+     *
+     * @param Request $request
+     * @return JSON
+     */
+    public function ajaxList(Request $request)
     {
-        try {
-            $cat = Category::where('id', $id);
-            $data = $cat->first();
+        $this->authorize('viewPerms', 'AdminKBArticles');
 
-            $articles_count = Article::where('categories_ids', 'like', ',' . $id . ',')->count();
-            if ($articles_count > 0) {
-                return redirect()->back()
-                    ->with('error', 'There are articles associated with this category!');
-            }
-            $subcateg_count = Category::where('tree', 'like', $data->tree.',%')->count();
-            if ($subcateg_count > 0) {
-                return redirect()->back()
-                    ->with('error', 'There are subcategories to this category!');
-            }
-
-            $cat->delete();
-
-            return redirect('/admin/categories')
-                ->with('message', 'Category "' . $data->name . '" was deleted!');
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', $e->getMessage());
+        $select = $request->query('select', '*');
+        if ($select != '*') {
+            $select = array_map('trim', explode(',', $select));
         }
+        $articles = Article::select($select);
+
+        $lang = $request->query('lang');
+        if ($lang) {
+            $articles->where('lang', $lang);
+        }
+
+        $langNot = $request->query('lang_not');
+        if ($langNot) {
+            $articles->where('lang', '<>', $langNot);
+        }
+
+        $term = $request->query('term');
+        if ($term) {
+            $articles->whereRaw("title LIKE '%{$term}%'");
+        }
+
+        return response()->json([
+            'articles' => $articles->get()
+        ]);
+    }
+
+    /**
+     * AJAX
+     *
+     * @param Request $request
+     * @param int $id Article ID
+     * @return JSON
+     */
+    public function ajaxItem(Request $request, $id)
+    {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
+        $select = $request->query('select', '*');
+        if ($select != '*') {
+            $select = array_map('trim', explode(',', $select));
+        }
+        $article = Article::select($select);
+
+        return response()->json([
+            'article' => $article->find($id)
+        ]);
     }
 }
