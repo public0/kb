@@ -52,26 +52,18 @@ class SearchController extends Controller
         $q = trim($request->input('q'));
         if ($q && strlen($q) > 2) {
             $items = Article::search($this->term($q))
-                ->where('status', 1)
-                ->get();
+                ->where('status', 1);
 
-            if (!empty($items)) {
-                foreach ($items as $item) {
-                    if ($item->user_groups) {
-                        $userGroups = Auth::check() ? Auth::user()->my_groups : [];
-                        if ($userGroups) {
-                            if (count(array_intersect([1, 6], $userGroups)) == 0) {
-                                if (!array_intersect(array_filter(explode(',', $item->user_groups)), $userGroups)) {
-                                    continue;
-                                }
-                            }
-                        } else {
-                            continue;
-                        }
-                    }
-                    $articles[] = $item;
+            $role = Auth::check() ? Auth::user()->role : null;
+            if ($role !== null) {
+                if ($role != 1) {
+                    $items->whereIn('user_role', ['NULL', $role]);
                 }
+            } else {
+                $items->where('user_role', 'IS', 'NULL');
             }
+
+            $articles = $items->get();
         }
 
         return view('front/search', compact('articles'));
@@ -84,7 +76,7 @@ class SearchController extends Controller
         if ($q && strlen($q) > 2) {
             $articles = Article::search($this->term($q))
                 ->where('status', 1)
-                ->where('user_groups', 'NULL')
+                ->where('user_role', 'IS', 'NULL')
                 ->get();
         }
 
