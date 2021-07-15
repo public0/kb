@@ -26,45 +26,39 @@
             @if(Session::has('message'))
                 <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
             @endif
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-body">
-                            @if(!empty($localizations))
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example2">
-                                    <thead>
-                                    <tr>
-                                        @foreach($fields as $field)
-                                        <th class="wd-15p border-bottom-0">{{ $field }}</th>
-                                        @endforeach
-                                        <th class="wd-15p border-bottom-0 text-center">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($localizations as $item)
-                                    <tr>
-                                        @foreach($fields as $field)
-                                        <td>{{ $item->{$field} }}</td>
-                                        @endforeach
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.localization.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green btn-info"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                            <a href="{{ route('admin.localization.delete', ['id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
-                        </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-body">
+                    @if(!empty($localizations))
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap" id="example2">
+                            <thead>
+                            <tr>
+                                @foreach($fields as $field)
+                                <th class="wd-15p border-bottom-0">{{ $field }}</th>
+                                @endforeach
+                                <th class="wd-15p border-bottom-0 text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($localizations as $item)
+                            <tr>
+                                @foreach($fields as $field)
+                                <td>{{ $item->{$field} }}</td>
+                                @endforeach
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.localization.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green btn-info"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                    <a href="{{ route('admin.localization.delete', ['id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return modals.confirm(this, 'Notice', 'Are you sure you want to delete?', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <!--/div-->
+                    @endif
                 </div>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

@@ -12,6 +12,8 @@ class LocalizationController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAdmin', 'AdminLocalization');
+
         $localizations = Localization::all();
         $fields = Localization::tableFields();
 
@@ -20,6 +22,8 @@ class LocalizationController extends Controller
 
     public function generate(Request $request)
     {
+        $this->authorize('viewAdmin', 'AdminLocalization');
+
         $languages = Language::all();
 
         if ($request->isMethod('post')) {
@@ -40,6 +44,8 @@ class LocalizationController extends Controller
 
     public function add(Request $request)
     {
+        $this->authorize('viewAdmin', 'AdminLocalization');
+
         $localization = new Localization();
         $fields = Localization::tableFields();
 
@@ -75,6 +81,8 @@ class LocalizationController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $this->authorize('viewAdmin', 'AdminLocalization');
+
         $localization = Localization::where('id', $id);
         $fields = Localization::tableFields();
 
@@ -111,6 +119,8 @@ class LocalizationController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('viewAdmin', 'AdminLocalization');
+
         try {
             $localization = Localization::where('id', $id);
             $localization->delete();
