@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\GroupsUsers;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image'
     ];
 
     /**
@@ -44,9 +45,58 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function groups()
+    /**
+     * User roles
+     *
+     * @var array
+     */
+    public $roles = [
+        0 => 'Guest',
+        1 => 'Admin',
+        2 => 'Intern',
+        3 => 'Extern'
+    ];
+
+    /**
+     * User is role.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function isRole($role)
     {
-        return $this->hasMany(GroupsUsers::class, 'user_id');
+        return strtolower($this->roles[$this->role]) == strtolower(trim($role));
+    }
+
+    /**
+     * Get user's role name.
+     *
+     * @return string
+     */
+    public function getRoleNameAttribute()
+    {
+        return $this->roles[$this->role];
+    }
+
+    /**
+     * Get parameters values.
+     *
+     * @return array
+     */
+    public function getPermissionsDataAttribute()
+    {
+        return $this->permissions ? json_decode($this->permissions, true) : [];
+    }
+
+    /**
+     * User has permission.
+     *
+     * @param int $moduleID
+     * @return bool
+     */
+    public function hasPermission($moduleID)
+    {
+        return in_array($moduleID, $this->permissions_data);
     }
 
     /**
@@ -70,21 +120,30 @@ class User extends Authenticatable
     }
 
     /**
-     * Get user groups.
+     * Get users directory path for storage.
      *
-     * @return array
+     * @return string
      */
-    public function getMyGroupsAttribute()
+    public function getUsersDirectoryAttribute()
     {
-        $result = [];
-        $groups = $this->groups()->get();
-        if ($groups) {
-            foreach ($groups as $group) {
-                $result[] = $group->group_id;
+        return 'public' . DIRECTORY_SEPARATOR . 'users';
+    }
+
+    /**
+     * Get user avatar url.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        if ($this->image) {
+            $path = $this->users_directory . DIRECTORY_SEPARATOR . $this->image;
+            if (Storage::exists($path)) {
+                return url('storage/users/' . $this->image);
             }
         }
 
-        return $result;
+        return null;
     }
 
     /**
@@ -95,6 +154,6 @@ class User extends Authenticatable
      */
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where($this->table . '.status', 1);
     }
 }

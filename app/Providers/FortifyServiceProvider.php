@@ -64,12 +64,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::authenticateUsing(function (Request $request) {
-            $groupsArray = null;
-            $user = User::where('email', $request->email)->where('status', 1)->first();
+            $user = User::active()->where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password)) {
-                if ($user->my_groups && in_array(1, $user->my_groups)) {
-                    return $user;
-                }
+                return $user;
             }
         });
     }
