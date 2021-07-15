@@ -32,8 +32,8 @@ class ArticleFactoryClass
         $articles = Article::active()
             ->where('lang', $data['lang'])
             ->where('in_right_col', 1)
-            ->userGroups(Auth::check() ? Auth::user()->my_groups : [])
-            ->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END desc')
+            ->userRole(Auth::check() ? Auth::user()->role : null)
+            ->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END DESC')
             ->get();
 
         return $articles;
@@ -43,7 +43,8 @@ class ArticleFactoryClass
     {
         $articles = Article::active()
             ->where('lang', $data['lang'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('rank', 'DESC')
+            ->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END DESC')
             ->take(5)
             ->get();
 
@@ -54,13 +55,13 @@ class ArticleFactoryClass
     {
         $articles = Article::active()
             ->where('lang', $data['lang'])
-            ->userGroups(Auth::check() ? Auth::user()->my_groups : []);
+            ->userRole(Auth::check() ? Auth::user()->role : null);
 
         if (!empty($data['exclude_article_id'])) {
             $articles->where('article_id', '<>', $data['exclude_article_id']);
         }
 
-        $articles = $articles->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END desc')
+        $articles = $articles->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END DESC')
             ->take(3)
             ->get();
 
@@ -72,7 +73,7 @@ class ArticleFactoryClass
         $articles = Article::active()
             ->where('lang', $data['lang'])
             ->where('id', '<>', $data['id'])
-            ->userGroups(Auth::check() ? Auth::user()->my_groups : []);
+            ->userRole(Auth::check() ? Auth::user()->role : null);
 
         if (!empty($data['tags'])) {
             $like = [];
@@ -85,7 +86,7 @@ class ArticleFactoryClass
             }
         }
 
-        $articles = $articles->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END desc')
+        $articles = $articles->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END DESC')
             ->take(5)
             ->get();
 

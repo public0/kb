@@ -52,7 +52,7 @@ class Article extends Model
             'article_id' => [
                 'type' => 'text'
             ],
-            'user_groups' => [
+            'user_role' => [
                 'type' => 'keyword',
                 'null_value' => 'NULL'
             ]
@@ -67,6 +67,11 @@ class Article extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'article_id');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function articleCountries()
@@ -98,7 +103,7 @@ class Article extends Model
      */
     public function getStatusNameAttribute()
     {
-        return $this->status ? __('status.active') : __('status.inactive');
+        return $this->status ? __('status.published') : __('status.draft');
     }
 
     /**
@@ -140,28 +145,27 @@ class Article extends Model
             'category_id' => $this->category_id,
             'categories_ids' => $this->categories_ids,
             'article_id' => $this->article_id,
-            'user_groups' => $this->user_groups
+            'user_role' => $this->user_role
         ];
     }
 
     /**
-     * Scope a query users with groups.
+     * Scope a query users with roles.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array $groups
+     * @param int|null $role
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeUserGroups($query, array $groups)
+    public function scopeUserRole($query, $role)
     {
-        $like = ['[user_groups] IS NULL'];
-        foreach ($groups as $group) {
-            if (in_array($group, [1, 6])) {
-                $like[] = '[user_groups] IS NOT NULL';
+        $like = ['[user_role] IS NULL'];
+        if ($role !== null) {
+            if ($role == 1) {
+                $like[] = '[user_role] IS NOT NULL';
             } else {
-                $like[] = "[user_groups] LIKE '%,{$group},%'";
+                $like[] = '[user_role]=' . $role;
             }
         }
-        $like = array_unique($like);
 
         return $query->whereRaw('(' . implode(' OR ', $like) . ')');
     }
@@ -193,7 +197,7 @@ class Article extends Model
     public function scopeActive($query)
     {
         return $query
-            ->select('id', 'title', 'description', 'created_at', 'updated_at', 'article_id')
+            ->select('id', 'title', 'description', 'created_at', 'updated_at', 'article_id', 'rank')
             ->commentsNumber(1)
             ->where('status', 1);
     }
