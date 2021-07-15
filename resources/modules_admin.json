@@ -1,0 +1,98 @@
+{
+    "Users": [
+        {
+            "id": "AdminUsers",
+            "name": "Users",
+            "url": "/admin/users",
+            "icon": "fe fe-users",
+            "badge": "$users_nr",
+            "roles": "admin"
+        }
+    ],
+    "Knowledge Base": [
+        {
+            "id": "AdminKBArticles",
+            "name": "Articles",
+            "url": "/admin/article",
+            "icon": "fe fe-book",
+            "badge": "$articles_nr",
+            "roles": "admin,intern"
+        }, {
+            "id": "AdminKBCategories",
+            "name": "Categories",
+            "url": "/admin/categories",
+            "icon": "fe fe-list",
+            "badge": "$categories_nr",
+            "roles": "admin,intern"
+        }, {
+            "id": "AdminKBComments",
+            "name": "Commments",
+            "url": "/admin/comments",
+            "icon": "fe fe-message-circle",
+            "badge": "$comments_nr",
+            "roles": "admin,intern"
+        }, {
+            "id": "AdminKBFiles",
+            "name": "labels.files",
+            "url": "/admin/files",
+            "icon": "fe fe-file",
+            "badge": null,
+            "roles": "admin,intern"
+        }
+    ],
+    "Newsletter": [
+        {
+            "id": "AdminNewsletterSubscribers",
+            "name": "Subscribers",
+            "url": "/admin/newsletter",
+            "icon": "fe fe-mail",
+            "badge": "$subscribers_nr",
+            "roles": "admin,intern"
+        }
+    ],
+    "Templates": [
+        {
+            "id": "AdminTplTypes",
+            "name": "Types",
+            "route": "admin.tpl.types",
+            "icon": "fe fe-type",
+            "badge": "$tpl_types_nr",
+            "roles": "admin"
+        }, {
+            "id": "AdminTplPlaceholders",
+            "name": "Placeholders",
+            "route": "admin.tpl.place.group",
+            "icon": "fe fe-tag",
+            "badge": "$tpl_placeholders_nr",
+            "roles": "admin"
+        }
+    ],
+    "Swag": [
+        {
+            "id": "AdminSwagClients",
+            "name": "Clients",
+            "route": "admin.swag.clients",
+            "icon": "fe fe-user-check",
+            "badge": null,
+            "roles": "admin,intern"
+        },{
+            "id": "AdminSwagDocuments",
+            "name": "Documents",
+            "route": "admin.swag.documents",
+            "icon": "fe fe-book-open",
+            "badge": "$swag_docs_nr",
+            "roles": "admin,intern"
+        }
+    ],
+    "Misc": [
+        {
+            "id": "AdminLocalization",
+            "name": "labels.localization",
+            "route": "admin.localization",
+            "icon": "fe fe-flag",
+            "badge": null,
+            "roles": "admin",
+            "admin": true
+        }
+    ]
+}

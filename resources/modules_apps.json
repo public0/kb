@@ -1,0 +1,28 @@
+{
+    "Knowledge Base": [
+        {
+            "id": "FrontKBArticles",
+            "name": "Articles",
+            "route": "front.home",
+            "icon": "fe fe-book",
+            "roles": "admin,intern,extern,guest"
+        }
+    ],
+    "Configurator": [
+        {
+            "id": "FrontConfigurator",
+            "name": "Configurator",
+            "route": "ibd.home",
+            "icon": "fe fe-aperture",
+            "roles": "admin,intern"
+        }
+    ],
+    "Utils": [
+        {
+            "id": "FrontUtils",
+            "name": "Utilitare",
+            "icon": "fe fe-hard-drive",
+            "roles": "admin,intern"
+        }
+    ]
+}
