@@ -1,4 +1,4 @@
-@extends('front/index-simple')
+@extends('layouts.help')
 
 @section('title', $article->title)
 
