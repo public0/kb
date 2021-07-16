@@ -13,6 +13,8 @@ class TemplatesTypesController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         return view('admin/templates-types', [
             'types' => TemplateType::all()
         ]);
@@ -20,6 +22,8 @@ class TemplatesTypesController extends Controller
 
     public function addType(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'name' => 'required|max:255',
@@ -44,6 +48,8 @@ class TemplatesTypesController extends Controller
 
     public function editType(Request $request, $id)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         $type = TemplateType::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -70,6 +76,8 @@ class TemplatesTypesController extends Controller
 
     public function deleteType($id)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         try {
             $type = TemplateType::where('id', $id);
             $data = $type->first();
@@ -85,6 +93,8 @@ class TemplatesTypesController extends Controller
 
     public function statusType($id)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         try {
             $type = TemplateType::where('id', $id);
             $data = $type->first();
@@ -101,6 +111,8 @@ class TemplatesTypesController extends Controller
 
     public function subtypes($tid)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         return view('admin/templates-subtypes', [
             'type' => TemplateType::where('id', $tid)->first(),
             'subtypes' => TemplateSubtype::where('type_id', $tid)->get()
@@ -109,6 +121,8 @@ class TemplatesTypesController extends Controller
 
     public function addSubtype(Request $request, $tid)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'name' => 'required|max:255',
@@ -137,6 +151,8 @@ class TemplatesTypesController extends Controller
 
     public function editSubtype(Request $request, $tid, $id)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         $subtype = TemplateSubtype::with('placeholderGroups')->where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -175,6 +191,8 @@ class TemplatesTypesController extends Controller
 
     public function deleteSubtype(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         try {
             $subtype = TemplateSubtype::where('id', $request->id);
             $data = $subtype->first();
@@ -190,6 +208,8 @@ class TemplatesTypesController extends Controller
 
     public function statusSubtype(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplTypes');
+
         try {
             $subtype = TemplateSubtype::where('id', $request->id);
             $data = $subtype->first();

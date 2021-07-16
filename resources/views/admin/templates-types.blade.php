@@ -32,47 +32,41 @@
             @if($errors->any())
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-body">
-                            @if(!empty($types))
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example2">
-                                    <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">Name</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Status</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($types as $item)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ route('admin.tpl.subtypes', ['tid' => $item->id]) }}" class="text-primary">{{ $item->name }}</a>
-                                        </td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.tpl.types.status', ['id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
-                                        </td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.tpl.types.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                            {{-- <a href="{{ route('admin.tpl.types.delete', ['id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a> --}}
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
-                        </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-body">
+                    @if(!empty($types))
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap" id="example2">
+                            <thead>
+                            <tr>
+                                <th class="wd-15p border-bottom-0">Name</th>
+                                <th class="wd-15p border-bottom-0 text-center">Status</th>
+                                <th class="wd-15p border-bottom-0 text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($types as $item)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('admin.tpl.subtypes', ['tid' => $item->id]) }}" class="text-primary">{{ $item->name }}</a>
+                                </td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.tpl.types.status', ['id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
+                                </td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.tpl.types.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                    {{-- <a href="{{ route('admin.tpl.types.delete', ['id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return modals.confirm(this, 'Notice', 'Are you sure you want to delete?', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a> --}}
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <!--/div-->
+                    @endif
                 </div>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

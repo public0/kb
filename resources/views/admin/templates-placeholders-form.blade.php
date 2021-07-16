@@ -21,56 +21,50 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">@if($placeholder){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <input type="hidden" name="placeholder_group_id" value="{{ $group->id }}" />
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $placeholder ? $placeholder->name : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Description</label>
-                                        <input type="text" name="description" placeholder="Description" class="form-control" value="{{ old('description', $placeholder ? $placeholder->description : null) }}" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Countries</label>
-                                        <select name="countries[]" class="form-control custom-select select2" multiple>
-                                            @foreach($countries as $code => $name)
-                                            <option value="{{$code}}" @if($placeholder && in_array($code, $placeholder->all_country_codes)) selected="selected" @endif>{{ $name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if(old('status', $placeholder ? $placeholder->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if(old('status', $placeholder ? $placeholder->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">@if($placeholder){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <input type="hidden" name="placeholder_group_id" value="{{ $group->id }}" />
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $placeholder ? $placeholder->name : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <input type="text" name="description" placeholder="Description" class="form-control" value="{{ old('description', $placeholder ? $placeholder->description : null) }}" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Countries <span class="text-danger">*</span></label>
+                                <select name="countries[]" class="form-control custom-select select2" required="required" multiple>
+                                    @foreach($countries as $code => $name)
+                                    <option value="{{$code}}" @if($placeholder && in_array($code, $placeholder->all_country_codes)) selected="selected" @endif>{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-control custom-select select2">
+                                    <option value="1"@if(old('status', $placeholder ? $placeholder->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                    <option value="0"@if(old('status', $placeholder ? $placeholder->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.places', ['gid' => $group->id]) }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.places', ['gid' => $group->id]) }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

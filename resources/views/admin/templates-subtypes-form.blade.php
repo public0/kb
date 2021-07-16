@@ -20,56 +20,50 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">@if($subtype){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $subtype ? $subtype->name : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Type</label>
-                                        <select name="type_id" class="form-control custom-select select2">
-                                            @foreach($types as $item)
-                                            <option value="{{ $item->id }}"@if(old('type_id', $subtype ? $subtype->type_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @if($subtype && count($subtype->placeholderGroups))
-                                    <div class="form-group">
-                                        <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="update-placeholder-groups" value="1" /><span class="custom-control-label">Update also the type of ({{ count($subtype->placeholderGroups) }}) placeholder groups associated.</span></label>
-                                    </div>
-                                    @endif
-                                    <div class="form-group">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if(old('status', $subtype ? $subtype->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if(old('status', $subtype ? $subtype->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">@if($subtype){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $subtype ? $subtype->name : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Type <span class="text-danger">*</span></label>
+                                <select name="type_id" class="form-control custom-select select2" required="required">
+                                    @foreach($types as $item)
+                                    <option value="{{ $item->id }}"@if(old('type_id', $subtype ? $subtype->type_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if($subtype && count($subtype->placeholderGroups))
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="update-placeholder-groups" value="1" /><span class="custom-control-label">Update also the type of ({{ count($subtype->placeholderGroups) }}) placeholder groups associated.</span></label>
+                            </div>
+                            @endif
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-control custom-select select2">
+                                    <option value="1"@if(old('status', $subtype ? $subtype->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                    <option value="0"@if(old('status', $subtype ? $subtype->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.subtypes', ['tid' => $type->id]) }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.subtypes', ['tid' => $type->id]) }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection
