@@ -1,4 +1,4 @@
-@extends('front.index')
+@extends('layouts.front')
 
 @section('content-full')
 <div class="container" style="padding-top:50px">
