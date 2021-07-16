@@ -274,6 +274,10 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\Admin\SwagDocumentsController::class, 'moveMethod']
     )->name('admin.swag.methods.move');
     Route::get(
+        '/admin/ajax/swag-methods/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'ajaxMethods']
+    )->name('admin.ajax.swag.methods');
+    Route::get(
         '/admin/swag-clients',
         [App\Http\Controllers\Admin\SwagClientsController::class, 'index']
     )->name('admin.swag.clients');

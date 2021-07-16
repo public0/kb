@@ -21,37 +21,32 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">{{ __('labels.move') }}</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Group</label>
-                                        <select name="group_id" class="form-control custom-select select2">
-                                            @foreach($groups as $item)
-                                            <option value="{{ $item->id }}"@if($method->group_id == $item->id) selected="selected" @endif>{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{ __('labels.move') }}</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Group</label>
+                                <select name="group_id" class="form-control custom-select select2">
+                                    @foreach($groups as $item)
+                                    <option value="{{ $item->id }}"@if($method->group_id == $item->id) selected="selected" @endif>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.methods', ['docid' => $document->id, 'gid' => $group->id]) }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.methods', ['docid' => $document->id, 'gid' => $group->id]) }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>

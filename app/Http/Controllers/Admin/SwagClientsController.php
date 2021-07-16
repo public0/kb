@@ -12,6 +12,8 @@ class SwagClientsController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewPerms', 'AdminSwagClients');
+
         return view('admin/swag-clients', [
             'clients' => SwagClient::orderBy('name', 'ASC')->get()
         ]);
@@ -19,6 +21,8 @@ class SwagClientsController extends Controller
 
     public function add(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagClients');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'document_id' => 'required|integer',
@@ -53,6 +57,8 @@ class SwagClientsController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $this->authorize('viewPerms', 'AdminSwagClients');
+
         $client = SwagClient::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -89,6 +95,8 @@ class SwagClientsController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('viewPerms', 'AdminSwagClients');
+
         try {
             $client = SwagClient::where('id', $id);
             $data = $client->first();

@@ -52,6 +52,8 @@ class SwagDocumentsController extends Controller
 
     public function index()
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         return view('admin/swag-documents', [
             'documents' => SwagDocument::all()
         ]);
@@ -59,6 +61,8 @@ class SwagDocumentsController extends Controller
 
     public function addDocument(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'name' => 'required|max:255',
@@ -93,6 +97,8 @@ class SwagDocumentsController extends Controller
 
     public function editDocument(Request $request, $id)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         $document = SwagDocument::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -132,6 +138,8 @@ class SwagDocumentsController extends Controller
 
     public function deleteDocument($id)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         try {
             $doc = SwagDocument::where('id', $id);
             $data = $doc->first();
@@ -147,6 +155,8 @@ class SwagDocumentsController extends Controller
 
     public function uploadImage(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         $file = $request->file('file');
         if ($file) {
             $name = $file->getClientOriginalName();
@@ -160,6 +170,8 @@ class SwagDocumentsController extends Controller
 
     public function groups($docid)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         return view('admin/swag-groups', [
             'document' => SwagDocument::where('id', $docid)->first(),
             'groups' => SwagGroup::where('document_id', $docid)->get()
@@ -168,6 +180,8 @@ class SwagDocumentsController extends Controller
 
     public function addGroup(Request $request, $docid)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'document_id' => 'required|integer',
@@ -199,6 +213,8 @@ class SwagDocumentsController extends Controller
 
     public function editGroup(Request $request, $docid, $id)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         $group = SwagGroup::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -232,6 +248,8 @@ class SwagDocumentsController extends Controller
 
     public function deleteGroup(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         try {
             $group = SwagGroup::where('id', $request->id);
             $data = $group->first();
@@ -247,6 +265,8 @@ class SwagDocumentsController extends Controller
 
     public function statusGroup(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         try {
             $group = SwagGroup::where('id', $request->id);
             $data = $group->first();
@@ -267,6 +287,8 @@ class SwagDocumentsController extends Controller
 
     public function methods($docid, $gid)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         return view('admin/swag-methods', [
             'document' => SwagDocument::where('id', $docid)->first(),
             'group' => SwagGroup::where('id', $gid)->first(),
@@ -276,6 +298,8 @@ class SwagDocumentsController extends Controller
 
     public function addMethod(Request $request, $docid, $gid)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'group_id' => 'required|integer',
@@ -322,6 +346,8 @@ class SwagDocumentsController extends Controller
 
     public function editMethod(Request $request, $docid, $gid, $id)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         $method = SwagMethod::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -370,6 +396,8 @@ class SwagDocumentsController extends Controller
 
     public function deleteMethod(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         try {
             $method = SwagMethod::where('id', $request->id);
             $data = $method->first();
@@ -385,6 +413,8 @@ class SwagDocumentsController extends Controller
 
     public function statusMethod(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         try {
             $method = SwagMethod::where('id', $request->id);
             $data = $method->first();
@@ -401,6 +431,8 @@ class SwagDocumentsController extends Controller
 
     public function moveMethod(Request $request, $docid, $gid, $id)
     {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
         $method = SwagMethod::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -426,5 +458,32 @@ class SwagDocumentsController extends Controller
             'group' => SwagGroup::where('id', $gid)->first(),
             'method' => $method->first()
         ]);
+    }
+
+    /**
+     * AJAX
+     *
+     * @param Request $request
+     * @param int $id Document ID
+     * @return JSON
+     */
+    public function ajaxMethods(Request $request, $id)
+    {
+        $this->authorize('viewPerms', 'AdminSwagClients');
+
+        $result = SwagGroup::with([
+            'document',
+            'methods' => function ($query) {
+                $query->active()
+                    ->orderBy('type', 'ASC')
+                    ->orderBy('url', 'ASC');
+            }
+        ])
+            ->active()
+            ->where('document_id', $id)
+            ->orderBy('name', 'ASC')
+            ->get();
+
+        return response()->json($result);
     }
 }

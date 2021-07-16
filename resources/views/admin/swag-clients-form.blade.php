@@ -19,52 +19,46 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">@if($client){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $client ? $client->name : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">URL</label>
-                                        <input type="text" name="url" placeholder="URL" class="form-control" value="{{ old('url', $client ? $client->url : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Document <span class="text-danger">*</span></label>
-                                        <select name="document_id" class="form-control">
-                                            <option value="">Select Document</option>
-                                            @foreach($documents as $item)
-                                            <option value="{{ $item->id }}"@if(old('document_id', $client ? $client->document_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div id="methods" data-methods="@if($client){{ $client->methods }}@endif">
-                                        <div class="spinner4 mt-5 mb-0 ml-auto mr-auto d-none"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">@if($client){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $client ? $client->name : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">URL</label>
+                                <input type="text" name="url" placeholder="URL" class="form-control" value="{{ old('url', $client ? $client->url : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Document <span class="text-danger">*</span></label>
+                                <select name="document_id" class="form-control">
+                                    <option value="">Select Document</option>
+                                    @foreach($documents as $item)
+                                    <option value="{{ $item->id }}"@if(old('document_id', $client ? $client->document_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="methods" data-methods="@if($client){{ $client->methods }}@endif">
+                                <div class="spinner4 mt-5 mb-0 ml-auto mr-auto d-none"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.clients') }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.clients') }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection
@@ -75,7 +69,7 @@
         var spinnerObj = $('.spinner4');
         spinnerObj.removeClass('d-none');
 
-        $.ajax('{{ route('api.swag.methods', ['id' => 0]) }}'.replace('0', id), {
+        $.ajax('{{ url('/admin/ajax/swag-methods') }}/' + id, {
             method: 'GET',
             dataType: 'json',
             success: function (data) {

@@ -19,57 +19,51 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">@if($document){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $document ? $document->name : null) }}" maxlength="255" />
-                                    </div>
-                                    @if($document)
-                                    <div class="form-group">
-                                        <label class="form-label">Slug <i class="fe fe-info text-primary" title="{{ __('If you want to generate this value leave blank!') }}"></i></label>
-                                        <input type="text" name="slug" placeholder="Slug" class="form-control" value="{{ old('slug', $document->slug) }}" maxlength="255" />
-                                    </div>
-                                    @endif
-                                    <div class="form-group">
-                                        <label class="form-label">URL <span class="text-danger">*</span></label>
-                                        <input type="text" name="url" placeholder="URL" class="form-control" required="required" value="{{ old('url', $document ? $document->url : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Version <span class="text-danger">*</span></label>
-                                        <input type="text" name="version" placeholder="Version" class="form-control" required="required" value="{{ old('version', $document ? $document->version : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="version_in_url" value="0" />
-                                        <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="version_in_url" value="1" @if(old('version_in_url') || ($document && $document->version_in_url == 1)) checked="checked" @endif /><span class="custom-control-label">Version in URL</span></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea name="description" id="tinymce" class="form-control mb-4" placeholder="Description" style="height:200px">{{ old('description', $document ? $document->description : null) }}</textarea>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">@if($document){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $document ? $document->name : null) }}" maxlength="255" />
+                            </div>
+                            @if($document)
+                            <div class="form-group">
+                                <label class="form-label">Slug <i class="fe fe-info text-primary" title="{{ __('If you want to generate this value leave blank!') }}"></i></label>
+                                <input type="text" name="slug" placeholder="Slug" class="form-control" value="{{ old('slug', $document->slug) }}" maxlength="255" />
+                            </div>
+                            @endif
+                            <div class="form-group">
+                                <label class="form-label">URL <span class="text-danger">*</span></label>
+                                <input type="text" name="url" placeholder="URL" class="form-control" required="required" value="{{ old('url', $document ? $document->url : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Version <span class="text-danger">*</span></label>
+                                <input type="text" name="version" placeholder="Version" class="form-control" required="required" value="{{ old('version', $document ? $document->version : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="version_in_url" value="0" />
+                                <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="version_in_url" value="1" @if(old('version_in_url') || ($document && $document->version_in_url == 1)) checked="checked" @endif /><span class="custom-control-label">Version in URL</span></label>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="description" id="tinymce" class="form-control mb-4" placeholder="Description" style="height:200px">{{ old('description', $document ? $document->description : null) }}</textarea>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.documents') }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.swag.documents') }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
     <script>
