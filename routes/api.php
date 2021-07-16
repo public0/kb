@@ -18,22 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Articles
-Route::get(
-    '/articles',
-    [App\Http\Controllers\API\ArticlesController::class, 'list']
-)->name('api.articles.list');
-Route::get(
-    '/articles/{id}',
-    [App\Http\Controllers\API\ArticlesController::class, 'item']
-)->name('api.articles.item');
-
-// Files
-Route::get(
-    '/files',
-    [App\Http\Controllers\API\FilesController::class, 'list']
-)->name('api.files.list');
-
 // Localization
 Route::get(
     '/localization/translation',
@@ -53,9 +37,3 @@ Route::get(
     '/templates/get-subtypes/{type_id?}',
     [App\Http\Controllers\API\TemplatesController::class, 'getSubtypes']
 )->name('api.templates.getsubtypes');
-
-// Swag
-Route::get(
-    '/swag/methods/{id}',
-    [App\Http\Controllers\API\SwagController::class, 'methods']
-)->name('api.swag.methods');
