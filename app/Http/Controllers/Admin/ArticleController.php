@@ -160,7 +160,6 @@ class ArticleController extends Controller
                 $art->user_role = $user_role;
                 $art->in_right_col = $in_right_col;
                 $art->updated_by = Auth::id();
-                dd($art);
                 $art->save();
                 $last_id = $art->id;
 
