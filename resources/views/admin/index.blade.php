@@ -71,6 +71,7 @@
 <a href="#top" id="back-to-top"><i class="fe fe-chevrons-up"></i></a>
 <!-- Jquery js-->
 <script src="{{ url('/th/assets/js/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ url('/th/assets/js/jquery-3.5.1.min.js') }}"></script>
 <!-- Bootstrap4 js-->
 <script src="{{ url('/th/assets/plugins/bootstrap/popper.min.js') }}"></script>
 <script src="{{ url('/th/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -114,8 +115,8 @@
 <script src="{{ url('/th/assets/js/select2.js') }}"></script>
 <!--INTERNAL Moment js-->
 <script src="{{ url('/th/assets/plugins/moment/moment.js') }}"></script>
-<!--INTERNAL Index js-->
-<script src="{{ url('/th/assets/js/index1.js') }}"></script>
+{{-- <!--INTERNAL Index js-->
+<script src="{{ url('/th/assets/js/index1.js') }}"></script> --}}
 <!-- Simplebar JS -->
 <script src="{{ url('/th/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 <!-- Custom js and DATATABLES-->
