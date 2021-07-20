@@ -2,35 +2,18 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-use App\Models\Category;
+use App\Actions\CategoriesTrait;
 use App\Models\Language;
+use Illuminate\View\Component;
 use Illuminate\Support\Facades\App;
 
 class FrontHeader extends Component
 {
+    use CategoriesTrait;
+
     public $headerCategories;
     public $languages;
     public $selectedLanguage;
-
-    private function getTree($parentID)
-    {
-        $result = [];
-        $categories = Category::active()
-            ->select('id', 'name')
-            ->where('parent_id', $parentID)
-            ->orderBy('name', 'asc')
-            ->get();
-        foreach ($categories as $category) {
-            $result[$category->id] = [
-                'id' => $category->id,
-                'name' => $category->name,
-                'child' => $this->getTree($category->id)
-            ];
-        }
-
-        return $result;
-    }
 
     /**
      * Create a new component instance.
@@ -39,7 +22,7 @@ class FrontHeader extends Component
      */
     public function __construct()
     {
-        $this->headerCategories = $this->getTree(0);
+        $this->headerCategories = $this->getCategoriesTree(0);
         $this->languages = Language::all();
         $this->selectedLanguage = App::currentLocale();
     }
