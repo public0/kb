@@ -35,10 +35,11 @@ class ArticleController extends Controller
                 'status',
                 'article_id',
                 'in_right_col',
-                'lang_parent_id'
+                'lang_parent_id',
+                'rank'
             )
             ->commentsNumber()
-            ->orderBy('id', 'ASC');
+            ->orderBy('rank', 'DESC');
 
         $filters = ['category' => null, 'language' => null, 'status' => null];
         if ($request->isMethod('get')) {
@@ -126,7 +127,6 @@ class ArticleController extends Controller
                 'title' => 'required|max:255|unique:' . Article::class,
                 'description' => 'required|max:255',
                 'body' => 'required',
-                'rank' => 'unique:' . Article::class,
                 'tags' => 'max:255',
                 'status' => 'required|integer|max:1'
             ]);
@@ -232,7 +232,6 @@ class ArticleController extends Controller
                     'title' => 'required|max:255|unique:' . Article::class,
                     'description' => 'required|max:255',
                     'body' => 'required',
-                    'rank' => 'unique:' . Article::class,
                     'tags' => 'max:255',
                     'status' => 'required|integer|max:1'
                 ]);
@@ -243,7 +242,6 @@ class ArticleController extends Controller
                     'title' => 'required|max:255',
                     'description' => 'required|max:255',
                     'body' => 'required',
-                    'rank' => 'unique:' . Article::class,
                     'tags' => 'max:255',
                     'status' => 'required|integer|max:1'
                 ]);

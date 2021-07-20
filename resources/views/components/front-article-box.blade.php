@@ -15,7 +15,7 @@ $url = route('front.article', ['id' => $art->article_id]);
             {{-- <div class="avatar brround avatar-md mr-3" style="background-image: url(../../assets/images/users/16.jpg)"></div> --}}
             <div>
                 {{-- <a href="{{ $url }}" title="{{ $art->title }}" class="font-weight-semibold">{{ $art->article_id }}</a> --}}
-                <small class="d-block text-muted">{{ date('d.m.Y', strtotime($art->created_at)) }}</small>
+                <small class="d-block text-muted">{{ date('d.m.Y', strtotime($art->updated_at)) }}</small>
             </div>
             <div class="ml-auto text-muted">
                 {{-- <a href="javascript:void(0)" class="icon d-none d-md-inline-block ml-3"><i class="fe fe-heart  fs-16 text-icon"></i></a> --}}

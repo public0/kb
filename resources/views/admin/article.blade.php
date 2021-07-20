@@ -66,7 +66,7 @@
                     <!-- // Filters -->
                     @if(!empty($articles))
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="example1">
+                        <table class="table table-bordered" id="articles">
                             <thead>
                             <tr role="row">
                                 <th class="wd-15p border-bottom-0">ID</th>
@@ -77,6 +77,7 @@
                                 <th class="wd-15p border-bottom-0">Modified</th>
                                 <th class="wd-15p border-bottom-0">Right Col</th>
                                 <th class="wd-10p border-bottom-0">Status</th>
+                                <th class="wd-15p border-bottom-0" data-sort="desc">Sort Order</th>
                                 <th class="wd-15p border-bottom-0">Comments</th>
                                 <th class="wd-10p border-bottom-0 no-sort">Actions</th>
                             </tr>
@@ -107,6 +108,7 @@
                                 <td class="table-col-shrink text-center">
                                     <a href="{{ url('/admin/article/status', [$art->id]) }}" class="btn btn-sm btn-link">{{ $art->status_name }}</a>
                                 </td>
+                                <td>{{ $art->rank }}</td>
                                 <td class="table-col-shrink text-center">
                                     <a href="{{ url('/admin/comments?article=' . $art->id) }}" class="btn btn-sm btn-link">{{ $art->comments_number }} {{ __('labels.comments') }}</a>
                                 </td>
@@ -134,3 +136,30 @@
         </div>
     </div>
 @endsection
+
+@push('body-scripts')
+<script>
+    var orderCells = [];
+    $('#articles thead tr th').each(function (k, v) {
+        var sort = $(v).data('sort');
+        if (typeof sort !== 'undefined') {
+            orderCells.push([k, sort]);
+        }
+    });
+    $('#articles').DataTable({
+        sort: true,
+        columnDefs: [
+            {
+                targets: 'no-sort',
+                orderable: false
+            }
+        ],
+        order: orderCells,
+        language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_',
+        }
+    });
+</script>
+@endpush

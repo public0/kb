@@ -23,7 +23,7 @@
             </div> --}}
             <div class="card-body">
                 <div class="item7-card-desc d-md-flex pb-3 mb-3 border-bottom">
-                    <a href="javascript:void(0)" class="d-flex mr-4"><i class="fe fe-calendar fs-16 mr-1"></i><div class="mt-0">{{ date('d.m.Y',strtotime($article->created_at)) }}</div></a>
+                    <a href="javascript:void(0)" class="d-flex mr-4"><i class="fe fe-calendar fs-16 mr-1"></i><div class="mt-0">{{ date('d.m.Y',strtotime($article->updated_at)) }}</div></a>
                     {{-- <span class="fs-14 ml-2 mr-4"> {{ $article->rank }} <i class="fa fa-star text-yellow"></i></span> --}}
                     {{-- <a href="javascript:void(0)" class="d-flex"><i class="fe fe-info fs-16 mr-1"></i><div class="mt-0">{{ $article->article_id }}</div></a> --}}
                     <div class="ml-auto"><a class="mr-0 d-flex" href="javascript:void(0)" onclick="scrollToElm('a[name=ArticleComments]')"><div class="mt-0">{{ count($comments) }}</div> <i class="fe fe-message-square fs-16 ml-1"></i></a></div>
@@ -105,3 +105,17 @@
     </div>
 </div>
 @endsection
+
+@push('body-scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.article-body img')
+            .removeAttr('width')
+            .removeAttr('height')
+            .removeAttr('border')
+            .removeAttr('style')
+            .css('max-width', '100%')
+            .css('height', 'auto');
+    });
+</script>
+@endpush

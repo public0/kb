@@ -1,5 +1,14 @@
 @extends('admin/index')
 
+@if($article)
+@php
+$viewParams = ['id' => $article->article_id];
+if (!$article->status) {
+    $viewParams['preview'] = 'true';
+}
+@endphp
+@endif
+
 @section('content')
     <div class="app-content main-content">
         <div class="side-app">
@@ -29,22 +38,16 @@
             @endif
             <!--div-->
             <div class="card">
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
                 <div class="card-header">
                     <h3 class="card-title">@if($article){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</h3>
                     <div class="card-options">
-                        @if($article)
-                        @php
-                        $viewParams = ['id' => $article->article_id];
-                        if (!$article->status) {
-                            $viewParams['preview'] = 'true';
-                        }
-                        @endphp
-                        <a href="{{ route('front.article', $viewParams) }}" target="_blank" class="btn btn-sm btn-primary"><i class="fe fe-book-open"></i></a>
-                        @endif
+                        <a href="{{ url('/admin/article') }}" class="btn btn-light mr-2">{{ __('labels.back') }}</a>
+                        @if($article)<a href="{{ route('front.article', $viewParams) }}" target="_blank" class="btn btn-primary mr-2">{{ __('labels.view') }}</a>@endif
+                        <button type="submit" class="btn btn-info" onclick="tinyMCE.triggerSave();">{{ __('labels.submit') }}</button>
                     </div>
                 </div>
-                <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                @csrf
                 <div class="card-body pb-2">
                     <div class="row row-sm">
                         <div class="col-xl-6 col-lg-6">
@@ -57,8 +60,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Rank</label>
-                                <input type="number" name="rank" class="form-control mb-4" value="{{ old('rank', $article ? $article->rank : null) }}">
+                                <label class="form-label">Sort Order</label>
+                                <input type="number" name="rank" class="form-control mb-4" value="{{ old('rank', $article ? $article->rank : null) }}" />
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6">
@@ -135,7 +138,7 @@
                                 <select name="user_role" class="form-control custom-select select2">
                                     <option value="">Public</option>
                                     @foreach($user_roles as $roleID => $role)
-                                    <option value="{{ $roleID }}"@if(old('role', $article ? $article->user_role : null) == $roleID) selected="selected" @endif>{{ $role }}</option>
+                                    <option value="{{ $roleID }}"@if(old('role', $article && $article->user_role ? $article->user_role : -1) == $roleID) selected="selected" @endif>{{ $role }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -158,6 +161,7 @@
                 </div>
                 <div class="card-footer text-right">
                     <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/article') }}'">{{ __('labels.back') }}</button>
+                    @if($article)<a href="{{ route('front.article', $viewParams) }}" target="_blank" class="btn btn-primary mr-2">{{ __('labels.view') }}</a>@endif
                     <button type="submit" class="btn btn-info" onclick="tinyMCE.triggerSave();">{{ __('labels.submit') }}</button>
                 </div>
                 </form>
