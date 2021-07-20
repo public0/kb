@@ -24,7 +24,7 @@
                     <div class="d-flex align-items-center mt-auto">
                         <div>
                             {{-- <a href="{{ $url }}" title="{{ $art->title }}" class="font-weight-semibold">{{ $art->article_id }}</a> --}}
-                            <small class="d-block text-muted">{{ date('d.m.Y', strtotime($art->created_at)) }}</small>
+                            <small class="d-block text-muted">{{ date('d.m.Y', strtotime($art->updated_at)) }}</small>
                         </div>
                     </div>
                 </div>
