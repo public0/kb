@@ -55,8 +55,8 @@
                         <div class="form-group mr-sm-3">
                             <select name="status" class="form-control">
                                 <option value="">Select Status</option>
-                                <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
-                                <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.inactive') }}</option>
+                                <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.published') }}</option>
+                                <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.draft') }}</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
