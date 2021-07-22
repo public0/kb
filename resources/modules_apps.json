@@ -5,6 +5,7 @@
             "name": "Articles",
             "route": "front.home",
             "icon": "fe fe-book",
+            "client": true,
             "roles": "admin,intern,extern,guest"
         }
     ],

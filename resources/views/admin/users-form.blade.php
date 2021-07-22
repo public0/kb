@@ -50,7 +50,7 @@
                                 <label class="form-label">Country</label>
                                 <select name="country_code" class="form-control custom-select select2">
                                     @foreach($countries as $code => $name)
-                                    <option value="{{$code}}"@if(old('role', $user ? $user->country_code : null) == $code) selected="selected" @endif>{{$name}}</option>
+                                    <option value="{{ $code }}"@if(old('role', $user ? $user->country_code : null) == $code) selected="selected" @endif>{{ $name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -70,6 +70,17 @@
                                     <option value="0"@if(old('status', $user ? $user->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
                                 </select>
                             </div>
+                            @if (!$auth_user->client_id)
+                            <div class="form-group">
+                                <label class="form-label">Client</label>
+                                <select name="client_id" class="form-control custom-select select2">
+                                    <option value="">No Client</option>
+                                    @foreach($clients as $client)
+                                    <option value="{{ $client->id }}"@if(old('client_id', $user ? $user->client_id : null) == $client->id) selected="selected" @endif>{{ $client->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
                         </div>
                         <div class="col-md-4 perms-groups">
                             <div class="text-right mb-3">
@@ -77,8 +88,18 @@
                                 <button type="button" class="btn btn-sm btn-danger btn-uncheck-all" title="{{ __('Deselect All') }}"><i class="fe fe-x"></i></button>
                             </div>
                             <div class="row">
+                                @if(!$auth_user->client_id)
                                 <div class="col-6">
                                 @if(!empty($adminModules))
+                                    @php
+                                    foreach ($adminModules as $group => $items) {
+                                        foreach ($items as $k => $item) {
+                                            if (!$auth_user->isRole('admin') && !empty($item['admin'])) {
+                                                unset($adminModules[$group][$k]);
+                                            }
+                                        }
+                                    }
+                                    @endphp
                                     <h4>Admin</h4>
                                     @foreach($adminModules as $group => $items)
                                     @if($items)
@@ -89,7 +110,7 @@
                                             <input type="checkbox" class="custom-control-input" name="perms[{{ $item['id'] }}]" data-roles="{{ strtolower($item['roles']) }}" @if($user && in_array($item['id'], $user->permissions_data)) checked="chekcked"@endif />
                                             <span class="custom-control-label">
                                                 {{ __($item['name']) }}
-                                                @if(isset($item['admin']) && $item['admin'] === true)<i class="fe fe-alert-octagon fs-14 text-danger" style="cursor:help" title="{{ __('Requires also a user with Admin role') }}"></i>@endif
+                                                @if(!empty($item['admin']))<i class="fe fe-alert-octagon fs-14 text-danger" style="cursor:help" title="{{ __('Requires also a user with Admin role') }}"></i>@endif
                                             </span>
                                         </label>
                                         @endforeach
@@ -98,8 +119,18 @@
                                     @endforeach
                                 @endif
                                 </div>
+                                @endif
                                 <div class="col-6">
                                 @if(!empty($appsModules))
+                                    @php
+                                    foreach ($appsModules as $group => $items) {
+                                        foreach ($items as $k => $item) {
+                                            if ($auth_user->client_id && empty($item['client'])) {
+                                                unset($appsModules[$group][$k]);
+                                            }
+                                        }
+                                    }
+                                    @endphp
                                     <h4>Apps</h4>
                                     @foreach($appsModules as $group => $items)
                                     @if($items)

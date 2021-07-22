@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Comment;
 use App\Models\Newsletter;
 use App\Models\SwagDocument;
@@ -35,6 +36,7 @@ class AdminSidebar extends Component
     {
         $data = [
             'users_nr' => User::count(),
+            'clients_nr' => Client::count(),
             'articles_nr' => Article::count(),
             'categories_nr' => Category::count(),
             'comments_nr' => Comment::count(),

@@ -7,6 +7,14 @@
             "icon": "fe fe-users",
             "badge": "$users_nr",
             "roles": "admin"
+        }, {
+            "id": "AdminClients",
+            "name": "Clients",
+            "route": "admin.clients",
+            "icon": "fe fe-user-check",
+            "badge": "$clients_nr",
+            "admin": true,
+            "roles": "admin"
         }
     ],
     "Knowledge Base": [

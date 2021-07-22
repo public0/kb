@@ -103,6 +103,27 @@ Route::middleware(['auth'])->group(function () {
         '/admin/profile/delete-image',
         [App\Http\Controllers\Admin\ProfileController::class, 'deleteImage']
     )->name('admin.profile.delete-image');
+    // Clients
+    Route::get(
+        '/admin/clients',
+        [App\Http\Controllers\Admin\ClientsController::class, 'index']
+    )->name('admin.clients');
+    Route::get(
+        '/admin/clients/status/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'status']
+    )->name('admin.clients.status');
+    Route::any(
+        '/admin/clients/add',
+        [App\Http\Controllers\Admin\ClientsController::class, 'add']
+    )->name('admin.clients.add');
+    Route::any(
+        '/admin/clients/edit/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'edit']
+    )->name('admin.clients.edit');
+    Route::get(
+        '/admin/clients/delete/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'delete']
+    )->name('admin.clients.delete');
     // Localization
     Route::get(
         '/admin/localization',

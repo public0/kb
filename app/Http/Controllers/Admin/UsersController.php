@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Countries;
 use App\Actions\PasswordReseter;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -16,7 +18,7 @@ class UsersController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('viewPerms', 'AdminUsers');
+        $this->authorize('userPerms', 'index');
 
         $users = User::select();
         $filters = ['role' => null, 'status' => null, 'country' => null];
@@ -34,6 +36,10 @@ class UsersController extends Controller
                 $users->where('status', $filters['status']);
             }
         }
+        $clientID = Auth::user()->client_id;
+        if ($clientID) {
+            $users->where('client_id', $clientID);
+        }
         $users = $users->get();
 
         return view('admin/users', [
@@ -46,11 +52,11 @@ class UsersController extends Controller
 
     public function status($id)
     {
-        $this->authorize('viewPerms', 'AdminUsers');
+        $user = User::where('id', $id);
+        $data = $user->first();
+        $this->authorize('userPerms', ['status', $data]);
 
         try {
-            $user = User::where('id', $id);
-            $data = $user->first();
             $user->update([
                 'status' => 1 - $data->status
             ]);
@@ -64,13 +70,8 @@ class UsersController extends Controller
 
     public function add(Request $request)
     {
-        $this->authorize('viewPerms', 'AdminUsers');
-
-        $data = [
-            'user' => null,
-            'roles' => (new User)->roles,
-            'countries' => $this->getAllCountries()
-        ];
+        $authUser = Auth::user();
+        $this->authorize('userPerms', 'add');
 
         if ($request->isMethod('post')) {
             $name = trim($request->input('name'));
@@ -100,6 +101,7 @@ class UsersController extends Controller
                 $user->country_code = $country_code;
                 $user->status = $status;
                 $user->password = $this->prGenerateHash('xoxoxo34*xox');
+                $user->client_id = $request->input('client_id', $authUser->client_id);
                 $user->save();
             } catch (Exception $e) {
                 return redirect()->back()
@@ -109,20 +111,21 @@ class UsersController extends Controller
             return redirect('/admin/users')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/users-form', $data);
+        return view('admin/users-form', [
+            'user' => null,
+            'roles' => (new User)->roles,
+            'countries' => $this->getAllCountries(),
+            'clients' => Client::active()->get(),
+            'auth_user' => $authUser
+        ]);
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
-        $this->authorize('viewPerms', 'AdminUsers');
-
-        $id = $request->id;
-        $users = User::where('id', $id)->get();
-        $data = [
-            'user' => $users[0],
-            'roles' => (new User)->roles,
-            'countries' => $this->getAllCountries()
-        ];
+        $authUser = Auth::user();
+        $user = User::where('id', $id);
+        $data = $user->first();
+        $this->authorize('userPerms', ['edit', $data]);
 
         if ($request->isMethod('post')) {
             $name = trim($request->input('name'));
@@ -133,7 +136,7 @@ class UsersController extends Controller
             $status = $request->input('status');
             $permissions = $request->input('perms');
 
-            if ($email != $users[0]->email) {
+            if ($email != $data->email) {
                 $validated = $request->validate([
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
@@ -152,27 +155,33 @@ class UsersController extends Controller
                 ]);
             }
 
-            User::where('id', $id)->update([
+            $user->update([
                 'name' => $name,
                 'surname' => $surname,
                 'role' => $role,
                 'permissions' => $permissions ? json_encode(array_keys($permissions)) : null,
                 'country_code' => $country_code,
                 'email' => $email,
-                'status' => $status
+                'status' => $status,
+                'client_id' => $request->input('client_id', $authUser->client_id)
             ]);
 
             return redirect('/admin/users')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/users-form', $data);
+        return view('admin/users-form', [
+            'user' => $data,
+            'roles' => (new User)->roles,
+            'countries' => $this->getAllCountries(),
+            'clients' => Client::active()->get(),
+            'auth_user' => $authUser
+        ]);
     }
 
     public function passwordReset(Request $request, $id)
     {
-        $this->authorize('viewPerms', 'AdminUsers');
-
         $user = User::where('id', $id)->first();
+        $this->authorize('userPerms', ['passwordReset', $user]);
         $token = null;
 
         if ($request->isMethod('post')) {

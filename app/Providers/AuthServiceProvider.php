@@ -31,5 +31,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('viewAdmin', function ($user, $permission) {
             return $user->isRole('admin') && $user->hasPermission($permission);
         });
+
+        // Users
+        Gate::define('userPerms', function ($user, $action, $item = null) {
+            if (in_array($action, ['status', 'edit', 'passwordReset']) && $item) {
+                if ($user->client_id) {
+                    return $user->hasPermission('AdminUsers') && $user->client_id == $item->client_id;
+                }
+            }
+
+            return $user->hasPermission('AdminUsers');
+        });
     }
 }
