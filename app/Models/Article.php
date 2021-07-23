@@ -160,10 +160,19 @@ class Article extends Model
     {
         $like = ['[user_role] IS NULL'];
         if ($role !== null) {
-            if ($role == 1) {
-                $like[] = '[user_role] IS NOT NULL';
-            } else {
-                $like[] = '[user_role]=' . $role;
+            switch ($role) {
+                case 1:
+                    $like[] = '[user_role] IS NOT NULL';
+                    break;
+                case 2:
+                    $like[] = '[user_role] NOT IN(1)';
+                    break;
+                case 3:
+                    $like[] = '[user_role] NOT IN(1,2)';
+                    break;
+                default:
+                    $like[] = '[user_role]=' . $role;
+                    break;
             }
         }
 
@@ -180,9 +189,9 @@ class Article extends Model
     public function scopeCommentsNumber($query, $status = null)
     {
         $q = 'SELECT COUNT(*) FROM ' . (new Comment)->getTable() . ' AS t';
-        $q .= ' WHERE t.article_id=' . $this->table . '.id';
+        $q .= ' WHERE t.[article_id]=' . $this->table . '.[id]';
         if ($status !== null) {
-            $q .= ' AND t.status=' . (int)$status;
+            $q .= ' AND t.[status]=' . (int)$status;
         }
 
         return $query->selectRaw('(' . $q . ') AS comments_number');

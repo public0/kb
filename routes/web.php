@@ -53,7 +53,6 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
     Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
     Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
-    Route::any('/admin/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
 
     Route::get('/admin/categories', [App\Http\Controllers\Admin\CategoriesController::class, 'index']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\CategoriesController::class, 'add']);
@@ -68,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/article/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'status']);
     Route::get('/admin/article/clone/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'clone']);
     Route::get('/admin/article/right-col/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'rightCol']);
+    Route::any('/admin/article/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
+    Route::any('/admin/article/upload-file', [App\Http\Controllers\Admin\ArticleController::class, 'uploadFile']);
     Route::get(
         '/admin/ajax/articles-list',
         [App\Http\Controllers\Admin\ArticleController::class, 'ajaxList']

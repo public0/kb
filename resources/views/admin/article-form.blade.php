@@ -100,6 +100,7 @@ if (!$article->status) {
                                     <select class="form-control" id="files"></select>
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-sm btn-primary" id="filesbutton"><i class="fe fe-link"></i><i class="fe fe-plus"></i></button>
+                                        <button type="button" class="btn btn-sm btn-info" id="uploadbutton" title="{{ __('labels.upload_file') }}"><i class="fe fe-upload"></i></button>
                                     </span>
                                 </div>
                             </div>
@@ -170,7 +171,7 @@ if (!$article->status) {
         </div>
     </div>
     <script>
-    var upload_url = '{{ url('/admin/upload-image') }}?_token={{@csrf_token()}}';
+    var upload_url = '{{ url('/admin/article/upload-image') }}?_token={{@csrf_token()}}';
     tinymce.init({
         selector: '#tinymce',
         images_dataimg_filter: function(img) {
@@ -294,6 +295,72 @@ if (!$article->status) {
                 selectFiles.val(null).trigger('change');
             }
         });
+        $('#uploadbutton').on('click', function (e) {
+            e.preventDefault();
+            $('.modal').remove();
+            var _token = '{{ @csrf_token() }}';
+            var label = '{{ __('labels.select_a_file') }}';
+            var buttons = {
+                cancel: '{{ __('labels.close') }}',
+                ok: '{{ __('labels.submit') }}'
+            };
+            var url = '{{ url('/admin/article/upload-file') }}';
+
+            var html = '<div class="modal show" aria-modal="true">';
+            html += '<div class="modal-dialog modal-md" role="document">';
+            html += '<div class="modal-content">';
+            html += '<div class="modal-header">';
+            html += '<h6 class="modal-title">' + $(this).attr('title') + '</h6>';
+            html += '<button aria-label="' + buttons.cancel + '" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>';
+            html += '</div>';
+            html += '<div class="modal-body">';
+
+            html += '<div class="form-group mb-0">';
+            html += '<label class="form-label">' + label + '</label>';
+            html += '<input type="file" name="file" />';
+            html += '</div>';
+
+            html += '</div>';
+            html += '<div class="modal-footer justify-content-center">';
+            html += '<button class="btn btn-indigo btn-upload" type="button">' + buttons.ok + '</button>';
+            html += '<button class="btn btn-secondary" data-dismiss="modal" type="button">' + buttons.cancel + '</button>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            $('body').append(html);
+            $('.modal').modal();
+
+            $('.modal .btn-upload').on('click', function () {
+                var btn = $(this);
+                var file = $('.modal input[name="file"]').get(0).files[0];
+                if (typeof file !== 'undefined') {
+                    btn.prop('disabled', true);
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('_token', _token);
+                    formData.append('upload_file', true);
+                    $.ajax(url, {
+                        method: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            var option = new Option(data.name, data.path, false, true);
+                            $('select#files').append(option).trigger('change');
+                            $('.modal').modal('hide');
+                            btn.prop('disabled', false);
+                        },
+                        error: function () {
+                            btn.prop('disabled', false);
+                        }
+                    });
+                }
+            });
+        });
         $('select[name="lang_parent_id"]').on('change', function () {
             var id = $(this).val();
             $.ajax('{{ route('admin.ajax.articles.item', ['id' => 0]) }}'.replace('0', id), {
@@ -349,7 +416,6 @@ if (!$article->status) {
             populateLangParentId($(this).val());
         });
         populateLangParentId(selectLang.val());
-        $('[required]').removeAttr('required');
     });
 </script>
 @endpush

@@ -325,14 +325,34 @@ class ArticleController extends Controller
     {
         $this->authorize('viewPerms', 'AdminKBArticles');
 
-        $file = $request->file('file');
-        if ($file) {
-            $name = $file->getClientOriginalName();
-            $file->storeAs('public/articles', $name);
+        if ($request->isMethod('post')) {
+            $file = $request->file('file');
+            if ($file) {
+                $name = $file->getClientOriginalName();
+                $file->storeAs('public/articles', $name);
 
-            return response()->json([
-                'location' => url('storage/articles/' . $name)
-            ]);
+                return response()->json([
+                    'location' => url('storage/articles/' . $name)
+                ]);
+            }
+        }
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $this->authorize('viewPerms', 'AdminKBArticles');
+
+        if ($request->isMethod('post')) {
+            $file = $request->file('file');
+            if ($file) {
+                $name = $file->getClientOriginalName();
+                $file->storeAs('public/articles/files', $name);
+
+                return response()->json([
+                    'name' => $name,
+                    'path' => '/storage/articles/files/' . $name
+                ]);
+            }
         }
     }
 
