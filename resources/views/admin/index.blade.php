@@ -71,7 +71,6 @@
 <a href="#top" id="back-to-top"><i class="fe fe-chevrons-up"></i></a>
 <!-- Jquery js-->
 <script src="{{ url('/th/assets/js/jquery-3.5.1.min.js') }}"></script>
-<script src="{{ url('/th/assets/js/jquery-3.5.1.min.js') }}"></script>
 <!-- Bootstrap4 js-->
 <script src="{{ url('/th/assets/plugins/bootstrap/popper.min.js') }}"></script>
 <script src="{{ url('/th/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
