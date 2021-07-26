@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\ArticleCountry;
 use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
@@ -92,25 +93,36 @@ class ImportController extends Controller
 
     private function articles()
     {
-        $articles = DB::table('dbo.tblarticle')
+        $articles = DB::table('dbo.tmparticle')
             ->where('status', 'P')
             ->get();
+        DB::unprepared('SET IDENTITY_INSERT kb.articles ON');
         foreach ($articles as $article) {
             $art = new Article;
             $art->id = $article->id;
             $art->article_id = 'AT' . strtoupper(dechex($article->id));
             $art->title = str_replace('\"', '"', $article->title);
-            $art->description = strip_tags(substr($article->body, 0, strpos($article->body, '.')));
+            $art->description = substr(strip_tags(str_replace('&nbsp;', '', str_replace('\r\n', '', $article->description))), 0, 250);
             $art->body = str_replace('\r\n', PHP_EOL, $article->description);
-            $art->category_id = $article->subcat_id ?? 1;
-            $art->tags = null;
             $art->lang = $article->lang_id == 38 ? 'RO' : 'EN';
-            $art->status = $article->status == 'P' ? 1 : 0;
+            $art->category_id = null;
+            $art->categories_ids = null;
+            $art->tags = null;
+            $art->status = 1;
+            $art->created_at = $article->created;
+            $art->updated_at = $article->created;
+            $art->updated_by = 5;
+            $art->in_right_col = 0;
             $art->lang_parent_id = null;
             $art->rank = $article->sorting_id;
-            $art->user_groups = null;
-            $art->in_right_col = 0;
+            $art->user_role = null;
             $art->save();
+
+            $ac = new ArticleCountry;
+            $ac->article_id = $art->id;
+            $ac->country_code = 'ro';
+            $ac->save();
         }
+        DB::unprepared('SET IDENTITY_INSERT kb.articles OFF');
     }
 }
