@@ -94,11 +94,7 @@
                                                 <div class="section-title fs-14 mt-6">Request URL</div>
                                                 <div class="pre text-monospace"><span></span>@if($document->version_in_url)/{{ $document->version }}@endif{{ $method->url }}</div>
                                                 </div>
-                                                @if(!empty($method->output_success_data['code'])
-                                                    || !empty($method->output_success_data['content'])
-                                                    || !empty($method->output_error_data['code'])
-                                                    || !empty($method->output_error_data['content'])
-                                                )
+                                                @if($method->output)
                                                 <div class="section-title fs-14 mt-6">Responses</div>
                                                 <table class="section-table">
                                                     <thead>
@@ -108,26 +104,16 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @if($method->output_success && (!empty($method->output_success_data['code']) || !empty($method->output_success_data['content'])))
+                                                    @foreach($method->output_data as $out)
                                                     <tr valign="top">
                                                         <td class="pb-5 fs-14">
-                                                            @if(!empty($method->output_success_data['code'])){{ $method->output_success_data['code'] }}@endif
+                                                            @if(isset($out['code'])){{ $out['code'] }}@endif
                                                         </td>
                                                         <td class="pb-5">
-                                                            @if(!empty($method->output_success_data['content']))<pre>{!! $method->output_success_data['content'] !!}</pre>@endif
+                                                            @if(isset($out['content']))<pre>{!! $out['content'] !!}</pre>@endif
                                                         </td>
                                                     </tr>
-                                                    @endif
-                                                    @if($method->output_error && (!empty($method->output_error_data['code']) || !empty($method->output_error_data['content'])))
-                                                    <tr valign="top">
-                                                        <td class="pb-5 fs-14">
-                                                            @if(!empty($method->output_error_data['code'])){{ $method->output_error_data['code'] }}@endif
-                                                        </td>
-                                                        <td class="pb-5">
-                                                            @if(!empty($method->output_error_data['content']))<pre>{!! $method->output_error_data['content'] !!}</pre>@endif
-                                                        </td>
-                                                    </tr>
-                                                    @endif
+                                                    @endforeach
                                                     </tbody>
                                                 </table>
                                                 @endif

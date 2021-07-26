@@ -319,10 +319,8 @@ class SwagDocumentsController extends Controller
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
-                $outputSuccess = $request->input('output_success');
-                $fields['output_success'] = serialize($outputSuccess);
-                $outputError = $request->input('output_error');
-                $fields['output_error'] = serialize($outputError);
+                $output = $request->input('output');
+                $fields['output'] = serialize($output);
                 $meth = SwagMethod::create($fields);
 
                 return redirect()->route('admin.swag.methods', ['docid' => $docid, 'gid' => $gid])
@@ -369,10 +367,8 @@ class SwagDocumentsController extends Controller
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
-                $outputSuccess = $request->input('output_success');
-                $fields['output_success'] = serialize($outputSuccess);
-                $outputError = $request->input('output_error');
-                $fields['output_error'] = serialize($outputError);
+                $output = $request->input('output');
+                $fields['output'] = serialize($output);
                 $method->update($fields);
 
                 return redirect()->route('admin.swag.methods', ['docid' => $docid, 'gid' => $gid])

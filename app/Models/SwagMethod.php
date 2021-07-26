@@ -22,8 +22,7 @@ class SwagMethod extends Model
         'description',
         'url',
         'parameters',
-        'output_success',
-        'output_error',
+        'output',
         'notes',
         'status',
         'stage'
@@ -82,22 +81,12 @@ class SwagMethod extends Model
     }
 
     /**
-     * Get output success values.
+     * Get output values.
      *
      * @return array
      */
-    public function getOutputSuccessDataAttribute()
+    public function getOutputDataAttribute()
     {
-        return $this->output_success ? unserialize($this->output_success) : [];
-    }
-
-    /**
-     * Get output error values.
-     *
-     * @return array
-     */
-    public function getOutputErrorDataAttribute()
-    {
-        return $this->output_error ? unserialize($this->output_error) : [];
+        return $this->output ? unserialize($this->output) : [];
     }
 }

@@ -1,4 +1,4 @@
-<div class="params-template">
+<div class="params-template bg-white">
     <div class="row mb-3">
         <div class="col-8">
             <label class="form-label">Param [{{ $key }}]</label>
