@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Actions\PasswordReseter;
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Mail\AccountRequestMail;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -89,5 +92,24 @@ class AuthController extends Controller
         }
 
         return view('auth.password-reset');
+    }
+
+    public function accountRequest(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email:rfc,dns|max:255',
+                'phone' => 'required|max:255',
+                'company' => 'required|max:255'
+            ]);
+
+            Mail::to(Setting::byKey('RequestAccessEmail'))
+                ->send(new AccountRequestMail($request->all()));
+
+            return redirect()->route('auth.login');
+        }
+
+        return view('auth.account-request');
     }
 }

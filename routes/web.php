@@ -401,6 +401,10 @@ Route::name('auth.')->group(function () {
         '/password-reset',
         [App\Http\Controllers\AuthController::class, 'passwordReset']
     )->name('password.reset');
+    Route::any(
+        '/account-request',
+        [App\Http\Controllers\AuthController::class, 'accountRequest']
+    )->name('account.request');
 });
 
 // API Token

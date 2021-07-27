@@ -64,6 +64,13 @@
                                 @endif
                             </div>
                         </div>
+
+                        <hr />
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <a class="btn btn-primary" href="{{ route('auth.account.request') }}">{{ __('Account Request') }}</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
