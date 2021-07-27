@@ -59,6 +59,21 @@ class Article extends Model
         ]
     ];
 
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'description' => $this->description,
+            'body' => $this->body,
+            'status' => $this->status,
+            'lang' => $this->lang,
+            'category_id' => $this->category_id,
+            'categories_ids' => $this->categories_ids,
+            'article_id' => $this->article_id,
+            'user_role' => $this->user_role
+        ];
+    }
+
     public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -132,21 +147,6 @@ class Article extends Model
         }
 
         return $result;
-    }
-
-    public function toSearchableArray()
-    {
-        return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'body' => $this->body,
-            'status' => $this->status,
-            'lang' => $this->lang,
-            'category_id' => $this->category_id,
-            'categories_ids' => $this->categories_ids,
-            'article_id' => $this->article_id,
-            'user_role' => $this->user_role
-        ];
     }
 
     /**

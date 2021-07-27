@@ -69,11 +69,9 @@ class ArticleController extends Controller
         $this->authorize('viewPerms', 'AdminKBArticles');
 
         try {
-            $article = Article::where('id', $id);
-            $data = $article->first();
-            $article->update([
-                'status' => 1 - $data->status
-            ]);
+            $article = Article::find($id);
+            $article->status = 1 - $article->status;
+            $article->save();
 
             return redirect()->back();
         } catch (Exception $e) {
@@ -87,11 +85,9 @@ class ArticleController extends Controller
         $this->authorize('viewPerms', 'AdminKBArticles');
 
         try {
-            $article = Article::where('id', $id);
-            $data = $article->first();
-            $article->update([
-                'in_right_col' => 1 - $data->in_right_col
-            ]);
+            $article = Article::find($id);
+            $article->in_right_col = 1 - $article->in_right_col;
+            $article->save();
 
             return redirect()->back();
         } catch (Exception $e) {
@@ -262,22 +258,22 @@ class ArticleController extends Controller
             }
 
             try {
-                Article::where('id', $article->id)->update([
-                    'title' => $title,
-                    'description' => $description,
-                    'body' => $body,
-                    'category_id' => $category_id,
-                    'categories_ids' => $categories_ids ? ',' . implode(',', $categories_ids) . ',' : null,
-                    'tags' => $tags ? ',' . implode(',', $tags) . ',' : null,
-                    'lang' => $lang,
-                    'status' => $status,
-                    'rank' => $rank,
-                    'user_role' => $user_role,
-                    'lang_parent_id' => $lang_parent_id,
-                    'article_id' => $articleID,
-                    'in_right_col' => $in_right_col,
-                    'updated_by' => Auth::id()
-                ]);
+                $article = Article::find($id);
+                $article->title = $title;
+                $article->description = $description;
+                $article->body = $body;
+                $article->category_id = $category_id;
+                $article->categories_ids = $categories_ids ? ',' . implode(',', $categories_ids) . ',' : null;
+                $article->tags = $tags ? ',' . implode(',', $tags) . ',' : null;
+                $article->lang = $lang;
+                $article->status = $status;
+                $article->rank = $rank;
+                $article->user_role = $user_role;
+                $article->lang_parent_id = $lang_parent_id;
+                $article->article_id = $articleID;
+                $article->in_right_col = $in_right_col;
+                $article->updated_by = Auth::id();
+                $article->save();
 
                 $deletedRows = ArticleCountry::where('article_id', $article->id);
                 $deletedRows->delete();
@@ -361,12 +357,12 @@ class ArticleController extends Controller
         $this->authorize('viewPerms', 'AdminKBArticles');
 
         try {
-            $article = Article::where('id', $id);
-            $data = $article->first();
+            $article = Article::find($id);
+            $title = $article->title;
             $article->delete();
 
             return redirect()->back()
-                ->with('message', 'Article "' . $data->title . '" was deleted!');
+                ->with('message', 'Article "' . $title . '" was deleted!');
         } catch (Exception $e) {
             return redirect()->back()
                 ->with('error', $e->getMessage());
