@@ -81,6 +81,9 @@
                                 </select>
                             </div>
                             @endif
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="notify-user" value="1" /><span class="custom-control-label">Notify user to set password o this account (user account email).</span></label>
+                            </div>
                         </div>
                         <div class="col-md-4 perms-groups">
                             <div class="text-right mb-3">

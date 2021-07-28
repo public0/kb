@@ -5,16 +5,43 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Countries;
 use App\Actions\PasswordReseter;
 use App\Http\Controllers\Controller;
+use App\Mail\UserAccountMail;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
     use Countries;
     use PasswordReseter;
+
+    /**
+     * Get available roles for logged user
+     *
+     * @return array
+     */
+    private function getAvailableRoles()
+    {
+        $authUser = Auth::user();
+        $roles = $authUser->roles;
+        if ($authUser->client_id) {
+            foreach (array_keys($roles) as $role) {
+                if ($role == 0) {
+                    continue;
+                }
+                if ($authUser->role == $role) {
+                    break;
+                } else {
+                    unset($roles[$role]);
+                }
+            }
+        }
+
+        return $roles;
+    }
 
     public function index(Request $request)
     {
@@ -44,7 +71,7 @@ class UsersController extends Controller
 
         return view('admin/users', [
             'users' => $users,
-            'roles' => (new User)->roles,
+            'roles' => $this->getAvailableRoles(),
             'countries' => $this->getAllCountries(),
             'filters' => $filters
         ]);
@@ -52,14 +79,12 @@ class UsersController extends Controller
 
     public function status($id)
     {
-        $user = User::where('id', $id);
-        $data = $user->first();
-        $this->authorize('userPerms', ['status', $data]);
+        $user = User::find($id);
+        $this->authorize('userPerms', ['status', $user]);
 
         try {
-            $user->update([
-                'status' => 1 - $data->status
-            ]);
+            $user->status = 1 - $user->status;
+            $user->save();
 
             return redirect()->back();
         } catch (Exception $e) {
@@ -103,6 +128,18 @@ class UsersController extends Controller
                 $user->password = $this->prGenerateHash('xoxoxo34*xox');
                 $user->client_id = $request->input('client_id', $authUser->client_id);
                 $user->save();
+
+                if ($request->input('notify-user')) {
+                    $token = $this->prInsert($user);
+                    $fields = [
+                        'name' => $name,
+                        'surname' => $surname,
+                        'email' => $email,
+                        'password_link' => route('auth.password.reset', ['token' => $token])
+                    ];
+                    Mail::to($email)
+                        ->send(new UserAccountMail($fields));
+                }
             } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
@@ -113,7 +150,7 @@ class UsersController extends Controller
 
         return view('admin/users-form', [
             'user' => null,
-            'roles' => (new User)->roles,
+            'roles' => $this->getAvailableRoles(),
             'countries' => $this->getAllCountries(),
             'clients' => Client::active()->get(),
             'auth_user' => $authUser
@@ -123,9 +160,8 @@ class UsersController extends Controller
     public function edit(Request $request, $id)
     {
         $authUser = Auth::user();
-        $user = User::where('id', $id);
-        $data = $user->first();
-        $this->authorize('userPerms', ['edit', $data]);
+        $user = User::find($id);
+        $this->authorize('userPerms', ['edit', $user]);
 
         if ($request->isMethod('post')) {
             $name = trim($request->input('name'));
@@ -136,7 +172,7 @@ class UsersController extends Controller
             $status = $request->input('status');
             $permissions = $request->input('perms');
 
-            if ($email != $data->email) {
+            if ($email != $user->email) {
                 $validated = $request->validate([
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
@@ -155,23 +191,35 @@ class UsersController extends Controller
                 ]);
             }
 
-            $user->update([
-                'name' => $name,
-                'surname' => $surname,
-                'role' => $role,
-                'permissions' => $permissions ? json_encode(array_keys($permissions)) : null,
-                'country_code' => $country_code,
-                'email' => $email,
-                'status' => $status,
-                'client_id' => $request->input('client_id', $authUser->client_id)
-            ]);
+            $user = User::find($id);
+            $user->name = $name;
+            $user->surname = $surname;
+            $user->role = $role;
+            $user->permissions = $permissions ? json_encode(array_keys($permissions)) : null;
+            $user->country_code = $country_code;
+            $user->email = $email;
+            $user->status = $status;
+            $user->client_id = $request->input('client_id', $authUser->client_id);
+            $user->save();
+
+            if ($request->input('notify-user')) {
+                $token = $this->prInsert($user);
+                $fields = [
+                    'name' => $name,
+                    'surname' => $surname,
+                    'email' => $email,
+                    'password_link' => route('auth.password.reset', ['token' => $token])
+                ];
+                Mail::to($email)
+                    ->send(new UserAccountMail($fields));
+            }
 
             return redirect('/admin/users')->with('message', 'Operation Successful !');
         }
 
         return view('admin/users-form', [
-            'user' => $data,
-            'roles' => (new User)->roles,
+            'user' => $user,
+            'roles' => $this->getAvailableRoles(),
             'countries' => $this->getAllCountries(),
             'clients' => Client::active()->get(),
             'auth_user' => $authUser
