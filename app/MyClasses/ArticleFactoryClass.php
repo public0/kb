@@ -43,7 +43,7 @@ class ArticleFactoryClass
     {
         $articles = Article::active()
             ->where('lang', $data['lang'])
-            ->orderBy('rank', 'DESC')
+            ->userRole(Auth::check() ? Auth::user()->role : null)
             ->orderByRaw('CASE WHEN created_at > updated_at THEN created_at ELSE updated_at END DESC')
             ->take(5)
             ->get();

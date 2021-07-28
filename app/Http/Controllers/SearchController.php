@@ -56,11 +56,22 @@ class SearchController extends Controller
 
             $role = Auth::check() ? Auth::user()->role : null;
             if ($role !== null) {
-                if ($role != 1) {
-                    $items->whereIn('user_role', ['NULL', $role]);
+                switch ($role) {
+                    case 1:
+                        // pass
+                        break;
+                    case 2:
+                        $items->whereNotIn('user_role', [1]);
+                        break;
+                    case 3:
+                        $items->whereNotIn('user_role', [1,2]);
+                        break;
+                    default:
+                        $items->where('user_role', $role);
+                        break;
                 }
             } else {
-                $items->where('user_role', 'IS', 'NULL');
+                $items->where('user_role', 'NULL');
             }
 
             $articles = $items->get();
@@ -76,7 +87,7 @@ class SearchController extends Controller
         if ($q && strlen($q) > 2) {
             $articles = Article::search($this->term($q))
                 ->where('status', 1)
-                ->where('user_role', 'IS', 'NULL')
+                ->where('user_role', 'NULL')
                 ->get();
         }
 
