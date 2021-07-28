@@ -34,7 +34,7 @@
             "roles": "admin,intern"
         }, {
             "id": "AdminKBComments",
-            "name": "Commments",
+            "name": "Comments",
             "url": "/admin/comments",
             "icon": "fe fe-message-circle",
             "badge": "$comments_nr",
