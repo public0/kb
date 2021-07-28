@@ -372,7 +372,17 @@ Route::middleware(['api_token'])->group(function () {
         )->name('articles.view');
         Route::get(
             '/help/{api_token}/search',
-            [App\Http\Controllers\SearchController::class, 'helpSearch']
-        )->name('articles.search');
+            [App\Http\Controllers\SearchController::class,
+            'helpSearch'
+        ])->name('articles.search');
     });
+});
+
+// Utils 
+Route::name('utils.')->group(function () { 
+    //Route::get('/admin', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('admin.home');
+    Route::get('/utils', [App\Http\Controllers\Utils\UtilsController::class, 'index'])->name('home');
+    Route::get('/utils/history/{client_instances_id}', [App\Http\Controllers\Utils\UtilsController::class, 'history'])->name('history');
+    Route::get('/utils/ajax/history/{client_instances_id}', [App\Http\Controllers\Utils\AjaxController::class, 'getInformations']);
+    Route::get('/utils/ajax/history/', [App\Http\Controllers\Utils\AjaxController::class, 'getInformations']);
 });

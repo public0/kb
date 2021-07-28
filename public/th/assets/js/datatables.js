@@ -104,4 +104,15 @@ $(function(e) {
 		}
 	} );
 	$('#example4').DataTable();
+	
+	$('#utils-history').DataTable(
+		 /*{
+        "ajax": "../ajax/history/",
+		"columns": [
+            { "informations": "client_name" },
+            { "informations": "server_name" },
+                   
+        ]
+    	} */
+	);
 });
