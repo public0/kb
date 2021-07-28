@@ -12,6 +12,8 @@ class FilesController extends Controller
 
     public function index()
     {
+        $this->authorize('viewPerms', 'AdminKBFiles');
+
         $files = [];
         $dirFiles = Storage::files($this->filesDirectory);
         foreach ($dirFiles as $file) {
@@ -29,6 +31,8 @@ class FilesController extends Controller
 
     public function add(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminKBFiles');
+
         if ($request->isMethod('post')) {
             $file = $request->file('file');
             $name = $file->getClientOriginalName();
@@ -42,11 +46,46 @@ class FilesController extends Controller
 
     public function delete($file)
     {
+        $this->authorize('viewPerms', 'AdminKBFiles');
+
         $file = base64_decode($file);
 
         Storage::delete($this->filesDirectory . '/' . $file);
 
         return redirect()->back()
             ->with('message', 'File "' . $file . '" was deleted!');
+    }
+
+    /**
+     * AJAX
+     *
+     * @param Request $request
+     * @return JSON
+     */
+    public function ajaxList(Request $request)
+    {
+        $this->authorize('viewPerms', 'AdminKBFiles');
+
+        $dirFiles = Storage::files('public/articles/files');
+
+        $term = $request->query('term');
+        if ($term) {
+            $dirFiles = array_filter($dirFiles, function ($var) use ($term) {
+                return stripos(basename($var), $term) !== false;
+            });
+        }
+
+        $files = [];
+        foreach ($dirFiles as $file) {
+            $name = basename($file);
+            $files[] = [
+                'name' => $name,
+                'path' => '/storage/articles/files/' . $name
+            ];
+        }
+
+        return response()->json([
+            'files' => $files
+        ]);
     }
 }

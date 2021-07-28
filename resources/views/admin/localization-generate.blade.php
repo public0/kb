@@ -18,54 +18,48 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">{{ __('labels.generate') }}</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th width="50%">From</th>
-                                            <th width="50%">To</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                @foreach($languages as $k => $lang)
-                                                <label class="custom-control custom-radio"><input type="radio" class="custom-control-input" name="from" value="{{ strtolower($lang->abv) }}" @if($k == 0)checked="checked"@endif /> <span class="custom-control-label">{{ $lang->name }}</span></label>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @foreach($languages as $k => $lang)
-                                                <label class="custom-control custom-radio"><input type="radio" class="custom-control-input" name="to" value="{{ strtolower($lang->abv) }}" @if($k == 1)checked="checked"@endif /> <span class="custom-control-label">{{ $lang->name }}</span></label>
-                                                @endforeach
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.localization') }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
-                    </div>
-                    <!--/div-->
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{ __('labels.generate') }}</div>
                 </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50%">From</th>
+                                    <th width="50%">To</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        @foreach($languages as $k => $lang)
+                                        <label class="custom-control custom-radio"><input type="radio" class="custom-control-input" name="from" value="{{ strtolower($lang->abv) }}" @if($k == 0)checked="checked"@endif /> <span class="custom-control-label">{{ $lang->name }}</span></label>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach($languages as $k => $lang)
+                                        <label class="custom-control custom-radio"><input type="radio" class="custom-control-input" name="to" value="{{ strtolower($lang->abv) }}" @if($k == 1)checked="checked"@endif /> <span class="custom-control-label">{{ $lang->name }}</span></label>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.localization') }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

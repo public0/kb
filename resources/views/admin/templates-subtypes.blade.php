@@ -34,44 +34,38 @@
             @if($errors->any())
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-body">
-                            @if(!empty($subtypes))
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example2">
-                                    <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">Name</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Status</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($subtypes as $item)
-                                    <tr>
-                                        <td>{{ $item->name }}</td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.tpl.subtypes.status', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
-                                        </td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.tpl.subtypes.edit', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
-                        </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-body">
+                    @if(!empty($subtypes))
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap" id="example2">
+                            <thead>
+                            <tr>
+                                <th class="wd-15p border-bottom-0">Name</th>
+                                <th class="wd-15p border-bottom-0 text-center">Status</th>
+                                <th class="wd-15p border-bottom-0 text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($subtypes as $item)
+                            <tr>
+                                <td>{{ $item->name }}</td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.tpl.subtypes.status', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
+                                </td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.tpl.subtypes.edit', ['tid' => $type->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <!--/div-->
+                    @endif
                 </div>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

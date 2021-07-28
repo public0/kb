@@ -10,6 +10,8 @@ class NewsletterController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewPerms', 'AdminNewsletterSubscribers');
+
         $newsletter = Newsletter::all();
 
         return view('admin/newsletter', [
@@ -19,6 +21,8 @@ class NewsletterController extends Controller
 
     public function status($id)
     {
+        $this->authorize('viewPerms', 'AdminNewsletterSubscribers');
+
         try {
             $newsletter = Newsletter::where('id', $id);
             $data = $newsletter->first();
@@ -35,6 +39,8 @@ class NewsletterController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('viewPerms', 'AdminNewsletterSubscribers');
+
         try {
             $newsletter = Newsletter::where('id', $id);
             $data = $newsletter->first();

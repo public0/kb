@@ -12,6 +12,8 @@ class CommentsController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminKBComments');
+
         $comments = Comment::all();
         $filters = ['article' => null];
         if ($request->isMethod('get')) {
@@ -30,6 +32,8 @@ class CommentsController extends Controller
 
     public function status($id)
     {
+        $this->authorize('viewPerms', 'AdminKBComments');
+
         try {
             $comment = Comment::where('id', $id);
             $data = $comment->first();
@@ -46,6 +50,8 @@ class CommentsController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('viewPerms', 'AdminKBComments');
+
         try {
             $comment = Comment::where('id', $id);
             $data = $comment->first();

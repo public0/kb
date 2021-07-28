@@ -19,6 +19,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         $groups = TemplatePlaceholderGroup::select();
         $filters = ['type' => null, 'status' => null];
         if ($request->isMethod('get')) {
@@ -41,6 +43,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function addGroup(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'name' => 'required|max:255',
@@ -78,6 +82,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function editGroup(Request $request, $id)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         $group = TemplatePlaceholderGroup::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -125,6 +131,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function deleteGroup($id)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         try {
             $group = TemplatePlaceholderGroup::where('id', $id);
             $data = $group->first();
@@ -140,6 +148,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function statusGroup($id)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         try {
             $group = TemplatePlaceholderGroup::where('id', $id);
             $data = $group->first();
@@ -156,6 +166,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function placeholders(Request $request, $gid)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         $placeholders = TemplatePlaceholder::where('placeholder_group_id', $gid);
         $filters = ['country' => null, 'status' => null];
         if ($request->isMethod('get')) {
@@ -181,6 +193,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function addPlaceholder(Request $request, $gid)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         if ($request->isMethod('post')) {
             $validated = $request->validate([
                 'placeholder_group_id' => 'required|integer',
@@ -219,6 +233,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function editPlaceholder(Request $request, $gid, $id)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         $placeholder = TemplatePlaceholder::where('id', $id);
 
         if ($request->isMethod('post')) {
@@ -259,6 +275,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function deletePlaceholder(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         try {
             $placeholder = TemplatePlaceholder::where('id', $request->id);
             $data = $placeholder->first();
@@ -274,6 +292,8 @@ class TemplatePlaceholdersController extends Controller
 
     public function statusPlaceholder(Request $request)
     {
+        $this->authorize('viewPerms', 'AdminTplPlaceholders');
+
         try {
             $placeholder = TemplatePlaceholder::where('id', $request->id);
             $data = $placeholder->first();

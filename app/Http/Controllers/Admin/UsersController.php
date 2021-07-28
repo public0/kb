@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Countries;
 use App\Actions\PasswordReseter;
 use App\Http\Controllers\Controller;
-use App\Mail\PasswordMail;
-use App\Models\GroupsUsers;
+use App\Models\Client;
 use App\Models\User;
-use App\Models\UserGroups;
-use App\MyClasses\UtileClass;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -21,18 +18,14 @@ class UsersController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with([
-            'groups' => function ($query) {
-                return $query->with('group');
-            }
-        ]);
-        $filters = ['group' => null, 'status' => null, 'country' => null];
+        $this->authorize('userPerms', 'index');
+
+        $users = User::select();
+        $filters = ['role' => null, 'status' => null, 'country' => null];
         if ($request->isMethod('get')) {
-            if ($request->filled('group')) {
-                $filters['group'] = $request->input('group');
-                $users->whereHas('groups', function ($query) use ($filters) {
-                    return $query->where('group_id', $filters['group']);
-                });
+            if ($request->filled('role')) {
+                $filters['role'] = $request->input('role');
+                $users->where('role', $filters['role']);
             }
             if ($request->filled('country')) {
                 $filters['country'] = $request->input('country');
@@ -43,18 +36,15 @@ class UsersController extends Controller
                 $users->where('status', $filters['status']);
             }
         }
-        $users = $users->get();
-        foreach ($users as $user) {
-            $groups = [];
-            foreach ($user->groups as $group) {
-                $groups[] = !empty($group->group) ? $group->group->name : null;
-            }
-            $user->groups = implode(', ', $groups);
+        $clientID = Auth::user()->client_id;
+        if ($clientID) {
+            $users->where('client_id', $clientID);
         }
+        $users = $users->get();
 
         return view('admin/users', [
             'users' => $users,
-            'groups' => UserGroups::active()->get(),
+            'roles' => (new User)->roles,
             'countries' => $this->getAllCountries(),
             'filters' => $filters
         ]);
@@ -62,9 +52,11 @@ class UsersController extends Controller
 
     public function status($id)
     {
+        $user = User::where('id', $id);
+        $data = $user->first();
+        $this->authorize('userPerms', ['status', $data]);
+
         try {
-            $user = User::where('id', $id);
-            $data = $user->first();
             $user->update([
                 'status' => 1 - $data->status
             ]);
@@ -78,27 +70,25 @@ class UsersController extends Controller
 
     public function add(Request $request)
     {
-        $groups = UserGroups::active()->get();
-        $data = [
-            'groups' => $groups,
-            'countries' => $this->getAllCountries()
-        ];
+        $authUser = Auth::user();
+        $this->authorize('userPerms', 'add');
 
-        if (!empty($_POST)) {
-            $name = trim($_POST['name']);
-            $surname = trim($_POST['surname']);
-            $email = trim($_POST['email']);
-            $country_code = $_POST['country_code'];
-            $status = $_POST['status'];
-            //$password = $_POST['password'];
+        if ($request->isMethod('post')) {
+            $name = trim($request->input('name'));
+            $surname = trim($request->input('surname'));
+            $email = trim($request->input('email'));
+            $role = $request->input('role');
+            $country_code = $request->input('country_code');
+            $status = $request->input('status');
+            $permissions = $request->input('perms');
 
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'surname' => 'required|max:255',
                 'email' => 'required|email:rfc,dns|max:255|unique:' . User::class,
                 'country_code' => 'required|max:2',
-                'status' => 'required|integer|max:1',
-                'groups' => 'required'
+                'role' => 'required|integer',
+                'status' => 'required|integer|max:1'
             ]);
 
             try {
@@ -106,109 +96,92 @@ class UsersController extends Controller
                 $user->name = $name;
                 $user->surname = $surname;
                 $user->email = $email;
+                $user->role = $role;
+                $user->permissions = $permissions ? json_encode(array_keys($permissions)) : null;
                 $user->country_code = $country_code;
                 $user->status = $status;
                 $user->password = $this->prGenerateHash('xoxoxo34*xox');
+                $user->client_id = $request->input('client_id', $authUser->client_id);
                 $user->save();
-                $last_id = $user->id;
             } catch (Exception $e) {
                 return redirect()->back()
                     ->with('error', $e->getMessage());
             }
 
-            $groups = (!empty($_POST['groups'])) ? $_POST['groups'] : null;
-            if (!empty($groups) && $groups && $last_id) {
-                foreach ($groups as $gid) {
-                    try {
-                        GroupsUsers::create(['user_id' => $last_id, 'group_id' => $gid]);
-                    } catch (Exception $e) {
-                        return redirect()->back()
-                            ->with('error', $e->getMessage());
-                    }
-                }
-            }
-
-            /*$pass = uniqid();
-            $details = [
-                'title' => 'Mail from ItSolutionStuff.com',
-                'body' => 'Passord is :'.$pass;
-            ];
-
-            \Mail::to('gbyte2004@yahoo.com')->send(new \App\Mail\PasswordMail($details));
-            die();*/
-
             return redirect('/admin/users')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/users-add', $data);
+        return view('admin/users-form', [
+            'user' => null,
+            'roles' => (new User)->roles,
+            'countries' => $this->getAllCountries(),
+            'clients' => Client::active()->get(),
+            'auth_user' => $authUser
+        ]);
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
-        $id = $request->id;
-        $groups = UserGroups::active()->get();
-        $users = User::with('groups')->where('id', $id)->get();
-        $data = [
-            'users' => $users[0],
-            'groups' => $groups,
-            'countries' => $this->getAllCountries()
-        ];
+        $authUser = Auth::user();
+        $user = User::where('id', $id);
+        $data = $user->first();
+        $this->authorize('userPerms', ['edit', $data]);
 
-        if (!empty($_POST)) {
-            $name = trim($_POST['name']);
-            $surname = trim($_POST['surname']);
-            $email = trim($_POST['email']);
-            $country_code = $_POST['country_code'];
-            $status = $_POST['status'];
+        if ($request->isMethod('post')) {
+            $name = trim($request->input('name'));
+            $surname = trim($request->input('surname'));
+            $email = trim($request->input('email'));
+            $role = $request->input('role');
+            $country_code = $request->input('country_code');
+            $status = $request->input('status');
+            $permissions = $request->input('perms');
 
-            if ($email != $users[0]->email) {
+            if ($email != $data->email) {
                 $validated = $request->validate([
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
                     'email' => 'required|email:rfc,dns|max:255|unique:' . User::class,
                     'country_code' => 'required|max:2',
-                    'status' => 'required|integer|max:1',
-                    'groups' => 'required'
+                    'role' => 'required|integer',
+                    'status' => 'required|integer|max:1'
                 ]);
             } else {
                 $validated = $request->validate([
                     'name' => 'required|max:255',
                     'surname' => 'required|max:255',
                     'country_code' => 'required|max:2',
-                    'status' => 'required|integer|max:1',
-                    'groups' => 'required'
+                    'role' => 'required|integer',
+                    'status' => 'required|integer|max:1'
                 ]);
             }
 
-            User::where('id', $id)->update([
+            $user->update([
                 'name' => $name,
                 'surname' => $surname,
+                'role' => $role,
+                'permissions' => $permissions ? json_encode(array_keys($permissions)) : null,
                 'country_code' => $country_code,
                 'email' => $email,
-                'status' => $status
+                'status' => $status,
+                'client_id' => $request->input('client_id', $authUser->client_id)
             ]);
-
-            $groups = (!empty($_POST['groups'])) ? $_POST['groups'] : null;
-            if (!empty($groups) && $groups && $id) {
-                GroupsUsers::where('user_id', $id)->delete();
-                if (is_array($groups)) {
-                    foreach ($groups as $gid) {
-                        GroupsUsers::create(['user_id' => $id, 'group_id' => $gid]);
-                    }
-                } else {
-                    GroupsUsers::create(['user_id' => $id, 'group_id' => $groups]);
-                }
-            }
 
             return redirect('/admin/users')->with('message', 'Operation Successful !');
         }
 
-        return view('admin/users-edit', $data);
+        return view('admin/users-form', [
+            'user' => $data,
+            'roles' => (new User)->roles,
+            'countries' => $this->getAllCountries(),
+            'clients' => Client::active()->get(),
+            'auth_user' => $authUser
+        ]);
     }
 
     public function passwordReset(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
+        $this->authorize('userPerms', ['passwordReset', $user]);
         $token = null;
 
         if ($request->isMethod('post')) {
@@ -220,111 +193,5 @@ class UsersController extends Controller
             'email' => $user->email,
             'reset_link' => $token ? route('auth.password.reset', ['token' => $token]) : null
         ]);
-    }
-
-    public function groups()
-    {
-        $groups = UserGroups::all();
-        $data = ['groups' => $groups];
-
-        return view('admin/user-groups', $data);
-    }
-
-    public function groupAdd(Request $request)
-    {
-        if (!empty($_POST)) {
-            $name = $_POST['name'];
-            $status = $_POST['status'];
-
-            $validated = $request->validate([
-                'name' => 'required|max:50|unique:' . UserGroups::class,
-                'status' => 'required|integer|max:1'
-            ]);
-
-            try {
-                $group = new UserGroups;
-                $group->name = $name;
-                $group->status = $status;
-                $group->save();
-            } catch (Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            return redirect('/admin/groups')->with('message', 'Operation Successful !');
-        }
-
-        return view('admin/user-groups-add');
-    }
-
-    public function groupEdit(Request $request)
-    {
-        $id = $request->id;
-        $group = UserGroups::find($id);
-        $data = ['group' => $group];
-
-        if (!empty($_POST)) {
-            $name = trim($_POST['name']);
-            $status = $_POST['status'];
-
-            if ($group->name == $name) {
-                $validated = $request->validate([
-                    'status' => 'required|integer|max:1',
-                ]);
-            } else {
-                $validated = $request->validate([
-                    'name' => 'required|max:50|unique:' . UserGroups::class,
-                    'status' => 'required|integer|max:1'
-                ]);
-            }
-
-            try {
-                $group->name = $name;
-                $group->status = $status;
-                $group->save();
-            } catch (Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-
-            return redirect('/admin/groups')->with('message', 'Operation Successful !');
-        }
-
-        return view('admin/user-groups-edit', $data);
-    }
-
-    public function groupStatus($id)
-    {
-        try {
-            $group = UserGroups::where('id', $id);
-            $data = $group->first();
-            $group->update([
-                'status' => 1 - $data->status
-            ]);
-
-            return redirect()->back();
-        } catch (Exception $e) {
-            return redirect()->back()
-                ->with('error', $e->getMessage());
-        }
-    }
-
-    public function groupDelete(Request $request)
-    {
-        $id = $request->id;
-        $group = UserGroups::where('id', $id)->first();
-        if ($group->undelete != 1) {
-            try {
-                $art = UserGroups::where('id', $id);
-                $art->delete();
-
-                return redirect('/admin/groups')->with('message', 'Operation Successful !');
-            } catch (Exception $e) {
-                return redirect()->back()
-                    ->with('error', $e->getMessage());
-            }
-        } else {
-            return redirect()->back()->with('error', 'This record cannot be deleted!');
-        }
     }
 }

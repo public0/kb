@@ -5,11 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserGroups extends Model
+class Client extends Model
 {
     use HasFactory;
 
-    protected $table = 'dbo.user_groups';
+    protected $table = 'dbo.clients';
+
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'url',
+        'status'
+    ];
 
     /**
      * Get status name.
@@ -22,13 +35,13 @@ class UserGroups extends Model
     }
 
     /**
-     * Scope a query to only include active groups.
+     * Scope a query to only include active clients.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where($this->table . '.status', 1);
     }
 }

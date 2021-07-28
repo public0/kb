@@ -35,54 +35,48 @@
             @if($errors->any())
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-body">
-                            @if(!empty($methods))
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example1">
-                                    <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">Type</th>
-                                        <th class="wd-15p border-bottom-0">URL</th>
-                                        <th class="wd-15p border-bottom-0">Description</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Status</th>
-                                        <th class="wd-15p border-bottom-0 text-center">Stage</th>
-                                        <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($methods as $item)
-                                    <tr>
-                                        <td class="table-col-shrink text-center">
-                                            <span class="badge-type badge-type-{{ strtolower($item->type) }}">{{ $item->type }}</span>
-                                        </td>
-                                        <td>{{ $item->url }}</td>
-                                        <td>{{ $item->description }}</td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.swag.methods.status', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
-                                        </td>
-                                        <td class="table-col-shrink">{{ $item->stage_name }}</td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ route('admin.swag.methods.edit', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                            <a href="{{ route('admin.swag.methods.move', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-primary mr-2"><i class="fe fe-move mr-1"></i> {{ __('labels.move') }}</a>
-                                            <a href="{{ route('admin.swag.methods.delete', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return confirm('Esti sigur ca vrei sa stergi?')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
-                        </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-body">
+                    @if(!empty($methods))
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap" id="example1">
+                            <thead>
+                            <tr>
+                                <th class="wd-15p border-bottom-0">Type</th>
+                                <th class="wd-15p border-bottom-0">URL</th>
+                                <th class="wd-15p border-bottom-0">Description</th>
+                                <th class="wd-15p border-bottom-0 text-center">Status</th>
+                                <th class="wd-15p border-bottom-0 text-center">Stage</th>
+                                <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($methods as $item)
+                            <tr>
+                                <td class="table-col-shrink text-center">
+                                    <span class="badge-type badge-type-{{ strtolower($item->type) }}">{{ $item->type }}</span>
+                                </td>
+                                <td>{{ $item->url }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.swag.methods.status', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>
+                                </td>
+                                <td class="table-col-shrink">{{ $item->stage_name }}</td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ route('admin.swag.methods.edit', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                    <a href="{{ route('admin.swag.methods.move', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-primary mr-2"><i class="fe fe-move mr-1"></i> {{ __('labels.move') }}</a>
+                                    <a href="{{ route('admin.swag.methods.delete', ['docid' => $document->id, 'gid' => $group->id, 'id' => $item->id]) }}" class="btn btn-sm btn-danger" onclick="return modals.confirm(this, 'Notice', 'Are you sure you want to delete?', '{{ __('labels.yes') }}', '{{ __('labels.no') }}')"><i class="fe fe-trash-2 mr-1"></i> {{ __('labels.delete') }}</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <!--/div-->
+                    @endif
                 </div>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

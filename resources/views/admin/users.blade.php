@@ -6,7 +6,7 @@
             <!--app header-->
             <x-AdminHeader/>
             <!--/app header-->
-            <!--Page header-->
+            <!--page header-->
             <div class="page-header">
                 <div class="page-leftheader">
                     <h4 class="page-title mb-0">Users</h4>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <!--End Page header-->
+            <!--/page header-->
             @if(Session::has('message'))
                 <div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('message') }}</div>
             @endif
@@ -31,87 +31,81 @@
             @if ($errors->any())
                 <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
             @endif
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- Filters -->
-                            <form method="get" action="" class="form-inline">
-                                <div class="form-group mr-sm-3">
-                                    <select name="group" class="form-control">
-                                        <option value="">Select Group</option>
-                                        @foreach($groups as $group)
-                                        <option value="{{ $group->id }}"@if($filters['group'] && $filters['group'] == $group->id) selected="selected"@endif>{{ $group->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-sm-3">
-                                    <select name="country" class="form-control">
-                                        <option value="">Select Country</option>
-                                        @foreach($countries as $code => $country)
-                                        <option value="{{ $code }}"@if($filters['country'] && $filters['country'] == $code) selected="selected"@endif>{{ $country }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-sm-3">
-                                    <select name="status" class="form-control">
-                                        <option value="">Select Status</option>
-                                        <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
-                                        <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.inactive') }}</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
-                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='{{ url()->current() }}'">{{ __('labels.reset') }}</button>@endif
-                            </form>
-                            <hr>
-                            <!-- // Filters -->
-                            @if(!empty($users))
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap" id="example1">
-                                    <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">First name</th>
-                                        <th class="wd-15p border-bottom-0">Last name</th>
-                                        <th class="wd-25p border-bottom-0">E-mail</th>
-                                        <th class="wd-15p border-bottom-0">Created AT</th>
-                                        <th class="wd-20p border-bottom-0">Groups</th>
-                                        <th class="wd-20p border-bottom-0">Country</th>
-                                        <th class="wd-10p border-bottom-0">Status</th>
-                                        <th class="wd-10p border-bottom-0 no-sort">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($users as $usr)
-                                    <tr>
-                                        <td>{{ $usr->name }}</td>
-                                        <td>{{ $usr->surname }}</td>
-                                        <td>{{ $usr->email }}</td>
-                                        <td>{{ $usr->created_at }}</td>
-                                        <td>{{ $usr->groups }}</td>
-                                        <td>
-                                            <img src="{{ url('/th/assets/images/flags/' . strtolower($usr->country_code) . '.svg') }}" alt="{{ $usr->country_code }}" width="24" class="border-top border-right border-bottom border-left border-gray" />
-                                        </td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ url('/admin/users/status/' . $usr->id) }}" class="btn btn-sm btn-link">{{ $usr->status_name }}</a>
-                                        </td>
-                                        <td class="table-col-shrink text-center">
-                                            <a href="{{ url('/admin/users/edit/' . $usr->id) }}" class="btn btn-sm btn-success"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
-                                            <button type="button" data-href="{{ url('/admin/users/password-reset/' . $usr->id) }}" class="btn btn-sm btn-primary btn-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('labels.password_reset') }}</button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
+            <!--div-->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Filters -->
+                    <form method="get" action="" class="form-inline">
+                        <div class="form-group mr-sm-3">
+                            <select name="role" class="form-control">
+                                <option value="">Select Role</option>
+                                @foreach($roles as $roleID => $role)
+                                <option value="{{ $roleID }}"@if($filters['role'] && $filters['role'] == $roleID) selected="selected"@endif>{{ $role }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                        <div class="form-group mr-sm-3">
+                            <select name="country" class="form-control">
+                                <option value="">Select Country</option>
+                                @foreach($countries as $code => $country)
+                                <option value="{{ $code }}"@if($filters['country'] && $filters['country'] == $code) selected="selected"@endif>{{ $country }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mr-sm-3">
+                            <select name="status" class="form-control">
+                                <option value="">Select Status</option>
+                                <option value="1"@if(isset($filters['status']) && $filters['status'] == 1) selected="selected"@endif>{{ __('status.active') }}</option>
+                                <option value="0"@if(isset($filters['status']) && $filters['status'] == 0) selected="selected"@endif>{{ __('status.inactive') }}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
+                        @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='{{ url()->current() }}'">{{ __('labels.reset') }}</button>@endif
+                    </form>
+                    <hr>
+                    <!-- // Filters -->
+                    @if(!empty($users))
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap" id="example1">
+                            <thead>
+                            <tr>
+                                <th class="wd-15p border-bottom-0">First name</th>
+                                <th class="wd-15p border-bottom-0">Last name</th>
+                                <th class="wd-25p border-bottom-0">Email</th>
+                                <th class="wd-15p border-bottom-0">Created AT</th>
+                                <th class="wd-20p border-bottom-0">Role</th>
+                                <th class="wd-20p border-bottom-0">Country</th>
+                                <th class="wd-10p border-bottom-0">Status</th>
+                                <th class="wd-10p border-bottom-0 no-sort text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $usr)
+                            <tr>
+                                <td>{{ $usr->name }}</td>
+                                <td>{{ $usr->surname }}</td>
+                                <td>{{ $usr->email }}</td>
+                                <td>{{ $usr->created_at }}</td>
+                                <td>{{ $usr->role_name }}</td>
+                                <td>
+                                    <img src="{{ url('/th/assets/images/flags/' . strtolower($usr->country_code) . '.svg') }}" alt="{{ $usr->country_code }}" width="24" class="border-top border-right border-bottom border-left border-gray" />
+                                </td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ url('/admin/users/status', [$usr->id]) }}" class="btn btn-sm btn-link">{{ $usr->status_name }}</a>
+                                </td>
+                                <td class="table-col-shrink text-center">
+                                    <a href="{{ url('/admin/users/edit', [$usr->id]) }}" class="btn btn-sm btn-success"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>
+                                    <button type="button" data-href="{{ url('/admin/users/password-reset', [$usr->id]) }}" class="btn btn-sm btn-primary btn-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('labels.password_reset') }}</button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <!--/div-->
+                    @endif
                 </div>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

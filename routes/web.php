@@ -53,34 +53,42 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
     Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
     Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
-    // TODO: Delete all groups methods
-    Route::get('/admin/groups', [App\Http\Controllers\Admin\UsersController::class, 'groups']);
-    Route::any('/admin/groups/add', [App\Http\Controllers\Admin\UsersController::class, 'groupAdd']);
-    Route::any('/admin/groups/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupEdit']);
-    Route::any('/admin/groups/delete/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupDelete']);
-    Route::any('/admin/groups/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'groupStatus']);
 
-    Route::get('/admin/categories', [App\Http\Controllers\Admin\ArticleController::class, 'categories']);
-    Route::any('/admin/category/add', [App\Http\Controllers\Admin\ArticleController::class, 'categoryAdd']);
-    Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryEdit']);
-    Route::any('/admin/category/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryDelete']);
-    Route::get('/admin/category/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'categoryStatus']);
-    Route::any('/admin/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
+    Route::get('/admin/categories', [App\Http\Controllers\Admin\CategoriesController::class, 'index']);
+    Route::any('/admin/category/add', [App\Http\Controllers\Admin\CategoriesController::class, 'add']);
+    Route::any('/admin/category/edit/{id}', [App\Http\Controllers\Admin\CategoriesController::class, 'edit']);
+    Route::any('/admin/category/delete/{id}', [App\Http\Controllers\Admin\CategoriesController::class, 'delete']);
+    Route::get('/admin/category/status/{id}', [App\Http\Controllers\Admin\CategoriesController::class, 'status']);
 
     Route::get('/admin/article', [App\Http\Controllers\Admin\ArticleController::class, 'index']);
     Route::any('/admin/article/add', [App\Http\Controllers\Admin\ArticleController::class, 'add']);
     Route::any('/admin/article/edit/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'edit']);
     Route::any('/admin/article/delete/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'delete']);
     Route::get('/admin/article/status/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'status']);
+    Route::get('/admin/article/clone/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'clone']);
     Route::get('/admin/article/right-col/{id}', [App\Http\Controllers\Admin\ArticleController::class, 'rightCol']);
+    Route::any('/admin/article/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage']);
+    Route::any('/admin/article/upload-file', [App\Http\Controllers\Admin\ArticleController::class, 'uploadFile']);
+    Route::get(
+        '/admin/ajax/articles-list',
+        [App\Http\Controllers\Admin\ArticleController::class, 'ajaxList']
+    )->name('admin.ajax.articles.list');
+    Route::get(
+        '/admin/ajax/article/{id}',
+        [App\Http\Controllers\Admin\ArticleController::class, 'ajaxItem']
+    )->name('admin.ajax.articles.item');
     // Comments
     Route::get('/admin/comments', [App\Http\Controllers\Admin\CommentsController::class, 'index']);
     Route::get('/admin/comments/status/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'status']);
     Route::get('/admin/comments/delete/{id}', [App\Http\Controllers\Admin\CommentsController::class, 'delete']);
-    // Article Files
+    // Files
     Route::get('/admin/files', [App\Http\Controllers\Admin\FilesController::class, 'index']);
     Route::any('/admin/files/add', [App\Http\Controllers\Admin\FilesController::class, 'add']);
     Route::get('/admin/files/delete/{file}', [App\Http\Controllers\Admin\FilesController::class, 'delete']);
+    Route::get(
+        '/admin/ajax/files-list',
+        [App\Http\Controllers\Admin\FilesController::class, 'ajaxList']
+    )->name('admin.ajax.files.list');
     // Import
     Route::any('/admin/import/{type}', [App\Http\Controllers\Admin\ImportController::class, 'index']);
     // Newsletter
@@ -88,7 +96,35 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/newsletter/status/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'status']);
     Route::get('/admin/newsletter/delete/{id}', [App\Http\Controllers\Admin\NewsletterController::class, 'delete']);
     // User Profile
-    Route::any('/admin/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index']);
+    Route::any(
+        '/admin/profile',
+        [App\Http\Controllers\Admin\ProfileController::class, 'index']
+    )->name('admin.profile');
+    Route::get(
+        '/admin/profile/delete-image',
+        [App\Http\Controllers\Admin\ProfileController::class, 'deleteImage']
+    )->name('admin.profile.delete-image');
+    // Clients
+    Route::get(
+        '/admin/clients',
+        [App\Http\Controllers\Admin\ClientsController::class, 'index']
+    )->name('admin.clients');
+    Route::get(
+        '/admin/clients/status/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'status']
+    )->name('admin.clients.status');
+    Route::any(
+        '/admin/clients/add',
+        [App\Http\Controllers\Admin\ClientsController::class, 'add']
+    )->name('admin.clients.add');
+    Route::any(
+        '/admin/clients/edit/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'edit']
+    )->name('admin.clients.edit');
+    Route::get(
+        '/admin/clients/delete/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'delete']
+    )->name('admin.clients.delete');
     // Localization
     Route::get(
         '/admin/localization',
@@ -260,6 +296,10 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\Admin\SwagDocumentsController::class, 'moveMethod']
     )->name('admin.swag.methods.move');
     Route::get(
+        '/admin/ajax/swag-methods/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'ajaxMethods']
+    )->name('admin.ajax.swag.methods');
+    Route::get(
         '/admin/swag-clients',
         [App\Http\Controllers\Admin\SwagClientsController::class, 'index']
     )->name('admin.swag.clients');
@@ -361,6 +401,10 @@ Route::name('auth.')->group(function () {
         '/password-reset',
         [App\Http\Controllers\AuthController::class, 'passwordReset']
     )->name('password.reset');
+    Route::any(
+        '/account-request',
+        [App\Http\Controllers\AuthController::class, 'accountRequest']
+    )->name('account.request');
 });
 
 // API Token

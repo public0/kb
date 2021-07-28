@@ -40,6 +40,7 @@ return [
     'files' => 'Files',
     'file' => 'File',
     'select_a_file' => 'Select a file',
+    'upload_file' => 'Upload file',
     'localization' => 'Localization',
     'generate' => 'Generate'
 ];

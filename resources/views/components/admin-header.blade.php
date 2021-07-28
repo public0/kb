@@ -24,12 +24,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 4L8 4 8 8 4 8 4 10 10 10zM8 20L10 20 10 14 4 14 4 16 8 16zM20 14L14 14 14 20 16 20 16 16 20 16zM20 8L16 8 16 4 14 4 14 10 20 10z"/></svg>
                     </a>
                 </div>
-                <div class="dropdown profile-dropdown">
-                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown"><img src="<?php echo URL::to('/th/assets/images/users/account.png'); ?>" alt="img" class="avatar-md brround"></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
-                        <x-user-menu section="admin" />
-                    </div>
-                </div>
+                <x-user-menu section="admin" />
             </div>
         </div>
     </div>

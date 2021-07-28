@@ -30,6 +30,7 @@
     <!-- Color Skin css -->
     <link id="theme" href="<?php echo URL::to('/th/assets/colors/color1.css'); ?>" rel="stylesheet" type="text/css" />
     <!-- endinject -->
+    @stack('head-styles')
 </head>
 <body class="app">
 <div class="horizontalMenucontainer">
@@ -79,5 +80,6 @@
 <script src="<?php echo URL::to('/th/assets/plugins/simplebar/js/simplebar.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/script.js'); ?>"></script>
 <!-- endinject -->
+@stack('body-scripts')
 </body>
 </html>

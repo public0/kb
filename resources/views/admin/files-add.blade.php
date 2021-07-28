@@ -19,36 +19,30 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">{{ __('labels.add') }}</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">{{ __('labels.file') }}</label>
-                                        <input type="file" name="file" class="form-control-file" />
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{ __('labels.add') }}</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">{{ __('labels.file') }}</label>
+                                <input type="file" name="file" class="form-control-file" />
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/files') }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ url('/admin/files') }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

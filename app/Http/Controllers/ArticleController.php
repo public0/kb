@@ -17,23 +17,10 @@ class ArticleController extends Controller
     {
         $article = Article::where('article_id', $request->id)
             ->where('status', $request->query('preview') ? 0 : 1)
+            ->userRole(Auth::check() ? Auth::user()->role : null)
             ->first();
-        if (empty($article->id)) {
+        if (empty($article)) {
             return abort(404);
-        }
-
-        // Check permisions
-        if (!empty($article->user_groups)) {
-            $userGroups = Auth::check() ? Auth::user()->my_groups : [];
-            if ($userGroups) {
-                if (count(array_intersect([1, 6], $userGroups)) == 0) {
-                    if (!array_intersect(array_filter(explode(',', $article->user_groups)), $userGroups)) {
-                        return abort(404);
-                    }
-                }
-            } else {
-                return abort(404);
-            }
         }
 
         if ($request->isMethod('post')) {
@@ -48,17 +35,15 @@ class ArticleController extends Controller
                     ->withErrors($validator, 'comment')
                     ->withInput();
             } else {
-                if (!empty($article->id)) {
-                    $coment = new Comment;
-                    $coment->name = $request->post('comment_name');
-                    $coment->email = $request->post('comment_email');
-                    $coment->comment = $request->post('comment_text');
-                    $coment->status = 0;
-                    $coment->article_id = $article->id;
-                    $coment->save();
+                $coment = new Comment;
+                $coment->name = $request->post('comment_name');
+                $coment->email = $request->post('comment_email');
+                $coment->comment = $request->post('comment_text');
+                $coment->status = 0;
+                $coment->article_id = $article->id;
+                $coment->save();
 
-                    return Redirect::back()->with('message', 'Operation Successful !');
-                }
+                return Redirect::back()->with('message', 'Operation Successful !');
             }
         }
 
@@ -71,7 +56,7 @@ class ArticleController extends Controller
     public function helpView(Request $request)
     {
         $article = Article::find($request->id);
-        if (empty($article->id)) {
+        if (empty($article)) {
             return abort(404);
         }
 

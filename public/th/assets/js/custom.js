@@ -675,31 +675,33 @@
 
 		});
 
-		$('.triggertype').autoComplete({
-			noResultsText: '',
-			events : {
-				select : (evt, item) => {
-					return item;
-				},
-				typed: function(val, elem) {
-					return val;
-				}
-			},
-			select: function(event, ui) {
-				alert('aaa');
-			},
-			formatResult: function(item) {
-				return item;
-			},
-			// resolverSettings: {
-			// 	url: '/ibd/ajax/getselecttypes'
-			// }
-		})
-		$('.triggercalc').autoComplete({
-			noResultsText: '',
-		})
-
-
+        if ($('.triggertype').length) {
+            $('.triggertype').autoComplete({
+                noResultsText: '',
+                events: {
+                    select: (evt, item) => {
+                        return item;
+                    },
+                    typed: function (val, elem) {
+                        return val;
+                    }
+                },
+                select: function (event, ui) {
+                    alert('aaa');
+                },
+                formatResult: function (item) {
+                    return item;
+                },
+                // resolverSettings: {
+                // 	url: '/ibd/ajax/getselecttypes'
+                // }
+            });
+        }
+        if ($('.triggercalc').length) {
+            $('.triggercalc').autoComplete({
+                noResultsText: '',
+            });
+        }
 
 		$('#add-param').click(function(event) {
 			event.stopPropagation();

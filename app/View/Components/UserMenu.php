@@ -27,14 +27,11 @@ class UserMenu extends Component
     public function render()
     {
         $user = null;
-        $admin = false;
 
         if (Auth::check()) {
             $user = Auth::user();
-            $groupsArray = $user->my_groups;
-            $admin = $groupsArray && count(array_intersect([1, 6], $groupsArray));
         }
 
-        return view('components.user-menu', compact('user', 'admin'));
+        return view('components.user-menu', compact('user'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('front/index')
+@extends('layouts.front')
 
 @section('title', __('labels.search_results'))
 

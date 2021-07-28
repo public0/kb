@@ -40,6 +40,7 @@ return [
     'files' => 'Fisiere',
     'file' => 'Fisier',
     'select_a_file' => 'Selecteaza un fisier',
+    'upload_file' => 'Incarca fisier',
     'localization' => 'Localizare',
     'generate' => 'Genereaza'
 ];

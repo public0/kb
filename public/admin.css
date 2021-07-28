@@ -15,6 +15,11 @@ body.modal-open > .page {
     animation: none;
 }
 
+.side-menu .side-menu__item .side-menu__icon {
+    font-size: 18px;
+    line-height: 24px;
+}
+
 @media (min-width: 768px) {
     .modal-xl {
         width: 90%;

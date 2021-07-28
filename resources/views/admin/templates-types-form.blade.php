@@ -19,43 +19,37 @@
                 </div>
             </div>
             <!--End Page header-->
-            <!-- Row-1 -->
-            <div class="row">
-                <div class="col-12">
-                    <!--div-->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">@if($type){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
-                        </div>
-                        <form class="needs-validation" method="post" action="{{ url()->current() }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row row-sm">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $type ? $type->name : null) }}" maxlength="255" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" class="form-control custom-select select2">
-                                            <option value="1"@if(old('status', $type ? $type->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
-                                            <option value="0"@if(old('status', $type ? $type->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
+            <!--div-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">@if($type){{ __('labels.edit') }}@else{{ __('labels.add') }}@endif</div>
+                </div>
+                <form class="needs-validation" method="post" action="{{ url()->current() }}">
+                @csrf
+                <div class="card-body">
+                    <div class="row row-sm">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $type ? $type->name : null) }}" maxlength="255" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-control custom-select select2">
+                                    <option value="1"@if(old('status', $type ? $type->status : -1) == 1) selected="selected" @endif>{{ __('status.active') }}</option>
+                                    <option value="0"@if(old('status', $type ? $type->status : -1) == 0) selected="selected" @endif>{{ __('status.inactive') }}</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.types') }}'">{{ __('labels.back') }}</button>
-                            <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
-                        </div>
-                        </form>
                     </div>
-                    <!--/div-->
                 </div>
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-light mr-2" onclick="window.location='{{ route('admin.tpl.types') }}'">{{ __('labels.back') }}</button>
+                    <button type="submit" class="btn btn-info">{{ __('labels.submit') }}</button>
+                </div>
+                </form>
             </div>
-            <!-- End Row-1 -->
+            <!--/div-->
         </div>
     </div>
 @endsection

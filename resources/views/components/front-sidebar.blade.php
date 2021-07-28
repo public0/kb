@@ -27,7 +27,7 @@
     <x-front-article-box :art="$art" />
     @endforeach
 @endif
-@if(!empty($newArticles))
+@if(count($newArticles))
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">{{__('labels.last_articles')}}</h4>

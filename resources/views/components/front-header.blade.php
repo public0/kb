@@ -33,12 +33,7 @@
                     </div>
                 </div>
                 @endif
-                <div class="dropdown profile-dropdown">
-                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown" aria-expanded="false"><img src="<?php echo URL::to('/th/assets/images/users/account.png'); ?>" alt="img" class="avatar-md brround"></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
-                        <x-user-menu section="front" />
-                    </div>
-                </div>
+                <x-user-menu section="front" />
             </div>
         </div>
     </div>

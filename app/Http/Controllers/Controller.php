@@ -18,13 +18,26 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        // Set app locale
+        // Get language code
         if (!empty($_COOKIE['lang'])) {
             $lang = strtoupper($_COOKIE['lang']);
         } else {
             $lang = 'RO';
         }
 
+        $appsModules = file_get_contents(resource_path() . DIRECTORY_SEPARATOR . 'modules_apps.json');
+        $appsModules = json_decode($appsModules, true);
+        View::share('appsModules', $appsModules);
+
+        // Admin
+        if (strpos(url()->current(), '/admin') !== false) {
+            $lang = 'EN';
+            $adminModules = file_get_contents(resource_path() . DIRECTORY_SEPARATOR . 'modules_admin.json');
+            $adminModules = json_decode($adminModules, true);
+            View::share('adminModules', $adminModules);
+        }
+
+        // Set app locale
         $this->lang = $lang;
         App::setLocale($lang);
         View::share('lang', strtolower($lang));
