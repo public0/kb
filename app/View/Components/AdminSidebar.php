@@ -34,8 +34,11 @@ class AdminSidebar extends Component
      */
     public function render()
     {
+        $authUser = Auth::user();
+        $usersNr = $authUser->client_id ? User::where('client_id', $authUser->client_id)->count() : User::count();
+
         $data = [
-            'users_nr' => User::count(),
+            'users_nr' => $usersNr,
             'clients_nr' => Client::count(),
             'articles_nr' => Article::count(),
             'categories_nr' => Category::count(),
@@ -44,7 +47,7 @@ class AdminSidebar extends Component
             'tpl_types_nr' => TemplateType::count(),
             'tpl_placeholders_nr' => TemplatePlaceholderGroup::count(),
             'swag_docs_nr' => SwagDocument::count(),
-            'user' => Auth::user()
+            'user' => $authUser
         ];
 
         return view('components.admin-sidebar', $data);
