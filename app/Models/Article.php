@@ -105,9 +105,7 @@ class Article extends Model
             $article->comments()->each(function ($comment) {
                 $comment->delete();
             });
-            $article->articleCountries()->each(function ($item) {
-                $item->delete();
-            });
+            $article->articleCountries()->delete();
         });
     }
 
