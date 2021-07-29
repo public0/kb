@@ -3,31 +3,45 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Newsletter;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class DashBoardController extends Controller
 {
     public function index()
     {
-        $articles_all =  (new Article)->count();
-        $articles_active = (new Article)->where('status', 1)->count();
+        $authUser = Auth::user();
+        if ($authUser->client_id) {
+            $users_all = User::where('client_id', $authUser->client_id)->count();
+            $users_active = User::active()->where('client_id', $authUser->client_id)->count();
+            $recent_users = User::orderBy('created_at', 'desc')
+                ->where('client_id', $authUser->client_id)
+                ->take(5)
+                ->get();
+        } else {
+            $users_all = User::count();
+            $users_active = User::active()->count();
+            $recent_users = User::orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+        }
 
-        $users_all =  (new User)->count();
-        $users_active = (new User)->where('status', 1)->count();
+        $articles_all = Article::count();
+        $articles_active = Article::active()->count();
+        $recent_articles = Article::with('updatedBy')
+            ->userRole($authUser->role)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
-        $category_all =  (new Category)->count();
-        $category_active = (new Category)->where('status', 1)->count();
+        $category_all = Category::count();
+        $category_active = Category::active()->count();
 
-        $subscribe_all =  (new Newsletter)->count();
-        $subscribe_active = (new Newsletter)->where('status', 1)->count();
-
-        $recent_articles = (new Article)->orderBy('created_at', 'desc')->take(5)->get();
-
-        $recent_users = (new User)->orderBy('created_at', 'desc')->take(5)->get();
+        $subscribe_all = Newsletter::count();
+        $subscribe_active = Newsletter::where('status', 1)->count();
 
         $data = [
             'articles_all' => $articles_all,
@@ -40,6 +54,7 @@ class DashBoardController extends Controller
             'subscribe_active' => $subscribe_active,
             'recent_articles' => $recent_articles,
             'recent_users' => $recent_users,
+            'auth_user' => $authUser
         ];
 
         return view('admin/dash', $data);
