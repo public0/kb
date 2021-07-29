@@ -42,5 +42,6 @@ return [
     'select_a_file' => 'Select a file',
     'upload_file' => 'Upload file',
     'localization' => 'Localization',
-    'generate' => 'Generate'
+    'generate' => 'Generate',
+    'settings' => 'Settings'
 ];

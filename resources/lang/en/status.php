@@ -4,5 +4,7 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'draft' => 'Draft',
-    'published' => 'Published'
+    'published' => 'Published',
+    'on' => 'On',
+    'off' => 'Off'
 ];

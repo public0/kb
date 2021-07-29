@@ -146,6 +146,15 @@ Route::middleware(['auth'])->group(function () {
         '/admin/localization/delete/{id}',
         [App\Http\Controllers\Admin\LocalizationController::class, 'delete']
     )->name('admin.localization.delete');
+    // Settings
+    Route::get(
+        '/admin/settings',
+        [App\Http\Controllers\Admin\SettingsController::class, 'index']
+    )->name('admin.settings');
+    Route::any(
+        '/admin/settings/edit/{id}',
+        [App\Http\Controllers\Admin\SettingsController::class, 'edit']
+    )->name('admin.settings.edit');
     // Templates Admin Interface
     Route::get(
         '/admin/templates-types',

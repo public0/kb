@@ -42,5 +42,6 @@ return [
     'select_a_file' => 'Selecteaza un fisier',
     'upload_file' => 'Incarca fisier',
     'localization' => 'Localizare',
-    'generate' => 'Genereaza'
+    'generate' => 'Genereaza',
+    'settings' => 'Setari'
 ];
