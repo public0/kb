@@ -74,7 +74,7 @@
                                 <th class="wd-15p border-bottom-0">Language</th>
                                 <th class="wd-15p border-bottom-0 no-sort">Tags</th>
                                 <th class="wd-15p border-bottom-0">Modified by</th>
-                                <th class="wd-15p border-bottom-0">Modified</th>
+                                <th class="wd-15p border-bottom-0 datetime-sort">Modified</th>
                                 <th class="wd-15p border-bottom-0">Right Col</th>
                                 <th class="wd-10p border-bottom-0">Status</th>
                                 <th class="wd-15p border-bottom-0" data-sort="desc">Sort Order</th>
@@ -152,6 +152,9 @@
             {
                 targets: 'no-sort',
                 orderable: false
+            }, {
+                targets: 'datetime-sort',
+                type: 'datetime'
             }
         ],
         order: orderCells,
