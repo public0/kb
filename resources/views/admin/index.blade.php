@@ -85,6 +85,8 @@
 <!-- P-scroll js-->
 <script src="{{ url('/th/assets/plugins/p-scrollbar/p-scrollbar.js') }}"></script>
 <script src="{{ url('/th/assets/plugins/p-scrollbar/p-scroll1.js') }}"></script>
+<!--INTERNAL Moment js-->
+<script src="{{ url('/th/assets/plugins/moment/min/moment.min.js') }}"></script>
 <!-- INTERNAL Data tables -->
 <script src="{{ url('/th/assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
 <script src="{{ url('/th/assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
@@ -112,8 +114,6 @@
 <!-- INTERNAL Select2 js and DATATABLES and FORMS-->
 <script src="{{ url('/th/assets/plugins/select2/select2.full.min.js') }}"></script>
 <script src="{{ url('/th/assets/js/select2.js') }}"></script>
-<!--INTERNAL Moment js-->
-<script src="{{ url('/th/assets/plugins/moment/moment.js') }}"></script>
 {{-- <!--INTERNAL Index js-->
 <script src="{{ url('/th/assets/js/index1.js') }}"></script> --}}
 <!-- Simplebar JS -->
