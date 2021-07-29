@@ -82,9 +82,7 @@ class TemplatePlaceholder extends Model
     protected static function booted()
     {
         static::deleting(function ($placeholder) {
-            $placeholder->placeholderCountries()->each(function ($item) {
-                $item->delete();
-            });
+            $placeholder->placeholderCountries()->delete();
         });
     }
 }
