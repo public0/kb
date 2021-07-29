@@ -101,6 +101,14 @@
             "badge": null,
             "roles": "admin",
             "admin": true
+        }, {
+            "id": "AdminSettings",
+            "name": "labels.settings",
+            "route": "admin.settings",
+            "icon": "fe fe-settings",
+            "badge": null,
+            "roles": "admin",
+            "admin": true
         }
     ]
 }
