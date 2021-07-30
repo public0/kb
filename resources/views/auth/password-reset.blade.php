@@ -5,14 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header">{{ __('auth.button_password_reset') }}</div>
                 <div class="card-body">
                     @if(request()->query('token'))
                     <form method="POST" action="{{ url()->full() }}">
                         @csrf
                         <input type="hidden" name="token" value="{{ request()->query('token') }}">
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('auth.label_email_address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('auth.label_password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('auth.label_password_confirm') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -47,16 +47,16 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
+                                    {{ __('auth.button_password_reset') }}
                                 </button>
                             </div>
                         </div>
                     </form>
                     @else
-                    <h3 class="text-center">No token</h3>
+                    <h3 class="text-center">{{ __('auth.info_no_token') }}</h3>
                     <div class="text-center">
                         <a class="btn btn-primary" href="{{ route('auth.login') }}">
-                            {{ __('Login') }}
+                            {{ __('auth.button_login') }}
                         </a>
                     </div>
                     @endif

@@ -7,6 +7,7 @@ use App\Actions\Fortify\PasswordValidationRules;
 use App\Mail\AccountRequestMail;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\UserAccountRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -39,7 +40,7 @@ class AuthController extends Controller
             }
 
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
+                'email' => __('auth.failed')
             ]);
         }
 
@@ -82,7 +83,7 @@ class AuthController extends Controller
                     return redirect()->route('auth.login');
                 } else {
                     return redirect()->back()->withErrors([
-                        'email' => 'Your password has already been reset'
+                        'email' => __('auth.already_reset')
                     ]);
                 }
             } catch (Exception $e) {
@@ -101,13 +102,22 @@ class AuthController extends Controller
                 'name' => 'required',
                 'email' => 'required|email:rfc,dns|max:255',
                 'phone' => 'required|max:255',
-                'company' => 'required|max:255'
+                'company' => 'required|max:255',
+                'position' => 'required|max:255'
             ]);
 
-            Mail::to(Setting::byKey('RequestAccessEmail'))
-                ->send(new AccountRequestMail($request->all()));
+            $fields = $request->only(['name', 'email', 'phone', 'company', 'position']);
+            $account = UserAccountRequest::where('email', $fields['email']);
+            if ($account->first()) {
+                $account->update($fields);
+            } else {
+                UserAccountRequest::create($fields);
+            }
+            Mail::to(Setting::byKey('AccountRequestEmail'))
+                ->send(new AccountRequestMail($fields));
 
-            return redirect()->route('auth.login');
+            return redirect()->route('auth.login')
+                ->with('message', __('auth.msg_account_requested'));
         }
 
         return view('auth.account-request');

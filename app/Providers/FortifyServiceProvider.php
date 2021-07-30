@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
+use View;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Get language code
+        if (!empty($_COOKIE['lang'])) {
+            $lang = strtoupper($_COOKIE['lang']);
+        } else {
+            $lang = 'RO';
+        }
+        App::setLocale($lang);
+        View::share('lang', strtolower($lang));
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
