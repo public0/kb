@@ -18,6 +18,7 @@
                 <div class="page-rightheader">
                     <div class="btn btn-list">
                         <a href="{{ url('/admin/users/add') }}" class="btn btn-sm btn-info"><i class="fe fe-plus mr-1"></i> {{ __('labels.add') }}</a>
+                        <button type="button" data-href="{{ url('/admin/users/role-password-reset') }}" class="btn btn-sm btn-primary btn-role-password-reset"><i class="fe fe-lock mr-1"></i> {{ __('Password Reset Email') }}</button>
                     </div>
                 </div>
             </div>
@@ -72,7 +73,8 @@
                                 <th class="wd-15p border-bottom-0">First name</th>
                                 <th class="wd-15p border-bottom-0">Last name</th>
                                 <th class="wd-25p border-bottom-0">Email</th>
-                                <th class="wd-15p border-bottom-0">Created AT</th>
+                                <th class="wd-25p border-bottom-0">Client</th>
+                                <th class="wd-15p border-bottom-0 datetime-sort">Created</th>
                                 <th class="wd-20p border-bottom-0">Role</th>
                                 <th class="wd-20p border-bottom-0">Country</th>
                                 <th class="wd-10p border-bottom-0">Status</th>
@@ -85,6 +87,7 @@
                                 <td>{{ $usr->name }}</td>
                                 <td>{{ $usr->surname }}</td>
                                 <td>{{ $usr->email }}</td>
+                                <td>@if($usr->client_id){{ $usr->client->name }}@else-@endif</td>
                                 <td>{{ $usr->created_at }}</td>
                                 <td>{{ $usr->role_name }}</td>
                                 <td>
@@ -124,7 +127,7 @@
         html += '<div class="modal-dialog modal-md" role="document">';
         html += '<div class="modal-content">';
         html += '<div class="modal-header">';
-        html += '<h6 class="modal-title">{{ __('labels.password_reset') }}</h6>';
+        html += '<h6 class="modal-title">' + self.html() + '</h6>';
         html += '<button aria-label="' + buttons.cancel + '" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>';
         html += '</div>';
         html += '<div class="modal-body">';
@@ -188,6 +191,63 @@
             success: function (data) {
                 passwordResetModal(self, data);
             }
+        });
+    });
+    $('.btn-role-password-reset').on('click', function (e) {
+        e.preventDefault();
+        $('.modal').remove();
+        var self = $(this);
+        var _token = '{{ @csrf_token() }}';
+        var buttons = {
+            cancel: '{{ __('labels.close') }}',
+            ok: '{{ __('labels.submit') }}'
+        };
+        var html = '<div class="modal show" aria-modal="true">';
+        html += '<div class="modal-dialog modal-md" role="document">';
+        html += '<div class="modal-content">';
+        html += '<div class="modal-header">';
+        html += '<h6 class="modal-title">' + self.html() + '</h6>';
+        html += '<button aria-label="' + buttons.cancel + '" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>';
+        html += '</div>';
+        html += '<div class="modal-body">';
+
+        html += '<div class="form-group">';
+        html += '<label class="form-label">Select a role to send reset password email</label>';
+        html += '<select name="role" class="form-control custom-select select2">';
+        html += '<option value="">Select Role</option>';
+        @foreach($roles as $roleID => $role)
+        html += '<option value="{{ $roleID }}">{{ $role }}</option>';
+        @endforeach
+        html += '</select>';
+        html += '</div>';
+        html += '<div class="result-text"></div>';
+
+        html += '</div>';
+        html += '<div class="modal-footer justify-content-center">';
+        html += '<button class="btn btn-indigo btn-reset" type="button">' + buttons.ok + '</button>';
+        html += '<button class="btn btn-secondary" data-dismiss="modal" type="button">' + buttons.cancel + '</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        $('body').append(html);
+        $('.modal').modal();
+
+        $('.modal .btn-reset').on('click', function () {
+            $('.modal .result-text').html('');
+            $.ajax(self.data('href'), {
+                method: 'POST',
+                data: {
+                    '_token': _token,
+                    role: $('.modal select[name="role"]').val()
+                },
+                success: function (data) {
+                    if (data) {
+                        $('.modal .result-text').html('Email sent to ' + data + ' clients.');
+                    }
+                }
+            });
         });
     });
 </script>

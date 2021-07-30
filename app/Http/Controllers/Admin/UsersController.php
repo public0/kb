@@ -47,7 +47,7 @@ class UsersController extends Controller
     {
         $this->authorize('userPerms', 'index');
 
-        $users = User::select();
+        $users = User::with('client');
         $filters = ['role' => null, 'status' => null, 'country' => null];
         if ($request->isMethod('get')) {
             if ($request->filled('role')) {
@@ -241,5 +241,29 @@ class UsersController extends Controller
             'email' => $user->email,
             'reset_link' => $token ? route('auth.password.reset', ['token' => $token]) : null
         ]);
+    }
+
+    public function rolePasswordReset(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $role = $request->input('role');
+            if ($role !== null) {
+                $users = User::active()->where('role', $role)->get();
+                $processed = 0;
+                foreach ($users as $user) {
+                    $token = $this->prInsert($user);
+                    $fields = [
+                        'name' => $user->name,
+                        'surname' => $user->surname,
+                        'email' => $user->email,
+                        'password_link' => route('auth.password.reset', ['token' => $token])
+                    ];
+                    Mail::to($user->email)
+                        ->send(new UserAccountMail($fields));
+                    $processed += 1;
+                }
+                echo $processed;
+            }
+        }
     }
 }

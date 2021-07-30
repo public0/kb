@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/admin/users/edit/{id}', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
     Route::any('/admin/users/status/{id}', [App\Http\Controllers\Admin\UsersController::class, 'status']);
     Route::any('/admin/users/password-reset/{id}', [App\Http\Controllers\Admin\UsersController::class, 'passwordReset']);
+    Route::post('/admin/users/role-password-reset', [App\Http\Controllers\Admin\UsersController::class, 'rolePasswordReset']);
 
     Route::get('/admin/categories', [App\Http\Controllers\Admin\CategoriesController::class, 'index']);
     Route::any('/admin/category/add', [App\Http\Controllers\Admin\CategoriesController::class, 'add']);

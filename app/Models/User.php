@@ -57,6 +57,11 @@ class User extends Authenticatable
         3 => 'Extern'
     ];
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
     /**
      * User is role.
      *
