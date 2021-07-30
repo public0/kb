@@ -1,6 +1,13 @@
 {
     "Users": [
         {
+            "id": "AdminUsersAccountRequest",
+            "name": "Account Request",
+            "route": "admin.account.request",
+            "icon": "fe fe-user-plus",
+            "badge": "$users_account_request_nr",
+            "roles": "admin,intern"
+        }, {
             "id": "AdminUsers",
             "name": "Users",
             "url": "/admin/users",

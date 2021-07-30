@@ -104,6 +104,15 @@ Route::middleware(['auth'])->group(function () {
         '/admin/profile/delete-image',
         [App\Http\Controllers\Admin\ProfileController::class, 'deleteImage']
     )->name('admin.profile.delete-image');
+    // Account Request
+    Route::get(
+        '/admin/users-account-request',
+        [App\Http\Controllers\Admin\UsersAccountRequestController::class, 'index']
+    )->name('admin.account.request');
+    Route::get(
+        '/admin/users-account-request/delete/{id}',
+        [App\Http\Controllers\Admin\UsersAccountRequestController::class, 'delete']
+    )->name('admin.account.request.delete');
     // Clients
     Route::get(
         '/admin/clients',
