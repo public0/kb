@@ -245,10 +245,17 @@ class UsersController extends Controller
 
     public function rolePasswordReset(Request $request)
     {
+        $this->authorize('userPerms', 'rolePasswordReset');
+
         if ($request->isMethod('post')) {
             $role = $request->input('role');
             if ($role !== null) {
-                $users = User::active()->where('role', $role)->get();
+                $users = User::active()->where('role', $role);
+                $clientID = Auth::user()->client_id;
+                if ($clientID) {
+                    $users->where('client_id', $clientID);
+                }
+                $users = $users->get();
                 $processed = 0;
                 foreach ($users as $user) {
                     $token = $this->prInsert($user);
