@@ -49,7 +49,9 @@
                             <tbody>
                             @foreach($clients as $item)
                             <tr>
-                                <td>{{ $item->name }}</td>
+                                <td>
+                                    <a href="{{ route('admin.clients.instances', ['cid' => $item->id]) }}" class="text-primary">{{ $item->name }}</a>
+                                </td>
                                 <td>{{ $item->url }}</td>
                                 <td class="table-col-shrink text-center">
                                     <a href="{{ route('admin.clients.status', ['id' => $item->id]) }}" class="btn btn-sm btn-link">{{ $item->status_name }}</a>

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class ClientInstance extends Model
 {
     use HasFactory;
 
-    protected $table = 'dbo.clients';
+    protected $table = 'dbo.client_instances';
 
     public $timestamps = false;
 
@@ -19,14 +19,17 @@ class Client extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'url',
+        'client_id',
+        'api_key',
+        'server_name',
+        'instance_name',
+        'ip',
         'status'
     ];
 
-    public function instances()
+    public function client()
     {
-        return $this->hasMany(ClientInstance::class, 'client_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
     /**

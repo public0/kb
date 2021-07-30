@@ -120,21 +120,45 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\Admin\ClientsController::class, 'index']
     )->name('admin.clients');
     Route::get(
-        '/admin/clients/status/{id}',
-        [App\Http\Controllers\Admin\ClientsController::class, 'status']
+        '/admin/clients/status-client/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'statusClient']
     )->name('admin.clients.status');
     Route::any(
-        '/admin/clients/add',
-        [App\Http\Controllers\Admin\ClientsController::class, 'add']
+        '/admin/clients/add-client',
+        [App\Http\Controllers\Admin\ClientsController::class, 'addClient']
     )->name('admin.clients.add');
     Route::any(
-        '/admin/clients/edit/{id}',
-        [App\Http\Controllers\Admin\ClientsController::class, 'edit']
+        '/admin/clients/edit-client/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'editClient']
     )->name('admin.clients.edit');
     Route::get(
-        '/admin/clients/delete/{id}',
-        [App\Http\Controllers\Admin\ClientsController::class, 'delete']
+        '/admin/clients/delete-client/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'deleteClient']
     )->name('admin.clients.delete');
+    Route::get(
+        '/admin/clients/instances/{cid}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'instances']
+    )->name('admin.clients.instances');
+    Route::get(
+        '/admin/clients/instances/{cid}/status-instance/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'statusInstance']
+    )->name('admin.clients.instances.status');
+    Route::any(
+        '/admin/clients/instances/{cid}/add-instance',
+        [App\Http\Controllers\Admin\ClientsController::class, 'addInstance']
+    )->name('admin.clients.instances.add');
+    Route::any(
+        '/admin/clients/instances/{cid}/edit-instance/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'editInstance']
+    )->name('admin.clients.instances.edit');
+    Route::get(
+        '/admin/clients/instances/{cid}/delete-instance/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'deleteInstance']
+    )->name('admin.clients.instances.delete');
+    Route::post(
+        '/admin/clients/instances/update-apikey/{id}',
+        [App\Http\Controllers\Admin\ClientsController::class, 'updateApiKeyInstance']
+    )->name('admin.clients.instances.updateapikey');
     // Localization
     Route::get(
         '/admin/localization',
