@@ -19,6 +19,9 @@ $(function(e) {
             {
                 targets: 'no-sort',
                 orderable: false
+            }, {
+                targets: 'datetime-sort',
+                type: 'datetime'
             }
         ],
 		language: {
