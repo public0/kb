@@ -106,13 +106,13 @@ $(function(e) {
 	$('#example4').DataTable();
 	
 	$('#utils-history').DataTable(
-		 /*{
-        "ajax": "../ajax/history/",
-		"columns": [
-            { "informations": "client_name" },
-            { "informations": "server_name" },
-                   
-        ]
-    	} */
+		{
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+    	} 
 	);
+	
+	$( "#start_date" ).datepicker({ dateFormat: 'dd-mm-yy', firstDay: 1 });
+	$( "#end_date" ).datepicker({ dateFormat: 'dd-mm-yy', firstDay: 1 });
 });

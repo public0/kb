@@ -1091,5 +1091,289 @@
         });
     });
 
+	 $(document).ready(function() {
+		var cacheLink = '/cache/flush?key=p@r0L@';
+		var siteuri_proprii= [
+			{'name':'Ringhel Demo',
+			 'isdev':'0',
+			 'url': 'http://sb.ringhel.ro/web'
+			},
+	
+			{'name':'Ringhel DEV',
+			 'isdev':'1',
+			 'url': 'http://sb.ringhel.ro/web_dev'
+			},
+	
+			{'name':'Ringhel TEST',
+			 'isdev':'0',
+			 'url': 'http://sb.ringhel.ro/web_test'
+			}
+		];
+		
+		var siteuri = [
+
+			{'name':'Werk',
+			 'isdev':'0',
+			 'url': 'https://login.werkenergy.ro'
+			},
+	
+			//{'name':'Arelco',
+			// 'isdev':'0',
+			// 'url': 'http://www.arelco.ro:34011'
+			//},
+	
+			{'name':'Entrex',
+			 'isdev':'0',
+			 'url': 'https://crm.entrex.ro:444'
+			},
+	
+			{'name':'Aderro',
+			 'isdev':'0',
+			 'url': 'http://clients.aderroenergy.ro'
+			},
+			
+			{'name':'Aderro (TEST)',
+			 'isdev':'1',
+			 'url': 'http://clients-test.aderroenergy.ro'
+			},
+	
+			{'name':'Getica 95',
+			 'isdev':'0',
+			 'url': 'http://clienti.getica95.ro'
+			},
+	
+			{'name':'Apuron Energy',
+			 'isdev':'0',
+			 'url': 'http://clienti.apuron-energy.ro:9080'
+			},
+	
+			{'name':'Nova PG',
+			 'isdev':'0',
+			 'url': 'https://crmadmin.novapg.ro'
+			},
+			
+			{'name':'Nova PG - Test',
+			 'isdev':'1',
+			 'url': 'https://crmadmintest.novapg.ro'
+			},
+	
+			{'name':'GDM Logistics',
+			 'isdev':'0',
+			 'url': 'http://client.gdmlogistics.ro'
+			},
+	
+			{'name':'Curent Alternativ',
+			 'isdev':'0',
+			 'url': 'http://clienti.calt.ro'
+			},
+	
+			{'name':'Industrial Energy',
+			 'isdev':'0',
+			 'url': 'http://client.industrialenergy.ro'
+			},
+	
+			{'name':'Monsson Energy Trading',
+			 'isdev':'0',
+			 'url': 'http://client.monssontrading.eu'
+			},
+			
+			{'name':'Monsson Energy Trading (TEST)',
+			 'isdev':'1',
+			 'url': 'http://91.240.94.105:8081'
+			},
+	
+			{'name':'Absolute Energy',
+			 'isdev':'0',
+			 'url': 'http://clienti.absolute-energy.ro'
+			},
+	
+	/* 		{'name':'C-Gaz',
+			 'isdev':'0',
+			 'url': 'http://client.cged.ro/gefee4web'
+			}, */
+	
+			{'name':'RWE - MET',
+			 'isdev':'0',
+			 'url': 'http://cont2.ro.met.com'
+			},
+	
+			{'name':'Electricom',
+			 'isdev':'0',
+			 'url': 'http://client.electricom.ro'
+			},
+	
+			{'name':'Lukoil Energy & Gas (LEG)',
+			 'isdev':'0',
+			 'url': 'http://clienti.lukoilenergy.ro'
+			},
+	
+			{'name':'Ovidiu Development',
+			 'isdev':'0',
+			 'url': 'https://cezenergy.cez.ro'
+			},
+	
+			{'name':'Cez Vanzare',
+			 'isdev':'0',
+			 'url': 'https://webgaz.cezinfo.ro'
+			},
+	
+			//{'name':'Arelco Energy',
+			// 'isdev':'0',
+			//'url': 'http://client.arelcoenergy.ro:34012'
+			//},
+	
+			{'name':'Restart Energy',
+			 'isdev':'0',
+			 'url': 'https://client.restartenergy.ro'
+			},
+			{'name':'Restart Energy (TEST)',
+			 'isdev':'1',
+			 'url': 'http://89.38.211.103:82'
+			},
+			{'name':'Restart Energy (TEST 2)',
+			 'isdev':'1',
+			 'url': 'http://185.99.89.36'
+			},
+			{'name':'Premier Energy',
+			 'isdev':'0',
+			 'url': 'http://client.premierenergytrading.ro'
+			},
+			{
+				'name':'Engie (PROD)',
+				'isdev':'0',
+				'url':'https://ppre.engie.ro'//http://fee-engie-app.azurewebsites.net
+			},
+			{
+				'name':'Engie (TEST)',
+				'isdev':'1',
+				'url':'http://tpre.engie.ro'//http://fee-engie-app-test.azurewebsites.net
+			},
+			{
+				'name':'MET (PROD)',
+				'isdev':'0',
+				'url':'https://client-ro.met.com'
+			},
+			{
+				'name':'MET (TEST)',
+				'isdev':'1',
+				'url':'https://test.client-ro.met.com'
+			},
+			{
+				'name':'Anchor Grup',
+				'isdev':'0',
+				'url':'http://energie.anchorgrup.ro'//'https://anchorgrup.azurewebsites.net'
+			},
+			{
+				'name':'Mazarine Energy',
+				'isdev':'0',
+				'url':'http://customer-ro.mazarine-energy.com'
+			},
+			{
+				'name':'E-nergia',
+				'isdev':'0',
+				'url':'https://portal-ro.e-nergia.net'
+			},
+			{
+				'name':'ENERGIA Gas and Power Serbia',
+				'isdev':'0',
+				'url':'http://client.e-nergia.rs'
+			},
+			{
+				'name':'ENERGIA Gas and Power Serbia - test',
+				'isdev':'1',
+				'url':'http://client-test.e-nergia.rs'
+			},
+			{
+				'name':'EOL Energy',
+				'isdev':'0',
+				'url':'http://clienti.eol-energy.com'
+			},
+			{
+				'name':'Electromagnetica (serverul nostru)',
+				'isdev':'0',
+				'url':'http://sb.ringhel.ro/web_electromagnetica'
+			},
+			{
+				'name':'Electromagnetica',
+				'isdev':'0',
+				'url':'http://energie.electromagnetica.ro'
+			},
+			{
+				'name':'Veolia Energie',
+				'isdev':'0',
+				'url':'http://portal.veolia.ro'
+			},
+			{
+				'name':'Instant Construct',
+				'isdev':'0',
+				'url':'https://instantconstruct.azurewebsites.net'
+			},
+			{
+				'name':'QMB Energ',
+				'isdev':'0',
+				'url':'http://crm.qmbenerg.com'
+			},
+			{
+				'name':'A Energy Ind',
+				'isdev':'0',
+				'url':'https://aenergyind.azurewebsites.net'
+			},
+			{
+				'name':'Energy Gas Provider',
+				'isdev':'0',
+				'url':'http://portal.energy-gas.ro'
+			},
+			{
+				'name':'Energy Gas Provider (TEST)',
+				'isdev':'1',
+				'url':'https://energygasprovider-test.azurewebsites.net/'
+			},
+			{
+				'name':'ICPE Electrocond',
+				'isdev':'0',
+				'url':'http://portal.icpeelectrocond.ro'
+			}
+	
+		];
+	
+        $('#clearCacheDev').click(function(e){
+			e.preventDefault();
+			
+			$.each(siteuri_proprii,function(key,site){
+				//console.log(site);
+					if (!site.isdev) return;
+					$.get(base_url+'/utils/ping', {url: site.url + cacheLink} ).done(function(result) {
+						
+					});
+					
+			});
+			setTimeout(() => { 
+			swal({
+				  title: 'Cache golit cu succes (DEV)',
+				  type: 'success',
+				  timer: 4000
+				}).catch(swal.noop);}, 1000);
+		});
+		
+		
+		$('#clearCache').click(function(e){
+		$.each(siteuri,function(key,value){
+			$.get(base_url+'/utils/ping', {url: value.url + cacheLink} ).done(function(result) {
+			
+			
+			});
+			
+			
+		});
+		setTimeout(() => { 
+		swal({
+			  title: 'Cache golit cu succes (Clienti)',
+			  type: 'success',
+			  timer: 4000
+			}).catch(swal.noop); }, 1000);
+	});
+			
+    });
+
 })(jQuery);
 

@@ -104,6 +104,9 @@
 <!--Sidemenu js-->
 <script src="<?php echo URL::to('/'); ?>/th/assets/plugins/sidemenu/sidemenu.js"></script>
 
+<!--Datepicker js-->
+<script src="<?php echo URL::to('/'); ?>/th/assets/plugins/date-picker/jquery-ui.js"></script>
+
 <!-- P-scroll js-->
 <script src="<?php echo URL::to('/'); ?>/th/assets/plugins/p-scrollbar/p-scrollbar.js"></script>
 <script src="<?php echo URL::to('/'); ?>/th/assets/plugins/p-scrollbar/p-scroll1.js"></script>
@@ -158,6 +161,9 @@
 <!-- Custom js and DATATABLES-->
 <script src="<?php echo URL::to('/'); ?>/th/assets/js/custom.js"></script>
 
+<!-- sweetalert -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.js"></script>
 @stack('body-scripts')
 </body>
 </html>

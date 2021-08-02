@@ -22,6 +22,7 @@
         {
             "id": "FrontUtils",
             "name": "Utilitare",
+			"route": "utils.home",
             "icon": "fe fe-hard-drive",
             "roles": "admin,intern"
         }

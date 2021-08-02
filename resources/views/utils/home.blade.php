@@ -24,7 +24,7 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Status</h3>
+                            <h3 class="card-title">Status > {{$client_name}}</h3>
                         </div>
                         
                         
@@ -81,14 +81,6 @@
                                 </table>
                             </div>
                             @endif
-                        	
-                        <!-- @foreach($informations as $info)
-                        <div class="list-card">
-                        	{{$info->client}}{{$info->status}}
-                        </div>
-                        
-                         @endforeach -->
-                     
                     </div>
                 </div>
             </div>

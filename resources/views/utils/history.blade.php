@@ -24,11 +24,26 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Istoric</h3>
+                            <h3 class="card-title">Istoric > {{$client_name}} >  {{$server_name}} > {{$instance_name}}</h3>
                         </div>
                         
                         
                         <div class="card-body">
+                            <!-- Filters -->
+                            <form method="get" action="" class="form-inline">
+                                <div class="form-group mr-sm-3">
+                                De la&nbsp;<input name="start_date" value="{{$filters['start_date']}}" type="text" id="start_date" class="form-control">
+                                   
+                                </div>
+                                <div class="form-group mr-sm-3">
+                                pana la&nbsp;<input name="end_date" value="{{$filters['end_date']}}" type="text" id="end_date" class="form-control">
+                                </div>
+                               
+                                <button type="submit" class="btn btn-primary mr-sm-3">{{ __('labels.filter') }}</button>
+                                @if(app('request')->query())<button type="button" class="btn btn-orange" onclick="window.location='{{ url()->current() }}'">{{ __('labels.reset') }}</button>@endif
+                            </form>
+                            <hr>
+                            <!-- // Filters -->
                         @if(!empty($informations))
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="utils-history">
@@ -51,7 +66,6 @@
                                         <th>Versiune PHP</th>
                                         <th>Versiune Yii</th>
                                         <th>Data</th>
-                                        <th>Actiuni</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -74,22 +88,15 @@
                                         <td>{{$info->php_version}}</td>
                                         <td>{{$info->yii_version}}</td>
                                         <td>{{ \Carbon\Carbon::parse($info->created_at)->format('d.m.Y H:i:s') }}</td>
-                                        <td><a href="{{ url('/utils/history/'.$info->client_instances_id) }}" class="btn btn-sm btn-success"><i class="fe fe-file-text mr-1"></i> Istoric</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
                             </div>
                             @endif
-                        	
-                        <!-- @foreach($informations as $info)
-                        <div class="list-card">
-                        	{{$info->client}}{{$info->status}}
-                        </div>
-                        
-                         @endforeach -->
-                     
+                     {{ $informations->links() }}
                     </div>
+                    
                 </div>
             </div>
             <!-- End Row-3 -->
