@@ -358,6 +358,14 @@ Route::middleware(['auth'])->group(function () {
         '/admin/swag-clients/delete/{id}',
         [App\Http\Controllers\Admin\SwagClientsController::class, 'delete']
     )->name('admin.swag.clients.delete');
+    
+    // Utils
+    Route::name('utils.')->group(function () {
+        Route::get('/utils', [App\Http\Controllers\Utils\UtilsController::class, 'index'])->name('home');
+        Route::get('/utils/history/{client_instances_id}', [App\Http\Controllers\Utils\UtilsController::class, 'history'])->name('history');
+        Route::get('/utils/legend', [App\Http\Controllers\Utils\UtilsController::class, 'legend'])->name('legend');
+        Route::get('/utils/ping', [App\Http\Controllers\Utils\UtilsController::class, 'ping'])->name('ping');
+    });
 });
 
 // Template (no auth)
@@ -459,7 +467,8 @@ Route::middleware(['api_token'])->group(function () {
         )->name('articles.view');
         Route::get(
             '/help/{api_token}/search',
-            [App\Http\Controllers\SearchController::class, 'helpSearch']
-        )->name('articles.search');
+            [App\Http\Controllers\SearchController::class,
+            'helpSearch'
+        ])->name('articles.search');
     });
 });

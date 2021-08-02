@@ -8,6 +8,9 @@
 /storage/*.key
 /vendor
 /.idea
+/.buildpath
+/.project
+/.settings/
 .env
 .env.backup
 .phpunit.result.cache

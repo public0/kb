@@ -107,4 +107,15 @@ $(function(e) {
 		}
 	} );
 	$('#example4').DataTable();
+	
+	$('#utils-history').DataTable(
+		{
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+    	} 
+	);
+	
+	$( "#start_date" ).datepicker({ dateFormat: 'dd-mm-yy', firstDay: 1 });
+	$( "#end_date" ).datepicker({ dateFormat: 'dd-mm-yy', firstDay: 1 });
 });
