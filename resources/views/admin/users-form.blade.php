@@ -91,21 +91,44 @@
                                 <button type="button" class="btn btn-sm btn-danger btn-uncheck-all" title="{{ __('Deselect All') }}"><i class="fe fe-x"></i></button>
                             </div>
                             <div class="row">
-                                @if(!$auth_user->client_id)
-                                <div class="col-6">
-                                @if(!empty($adminModules))
-                                    @php
-                                    foreach ($adminModules as $group => $items) {
-                                        foreach ($items as $k => $item) {
-                                            if (!$auth_user->isRole('admin') && !empty($item['admin'])) {
-                                                unset($adminModules[$group][$k]);
-                                            }
+                                @php
+                                // Admin Modules
+                                foreach ($adminModules as $group => $items) {
+                                    foreach ($items as $k => $item) {
+                                        if (!$auth_user->isRole('admin') && !empty($item['admin'])) {
+                                            unset($adminModules[$group][$k]);
+                                        }
+                                        if ($auth_user->client_id
+                                            && strpos($item['roles'], strtolower($auth_user->role_name)) === false
+                                            && !in_array($item['id'], $auth_user->permissions_data)
+                                        ) {
+                                            unset($adminModules[$group][$k]);
                                         }
                                     }
-                                    @endphp
+                                }
+                                foreach ($adminModules as $group => $items) {
+                                    if (!$items) {
+                                        unset($adminModules[$group]);
+                                    }
+                                }
+                                // App Modules
+                                foreach ($appsModules as $group => $items) {
+                                    foreach ($items as $k => $item) {
+                                        if ($auth_user->client_id && empty($item['client'])) {
+                                            unset($appsModules[$group][$k]);
+                                        }
+                                    }
+                                }
+                                foreach ($appsModules as $group => $items) {
+                                    if (!$items) {
+                                        unset($appsModules[$group]);
+                                    }
+                                }
+                                @endphp
+                                @if(!empty($adminModules))
+                                <div class="col-6">
                                     <h4>Admin</h4>
                                     @foreach($adminModules as $group => $items)
-                                    @if($items)
                                     <div class="form-group">
                                         <label class="form-label">{{ $group }}</label>
                                         @foreach($items as $item)
@@ -118,25 +141,13 @@
                                         </label>
                                         @endforeach
                                     </div>
-                                    @endif
                                     @endforeach
-                                @endif
                                 </div>
                                 @endif
-                                <div class="col-6">
                                 @if(!empty($appsModules))
-                                    @php
-                                    foreach ($appsModules as $group => $items) {
-                                        foreach ($items as $k => $item) {
-                                            if ($auth_user->client_id && empty($item['client'])) {
-                                                unset($appsModules[$group][$k]);
-                                            }
-                                        }
-                                    }
-                                    @endphp
+                                <div class="col-6">
                                     <h4>Apps</h4>
                                     @foreach($appsModules as $group => $items)
-                                    @if($items)
                                     <div class="form-group">
                                         <label class="form-label">{{ $group }}</label>
                                         @foreach($items as $item)
@@ -146,10 +157,9 @@
                                         </label>
                                         @endforeach
                                     </div>
-                                    @endif
                                     @endforeach
-                                @endif
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
