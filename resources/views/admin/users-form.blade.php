@@ -100,7 +100,7 @@
                                         }
                                         if ($auth_user->client_id
                                             && strpos($item['roles'], strtolower($auth_user->role_name)) === false
-                                            && !in_array($item['id'], $auth_user->permissions_data)
+                                            && !($user && $user->id == $auth_user->id && in_array($item['id'], $user->permissions_data))
                                         ) {
                                             unset($adminModules[$group][$k]);
                                         }
