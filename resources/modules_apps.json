@@ -9,6 +9,16 @@
             "roles": "admin,intern,extern,guest"
         }
     ],
+    "Swag": [
+        {
+            "id": "FrontSwagDocuments",
+            "name": "Swag Documents",
+            "route": "swag.home",
+            "icon": "fe fe-book-open",
+            "client": true,
+            "roles": "admin,intern,extern,guest"
+        }
+    ],
     "Configurator": [
         {
             "id": "FrontConfigurator",

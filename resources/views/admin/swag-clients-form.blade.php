@@ -30,12 +30,13 @@
                     <div class="row row-sm">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="form-label">Name <span class="text-danger">*</span></label>
-                                <input type="text" name="name" placeholder="Name" class="form-control" required="required" value="{{ old('name', $client ? $client->name : null) }}" maxlength="255" />
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">URL</label>
-                                <input type="text" name="url" placeholder="URL" class="form-control" value="{{ old('url', $client ? $client->url : null) }}" maxlength="255" />
+                                <label class="form-label">Client <span class="text-danger">*</span></label>
+                                <select name="client_id" class="form-control">
+                                    <option value="">Select Client</option>
+                                    @foreach($clients as $item)
+                                    <option value="{{ $item->id }}"@if(old('client_id', $client ? $client->client_id : null) == $item->id) selected="selected" @endif>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Document <span class="text-danger">*</span></label>

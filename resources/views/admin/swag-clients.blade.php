@@ -41,7 +41,6 @@
                             <thead>
                             <tr>
                                 <th class="wd-15p border-bottom-0">Name</th>
-                                <th class="wd-15p border-bottom-0">URL</th>
                                 <th class="wd-15p border-bottom-0">Document</th>
                                 <th class="wd-15p border-bottom-0 text-center no-sort">Actions</th>
                             </tr>
@@ -49,8 +48,7 @@
                             <tbody>
                             @foreach($clients as $item)
                             <tr>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->url }}</td>
+                                <td>{{ $item->client->name }}</td>
                                 <td>{{ $item->document->name }}</td>
                                 <td class="table-col-shrink text-center">
                                     <a href="{{ route('admin.swag.clients.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-green mr-2"><i class="fe fe-edit-2 mr-1"></i> {{ __('labels.edit') }}</a>

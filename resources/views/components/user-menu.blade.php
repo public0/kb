@@ -34,11 +34,7 @@
                 @endforeach
             @endforeach
         @endif
-        <a class="dropdown-item d-flex" href="{{ route('swag.home') }}">
-            <span class="header-icon" style="display:inline-block;line-height:25px"><i class="fe fe-cloud"></i></span>
-            {{ __('Swag Documents') }}
-        </a> 
-		<a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">
+        <a class="dropdown-item d-flex" href="{{ route('auth.logout') }}">
             <span class="header-icon" style="display:inline-block;line-height:25px"><i class="fe fe-log-out"></i></span>
             {{ __('Sign Out') }}
         </a>
