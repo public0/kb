@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\SwagClient;
 use App\Models\SwagDocument;
 use Exception;
@@ -15,7 +16,7 @@ class SwagClientsController extends Controller
         $this->authorize('viewPerms', 'AdminSwagClients');
 
         return view('admin/swag-clients', [
-            'clients' => SwagClient::orderBy('name', 'ASC')->get()
+            'clients' => SwagClient::with('client')->get()
         ]);
     }
 
@@ -25,15 +26,14 @@ class SwagClientsController extends Controller
 
         if ($request->isMethod('post')) {
             $validated = $request->validate([
-                'document_id' => 'required|integer',
-                'name' => 'required|max:255'
+                'client_id' => 'required|integer',
+                'document_id' => 'required|integer'
             ]);
 
             try {
                 $fields = $request->only([
-                    'document_id',
-                    'name',
-                    'url'
+                    'client_id',
+                    'document_id'
                 ]);
                 $methods = $request->input('methods');
                 if ($methods) {
@@ -51,6 +51,7 @@ class SwagClientsController extends Controller
 
         return view('admin/swag-clients-form', [
             'client' => null,
+            'clients' => Client::all(),
             'documents' => SwagDocument::all()
         ]);
     }
@@ -63,15 +64,14 @@ class SwagClientsController extends Controller
 
         if ($request->isMethod('post')) {
             $validated = $request->validate([
-                'document_id' => 'required|integer',
-                'name' => 'required|max:255'
+                'client_id' => 'required|integer',
+                'document_id' => 'required|integer'
             ]);
 
             try {
                 $fields = $request->only([
-                    'document_id',
-                    'name',
-                    'url'
+                    'client_id',
+                    'document_id'
                 ]);
                 $methods = $request->input('methods');
                 if ($methods) {
@@ -89,6 +89,7 @@ class SwagClientsController extends Controller
 
         return view('admin/swag-clients-form', [
             'client' => $client->first(),
+            'clients' => Client::all(),
             'documents' => SwagDocument::all()
         ]);
     }
@@ -98,12 +99,12 @@ class SwagClientsController extends Controller
         $this->authorize('viewPerms', 'AdminSwagClients');
 
         try {
-            $client = SwagClient::where('id', $id);
-            $data = $client->first();
+            $client = SwagClient::find($id);
+            $name = $client->name;
             $client->delete();
 
             return redirect()->back()
-                ->with('message', 'Client "' . $data->name . '" deleted!');
+                ->with('message', 'Client "' . $name . '" deleted!');
         } catch (Exception $e) {
             return redirect()->back()
                 ->with('error', $e->getMessage());

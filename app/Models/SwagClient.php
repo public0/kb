@@ -19,11 +19,15 @@ class SwagClient extends Model
      * @var array
      */
     protected $fillable = [
+        'client_id',
         'document_id',
-        'name',
-        'url',
         'methods'
     ];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
 
     public function document()
     {
