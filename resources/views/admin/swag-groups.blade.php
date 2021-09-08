@@ -39,7 +39,7 @@
                 <div class="card-body">
                     @if(!empty($groups))
                     <div class="table-responsive">
-                        <table class="table table-bordered text-nowrap" id="example1">
+                        <table class="table table-bordered" id="example1">
                             <thead>
                             <tr>
                                 <th class="wd-15p border-bottom-0">Name</th>

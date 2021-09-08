@@ -283,7 +283,7 @@ class SwagDocumentsController extends Controller
 
     private $methodTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
     private $paramsLocations = ['header', 'body', 'query', 'path'];
-    private $paramsTypes = ['string', 'integer', 'float', 'double', 'object', 'base64'];
+    private $paramsTypes = ['string', 'integer', 'float', 'double', 'object', 'base64', 'file'];
 
     public function methods($docid, $gid)
     {
