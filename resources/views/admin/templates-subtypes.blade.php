@@ -39,7 +39,7 @@
                 <div class="card-body">
                     @if(!empty($subtypes))
                     <div class="table-responsive">
-                        <table class="table table-bordered text-nowrap" id="example2">
+                        <table class="table table-bordered" id="example2">
                             <thead>
                             <tr>
                                 <th class="wd-15p border-bottom-0">Name</th>
