@@ -157,7 +157,7 @@
                                     <tbody>
                                     @foreach($calculations as $calculation)
                                         <div id="calc_iu_{{$calculation->CalculationId}}">
-                                            <tr class="calc-row" id="{{$calculation->CalculationId}}">
+                                            <tr class="" id="{{$calculation->CalculationId}}">
                                                 <td>{{$calculation->CalculationId}}</td>
                                                 <td><input type="text" class="form-control" name="trigger_name" value="{{$calculation->CalculationName}}"></td>
                                                 <td><input type="text" class="form-control" name="trigger_desc" value="{{$calculation->Description}}"></td>
@@ -165,7 +165,7 @@
                                                 <td><input type="text" class="form-control" name="trigger_desc" value="{{$calculation->CalculationType}}"></td>
                                                 <td><input type="text" class="form-control" name="trigger_desc" value="{{$calculation->Calculation}}"></td>
                                                 <td><input type="text" class="form-control" name="trigger_desc" value="{{$calculation->Activ}}"></td>
-                                                <td><input type="text" class="form-control" name="trigger_desc" value=""></td>
+                                                <td><button class="btn calc-row-btn"><i class="fa fa-bars"></i></button></td>
                                             </tr>
                                             <tr id="calc_iu_{{$calculation->CalculationId}}">
                                                 <td></td>
