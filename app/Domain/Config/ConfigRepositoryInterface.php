@@ -3,6 +3,7 @@
 namespace App\Domain\Config;
 
 interface ConfigRepositoryInterface {
+    public function getCalculationTypes();
     public function getTypes();
     public function searchTypes($query);
     public function searchCalculations($query);
@@ -14,10 +15,16 @@ interface ConfigRepositoryInterface {
     public function GetCalculationsByType(int $type);
     public function GetCalculationInputTypes(int $calculation);
     public function GetCalculationCustomParams(int $calculation);
+    public function getInputTypeById(int $id);
+    public function getCustomParamsById(int $id);
     public function addCalculationInputType($data);
     public function addCalculationCustomParam($data);
     public function updateCalculationInputType(int $calculation, $data);
     public function updateCalculationParam(int $calculation, $data);
+
+    public function deleteCalculationIt(int $id);
+    public function deleteCalculationCp(int $id);
+
     public function getTriggers();
     public function getTrigger($id);
     public function updateTrigger(int $trigger, $data);

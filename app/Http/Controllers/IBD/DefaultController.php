@@ -8,29 +8,41 @@ use Illuminate\Support\Facades\Auth;
 
 class DefaultController extends Controller
 {
-    public function index(ConfigRepositoryInterface $config){
-        $data = [];
-        $data['user'] = Auth::user();
-        $data['types'] = $config->getTypes();
-        $data['typesCount'] = count($data['types']);
-        $data['triggers'] = $config->getTriggers();
-        $data['triggersCount'] = count($data['triggers']);
-        $data['params'] = $config->getParameters();
-        $data['distinctTypes'] = $config->getDistinctCalcTypes();
+    protected $data = [];
 
-        return view('ibd/index', $data);
+    public function __construct(ConfigRepositoryInterface $config)
+    {
+        parent::__construct();
+        $this->data['types'] = $config->getTypes();
+        $this->data['typesCount'] = count($this->data['types']);
+        $this->data['triggers'] = $config->getTriggers();
+        $this->data['triggersCount'] = count($this->data['triggers']);
+        $this->data['calculations'] = $config->GetCalculations();
+        $this->data['calculationsCount'] = count($this->data['calculations']);
+    }
+
+    public function index(ConfigRepositoryInterface $config){
+        $this->data['user'] = Auth::user();
+        $this->data['calcTypes'] = $config->getCalculationTypes();
+        $this->data['params'] = $config->getParameters();
+        $this->data['distinctTypes'] = $config->getDistinctCalcTypes();
+
+        return view('ibd/index', $this->data);
     }
 
     public function triggers(ConfigRepositoryInterface $config){
-        $data = [];
-        $data['calculations'] = $config->GetCalculations();
-        $data['user'] = Auth::user();
-        $data['types'] = $config->getTypes();//dd($data['types']);
-//        dd($data['types']);
-        $data['typesCount'] = count($data['types']);
-        $data['triggers'] = $config->getTriggers();
-//        dd($data['triggers']);
-        $data['triggersCount'] = count($data['triggers']);
-        return view('ibd/triggers', $data);
+        $this->data['user'] = Auth::user();
+        return view('ibd/triggers', $this->data);
+    }
+
+    public function calculations(ConfigRepositoryInterface $config){
+        $this->data['user'] = Auth::user();
+        $this->data['params'] = $config->getParameters();
+        $this->data['calccustomparams'] = $config->getDistinctCalcTypes();
+//        dd($this->data['calccustomparams']);
+
+//        $c = $config->GetCalculationInputTypes(6);
+//        dd($c);
+        return view('ibd/calculations', $this->data);
     }
 }

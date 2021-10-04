@@ -16,6 +16,11 @@
                     <button class="btn btn-success" type="button">Add</button>
                 </div>
             </div>
+            <div class="hidden" id="calcTypes">
+                @foreach($calcTypes as $k=>$calcType)
+                    <input type="hidden" class="calc-type" value="{{$calcType->CalculationType}}" />
+                @endforeach
+            </div>
             <!-- Params Modal -->
             <div class="modal fade" id="params-config-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

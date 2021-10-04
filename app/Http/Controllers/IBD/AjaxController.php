@@ -8,6 +8,28 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
+    public function getInputTypeById(
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $typeParams = $config->getInputTypeById($request->id);
+
+        return response()->json([
+            'typeParams' => $typeParams,
+        ]);
+    }
+
+    public function getCustomParamsById(
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $typeParams = $config->getCustomParamsById($request->id);
+
+        return response()->json([
+            'typeParams' => $typeParams,
+        ]);
+    }
+
     public function getParamsByType(
         Request $request,
         ConfigRepositoryInterface $config
@@ -173,6 +195,7 @@ class AjaxController extends Controller
     }
 
     public function updateCalculationParam(
+        $id,
         Request $request,
         ConfigRepositoryInterface $config
     ) {
@@ -187,18 +210,16 @@ class AjaxController extends Controller
         $messages = [
             'required' => 'The :attribute field is required!'
         ];
-
-
         $request->validate($rules, $messages);
-        $config->updateCalculationParam($request->id, $request->all());
+        $config->updateCalculationParam($id, $request->all());
 
         return response()->json([
             'result' => true,
         ]);
     }
 
-
     public function updateCalculationInput(
+        $id,
         Request $request,
         ConfigRepositoryInterface $config
     ) {
@@ -211,10 +232,33 @@ class AjaxController extends Controller
         $messages = [
             'required' => 'The :attribute field is required!'
         ];
-
-
         $request->validate($rules, $messages);
-        $config->updateCalculationInputType($request->id, $request->all());
+        $config->updateCalculationInputType($id, $request->all());
+
+        return response()->json([
+            'result' => true,
+        ]);
+    }
+
+
+    public function deleteCalcIt(
+        $id,
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $config->deleteCalculationIt($id);
+
+        return response()->json([
+            'result' => true,
+        ]);
+    }
+
+    public function deleteCalcCp(
+        $id,
+        Request $request,
+        ConfigRepositoryInterface $config
+    ) {
+        $config->deleteCalculationCp($id);
 
         return response()->json([
             'result' => true,

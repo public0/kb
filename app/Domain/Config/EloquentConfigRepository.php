@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\MSSQLException;
 
 class EloquentConfigRepository implements ConfigRepositoryInterface {
+    public function getCalculationTypes() {
+        return DB::connection('sqlsrv2')->select(DB::raw('exec [ibd].[Config_GetCalculationType]'));
+    }
     public function getTypes() {
         return DB::connection('sqlsrv2')->select(DB::raw('exec [ibd].[Config_GetTypes]'));
     }
@@ -15,7 +18,6 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
     public function searchCalculations($query) {
         return DB::connection('sqlsrv2')->select(DB::raw('SELECT * FROM ibd.Calculations WHERE Name LIKE \'%'.$query.'%\''));
     }
-
     public function getParameters() {
         return DB::connection('sqlsrv2')->select(DB::raw('exec [ibd].[Config_GetParameters]'));
     }
@@ -36,6 +38,25 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
     }
     public function GetCalculationCustomParams(int $calculation) {
         return DB::connection('sqlsrv2')->select(DB::raw('exec [ibd].[Config_GetCalculationCustomParams] '.$calculation));
+    }
+    public function getInputTypeById($id) {
+        return DB::connection('sqlsrv2')->select(DB::raw('SELECT * FROM ibd.CalculationInputTypes WHERE Id = '.$id));
+    }
+    public function getCustomParamsById($id) {
+        return DB::connection('sqlsrv2')->select(
+            DB::raw('SELECT ccp.Id as Id, 
+            ccp.CalculationId as CalculationId, 
+            ccp.TypeIdInput as TypeIdInput,
+            t.Name as TypeNameInput,
+            ccp.ParameterId as ParameterId,
+            p.Name as ParameterName,
+            ccp.CalculationCustomParamType as CalculationCustomParamType,
+            ccp.SQLExpression as SQLExpression
+            FROM ibd.CalculationCustomParams as ccp
+            INNER JOIN ibd.Parameters as p ON ccp.ParameterId = p.Id
+            INNER JOIN ibd.Types as t ON ccp.TypeIdInput = t.Id
+            WHERE ccp.Id = '.$id)
+        );
     }
     public function getParams() {
         return DB::connection('sqlsrv2')->select(DB::raw('SELECT * FROM ibd.Parameters'));
@@ -102,6 +123,14 @@ class EloquentConfigRepository implements ConfigRepositoryInterface {
         } catch(MSSQLException $e) {
             return ['error', $e->getMessage()];
         }
+    }
+
+    public function deleteCalculationIt(int $id) {
+        return DB::connection('sqlsrv2')->table('ibd.CalculationInputTypes')->where('Id', '=', $id)->delete();
+    }
+
+    public function deleteCalculationCp(int $id) {
+        return DB::connection('sqlsrv2')->table('ibd.CalculationCustomParams')->where('Id', '=', $id)->delete();
     }
 
     public function getTriggers() {
