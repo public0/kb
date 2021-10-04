@@ -33,7 +33,8 @@ class SwagClientsController extends Controller
             try {
                 $fields = $request->only([
                     'client_id',
-                    'document_id'
+                    'document_id',
+                    'url'
                 ]);
                 $methods = $request->input('methods');
                 if ($methods) {
@@ -71,7 +72,8 @@ class SwagClientsController extends Controller
             try {
                 $fields = $request->only([
                     'client_id',
-                    'document_id'
+                    'document_id',
+                    'url'
                 ]);
                 $methods = $request->input('methods');
                 if ($methods) {

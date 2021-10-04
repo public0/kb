@@ -1,5 +1,5 @@
 <div class="output-template bg-white">
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-8">
             <label class="form-label">Out [{{ $key }}]</label>
         </div>
@@ -9,9 +9,11 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-3">
+            <span>Code</span>
             <input type="text" name="output[{{ $key }}][code]" placeholder="Code" class="form-control" value="@if(isset($out)){{ $out['code'] }}@endif" />
         </div>
         <div class="col-sm-9">
+            <span>Content</span>
             <textarea name="output[{{ $key }}][content]" placeholder="Content" class="form-control text-monospace" style="height:150px">@if(isset($out)){{ $out['content'] }}@endif</textarea>
         </div>
     </div>

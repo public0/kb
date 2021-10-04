@@ -25,7 +25,8 @@ class SwagMethod extends Model
         'output',
         'notes',
         'status',
-        'stage'
+        'stage',
+        'req_auth'
     ];
 
     public $stages = [
