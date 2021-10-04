@@ -20,6 +20,12 @@
                 </div>
             </div>
             <!--End Page header-->
+            @if(Session::has('error'))
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
+            @endif
             <!--div-->
             <div class="card">
                 <div class="card-header">

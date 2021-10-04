@@ -21,7 +21,8 @@ class SwagClient extends Model
     protected $fillable = [
         'client_id',
         'document_id',
-        'methods'
+        'methods',
+        'url'
     ];
 
     public function client()

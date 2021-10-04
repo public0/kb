@@ -19,6 +19,12 @@
                 </div>
             </div>
             <!--End Page header-->
+            @if(Session::has('error'))
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
+            @endif
             <!--div-->
             <div class="card">
                 <div class="card-header">
@@ -53,6 +59,40 @@
                             </div>
                             <div class="form-group">
                                 <textarea name="description" id="tinymce" class="form-control mb-4" placeholder="Description" style="height:200px">{{ old('description', $document ? $document->description : null) }}</textarea>
+                            </div>
+                            <hr />
+                            <label class="form-label">Authorization Token</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span>Name</span>
+                                    <input type="text" name="auth[name]" placeholder="Name" class="form-control" value="{{ old('auth.name', $document ? $document->auth_data['name'] : null) }}" />
+                                    <div class="row mt-3">
+                                        <div class="col-sm-6">
+                                            <span>Location</span>
+                                            <select name="auth[location]" class="form-control">
+                                                <option value="">None</option>
+                                                @foreach($locations as $item)
+                                                <option value="{{ $item }}"@if(old('auth.location', $document ? $document->auth_data['location'] : null) == $item) selected="selected" @endif>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span>Type</span>
+                                            <select name="auth[type]" class="form-control">
+                                                <option value="">None</option>
+                                                @foreach($types as $item)
+                                                <option value="{{ $item }}"@if(old('auth.type', $document ? $document->auth_data['type'] : null) == $item) selected="selected" @endif>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span>Headers</span>
+                                    <textarea name="auth[headers]" placeholder="Headers" class="form-control" style="height:60px">{{ old('auth.headers', $document ? $document->auth_data['headers'] : null) }}</textarea>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span>Description</span>
+                                    <textarea name="auth[description]" placeholder="Description" class="form-control" style="height:190px">{{ old('auth.description', $document ? $document->auth_data['description'] : null) }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>

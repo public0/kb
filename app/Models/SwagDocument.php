@@ -22,12 +22,23 @@ class SwagDocument extends Model
         'url',
         'version',
         'version_in_url',
-        'description'
+        'description',
+        'auth'
     ];
 
     public function groups()
     {
         return $this->hasMany(SwagGroup::class, 'document_id');
+    }
+
+    /**
+     * Get auth values.
+     *
+     * @return array
+     */
+    public function getAuthDataAttribute()
+    {
+        return $this->auth ? unserialize($this->auth) : [];
     }
 
     /**
