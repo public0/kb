@@ -201,8 +201,6 @@
         $('body').on('click', '.calc-row-btn', async function () {
         	let id = $(this).parent().parent().attr('id');
         	let self = $(this).parent().parent();
-			console.log(id)
-			console.log(self)
         	$('#loader').remove();
 			self.after('<tr id="loader"><td colspan="8" class="text-center">' +
 				'<div style="margin: 0 auto;" class="tloader"></div>'+
