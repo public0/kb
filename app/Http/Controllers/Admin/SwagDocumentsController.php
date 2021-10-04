@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SwagDocument;
+use App\Models\SwagFlux;
 use App\Models\SwagGroup;
 use App\Models\SwagMethod;
 use Exception;
@@ -11,6 +12,10 @@ use Illuminate\Http\Request;
 
 class SwagDocumentsController extends Controller
 {
+    private $methodTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+    private $paramsLocations = ['header', 'body', 'query', 'path'];
+    private $paramsTypes = ['string', 'integer', 'float', 'double', 'object', 'base64', 'file'];
+
     private function createSlug($text)
     {
         $result = trim($text);
@@ -80,6 +85,8 @@ class SwagDocumentsController extends Controller
                     'description'
                 ]);
                 $fields['slug'] = $this->createSlug($fields['name']);
+                $auth = $request->input('auth');
+                $fields['auth'] = serialize($auth);
                 $doc = SwagDocument::create($fields);
 
                 return redirect()->route('admin.swag.documents')
@@ -91,7 +98,9 @@ class SwagDocumentsController extends Controller
         }
 
         return view('admin/swag-documents-form', [
-            'document' => null
+            'document' => null,
+            'locations' => $this->paramsLocations,
+            'types' => $this->paramsTypes
         ]);
     }
 
@@ -121,6 +130,8 @@ class SwagDocumentsController extends Controller
                 if (empty($fields['slug'])) {
                     $fields['slug'] = $this->createSlug($fields['name']);
                 }
+                $auth = $request->input('auth');
+                $fields['auth'] = serialize($auth);
                 $document->update($fields);
 
                 return redirect()->route('admin.swag.documents')
@@ -132,7 +143,9 @@ class SwagDocumentsController extends Controller
         }
 
         return view('admin/swag-documents-form', [
-            'document' => $document->first()
+            'document' => $document->first(),
+            'locations' => $this->paramsLocations,
+            'types' => $this->paramsTypes
         ]);
     }
 
@@ -281,10 +294,6 @@ class SwagDocumentsController extends Controller
         }
     }
 
-    private $methodTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
-    private $paramsLocations = ['header', 'body', 'query', 'path'];
-    private $paramsTypes = ['string', 'integer', 'float', 'double', 'object', 'base64', 'file'];
-
     public function methods($docid, $gid)
     {
         $this->authorize('viewPerms', 'AdminSwagDocuments');
@@ -315,7 +324,8 @@ class SwagDocumentsController extends Controller
                     'url',
                     'notes',
                     'status',
-                    'stage'
+                    'stage',
+                    'req_auth'
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
@@ -363,7 +373,8 @@ class SwagDocumentsController extends Controller
                     'url',
                     'notes',
                     'status',
-                    'stage'
+                    'stage',
+                    'req_auth'
                 ]);
                 $parameters = $request->input('parameters');
                 $fields['parameters'] = serialize($parameters);
@@ -456,6 +467,131 @@ class SwagDocumentsController extends Controller
         ]);
     }
 
+    public function fluxes($docid)
+    {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
+        return view('admin/swag-fluxes', [
+            'document' => SwagDocument::where('id', $docid)->first(),
+            'fluxes' => SwagFlux::where('document_id', $docid)->get()
+        ]);
+    }
+
+    public function addFlux(Request $request, $docid)
+    {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'document_id' => 'required|integer',
+                'name' => 'required|max:255',
+                'status' => 'required|integer|max:1',
+                'methods' => 'required'
+            ], [
+                'methods.required' => 'No method added!'
+            ]);
+
+            try {
+                $fields = $request->only([
+                    'document_id',
+                    'name',
+                    'description',
+                    'status'
+                ]);
+                $methods = $request->input('methods');
+                $fields['methods'] = $methods ? json_encode($methods, JSON_NUMERIC_CHECK) : null;
+                $flux = SwagFlux::create($fields);
+
+                return redirect()->route('admin.swag.fluxes', ['docid' => $docid])
+                    ->with('message', 'Flux added successfully!');
+            } catch (Exception $e) {
+                return redirect()->back()
+                    ->with('error', $e->getMessage());
+            }
+        }
+
+        return view('admin/swag-fluxes-form', [
+            'document' => SwagDocument::where('id', $docid)->first(),
+            'flux' => null
+        ]);
+    }
+
+    public function editFlux(Request $request, $docid, $id)
+    {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
+        $flux = SwagFlux::where('id', $id);
+
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'document_id' => 'required|integer',
+                'name' => 'required|max:255',
+                'status' => 'required|integer|max:1',
+                'methods' => 'required'
+            ], [
+                'methods.required' => 'No method added!'
+            ]);
+
+            try {
+                $fields = $request->only([
+                    'document_id',
+                    'name',
+                    'description',
+                    'status'
+                ]);
+                $methods = $request->input('methods');
+                $fields['methods'] = $methods ? json_encode($methods, JSON_NUMERIC_CHECK) : null;
+                $flux->update($fields);
+
+                return redirect()->route('admin.swag.fluxes', ['docid' => $docid])
+                    ->with('message', 'Flux saved successfully!');
+            } catch (Exception $e) {
+                return redirect()->back()
+                    ->with('error', $e->getMessage());
+            }
+        }
+
+        return view('admin/swag-fluxes-form', [
+            'document' => SwagDocument::where('id', $docid)->first(),
+            'flux' => $flux->first()
+        ]);
+    }
+
+    public function deleteFlux(Request $request)
+    {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
+        try {
+            $flux = SwagFlux::where('id', $request->id);
+            $data = $flux->first();
+            $flux->delete();
+
+            return redirect()->back()
+                ->with('message', 'Flux "' . $data->name . '" deleted!');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function statusFlux(Request $request)
+    {
+        $this->authorize('viewPerms', 'AdminSwagDocuments');
+
+        try {
+            $flux = SwagFlux::where('id', $request->id);
+            $data = $flux->first();
+            $flux->update([
+                'status' => 1 - $data->status
+            ]);
+
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
     /**
      * AJAX
      *
@@ -467,12 +603,17 @@ class SwagDocumentsController extends Controller
     {
         $this->authorize('viewPerms', 'AdminSwagClients');
 
+        $term = $request->query('term');
+
         $result = SwagGroup::with([
             'document',
-            'methods' => function ($query) {
+            'methods' => function ($query) use ($term) {
                 $query->active()
-                    ->orderBy('type', 'ASC')
-                    ->orderBy('url', 'ASC');
+                    ->orderBy('url', 'ASC')
+                    ->orderBy('type', 'ASC');
+                if ($term) {
+                    $query->where('url', 'LIKE', "%{$term}%");
+                }
             }
         ])
             ->active()

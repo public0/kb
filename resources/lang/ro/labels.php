@@ -43,5 +43,6 @@ return [
     'upload_file' => 'Incarca fisier',
     'localization' => 'Localizare',
     'generate' => 'Genereaza',
-    'settings' => 'Setari'
+    'settings' => 'Setari',
+    'fluxes' => 'Fluxuri'
 ];

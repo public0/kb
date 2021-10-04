@@ -43,5 +43,6 @@ return [
     'upload_file' => 'Upload file',
     'localization' => 'Localization',
     'generate' => 'Generate',
-    'settings' => 'Settings'
+    'settings' => 'Settings',
+    'fluxes' => 'Fluxes'
 ];

@@ -21,6 +21,12 @@
                 </div>
             </div>
             <!--End Page header-->
+            @if(Session::has('error'))
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
+            @endif
             <!--div-->
             <div class="card">
                 <div class="card-header">
@@ -47,6 +53,10 @@
                             <div class="form-group">
                                 <label class="form-label">Description</label>
                                 <input type="text" name="description" placeholder="Description" class="form-control" value="{{ old('description', $method ? $method->description : null) }}" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="req_auth" value="0" />
+                                <label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="req_auth" value="1" @if(old('req_auth') || ($method && $method->req_auth == 1)) checked="checked" @endif /><span class="custom-control-label">Requires authorization</span></label>
                             </div>
                             <div class="form-group">
                                 <div class="row mb-3">
@@ -220,6 +230,7 @@
                 checkParamsNumber();
             }
         }).sortable({
+            cursor: 'move',
             handle: '.form-label',
             items: '> .params-template',
             placeholder: 'bg-gray-100',
@@ -255,6 +266,7 @@
                 checkOutputNumber();
             }
         }).sortable({
+            cursor: 'move',
             handle: '.form-label',
             items: '> .output-template',
             placeholder: 'bg-gray-100',

@@ -19,6 +19,12 @@
                 </div>
             </div>
             <!--End Page header-->
+            @if(Session::has('error'))
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ Session::get('error') }}</div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>@foreach($errors->all() as $error) {{ $error }}<br> @endforeach</div>
+            @endif
             <!--div-->
             <div class="card">
                 <div class="card-header">
@@ -47,6 +53,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">URL</label>
+                                <input type="text" name="url" placeholder="URL" class="form-control" value="{{ old('url', $client ? $client->url : null) }}" maxlength="255" />
+                            </div>
                             <div id="methods" data-methods="@if($client){{ $client->methods }}@endif">
                                 <div class="spinner4 mt-5 mb-0 ml-auto mr-auto d-none"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
                             </div>
@@ -66,6 +76,7 @@
 
 @push('body-scripts')
 <script>
+    var btnSelectAll = '{{ __('Select All') }}', btnUnselectAll = '{{ __('Deselect All') }}';
     function getMethods(id) {
         var spinnerObj = $('.spinner4');
         spinnerObj.removeClass('d-none');
@@ -76,11 +87,14 @@
             success: function (data) {
                 spinnerObj.addClass('d-none');
                 if (data) {
-                    var html = '';
+                    var html = '<div class="text-right mb-3">';
+                    html += '<button type="button" class="btn btn-sm btn-success btn-check-all" title="' + btnSelectAll + '"><i class="fe fe-check"></i></button>';
+                    html += '<button type="button" class="btn btn-sm btn-danger btn-uncheck-all" title="' + btnUnselectAll + '"><i class="fe fe-x"></i></button>';
+                    html += '</div>';
                     $.each(data, function (g, group) {
                         html += '<label class="form-label">' + group.name + '</label>';
                         $.each(group.methods, function (m, method) {
-                            html += '<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="methods[' + method.id + ']" /><span class="custom-control-label"><span class="badge badge-primary mr-3">' + method.type + '</span>' + (parseInt(group.document.version_in_url) ? '/' + group.document.version : '') + method.url + '</span></label>';
+                            html += '<label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" name="methods[' + method.id + ']" /><span class="custom-control-label mt-0"><span class="badge badge-primary mr-3">' + method.type + '</span>' + (parseInt(group.document.version_in_url) ? '/' + group.document.version : '') + method.url + '</span></label>';
                         });
                     });
                     $('#methods').html(html);
@@ -91,7 +105,20 @@
                             $('#methods input[type="checkbox"][name="methods[' + v + ']"]').prop('checked', true);
                         });
                     }
+
+                    $('.btn-check-all').on('click', function (e) {
+                        e.preventDefault();
+                        $('.custom-control.custom-checkbox .custom-control-input').prop('checked', true);
+                    });
+                    $('.btn-uncheck-all').on('click', function (e) {
+                        e.preventDefault();
+                        $('.custom-control.custom-checkbox .custom-control-input').prop('checked', false);
+                    });
                 }
+            },
+            error: function (xhr) {
+                var html = '<div class="text-danger">' + xhr.status + ': ' + xhr.statusText + '</div>';
+                $('#methods').html(html);
             }
         });
     }

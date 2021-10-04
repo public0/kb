@@ -348,6 +348,26 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\Admin\SwagDocumentsController::class, 'ajaxMethods']
     )->name('admin.ajax.swag.methods');
     Route::get(
+        '/admin/swag-documents/fluxes/{docid}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'fluxes']
+    )->name('admin.swag.fluxes');
+    Route::any(
+        '/admin/swag-documents/fluxes/{docid}/add-flux',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'addFlux']
+    )->name('admin.swag.fluxes.add');
+    Route::any(
+        '/admin/swag-documents/fluxes/{docid}/edit-flux/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'editFlux']
+    )->name('admin.swag.fluxes.edit');
+    Route::get(
+        '/admin/swag-documents/fluxes/{docid}/delete-flux/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'deleteFlux']
+    )->name('admin.swag.fluxes.delete');
+    Route::get(
+        '/admin/swag-documents/fluxes/{docid}/status-flux/{id}',
+        [App\Http\Controllers\Admin\SwagDocumentsController::class, 'statusFlux']
+    )->name('admin.swag.fluxes.status');
+    Route::get(
         '/admin/swag-clients',
         [App\Http\Controllers\Admin\SwagClientsController::class, 'index']
     )->name('admin.swag.clients');
